@@ -6,7 +6,7 @@
 #    By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/11 19:43:05 by lboulang          #+#    #+#              #
-#    Updated: 2023/07/11 19:49:04 by lboulang         ###   ########.fr        #
+#    Updated: 2023/07/15 15:24:51 by lboulang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME_BONUS =	 minishell_bonus
 #LIBRARIES
 LIBFT = 		./libft/libft.a
 #SOURCES
-SRCS =	main.c
+SRCS =	./srcs/exec/main.c
 SRCS_BONUS =	
 #OBJECTS
 OBJS = ${SRCS:.c=.o }
