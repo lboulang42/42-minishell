@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/07/13 19:02:28 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/07/15 17:26:28 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ int main(int argc, char **argv, char **env)
         }
         printf("[%s]\n", str);
         add_history(str);
+        
+        
         all.tab = ft_split(str, '|');
     	all.nbcmd = counter(str, '|');
+        //
         pipex(&all, all.tab);
         close_pipes(& all);
 	    free_resources(& all);

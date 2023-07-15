@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/07/13 19:21:32 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/07/15 17:42:54 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_cmd
 	char 	**args;
 	char	*cmd;
 	int		*type;	
-}
+}	t_cmd;
 
 typedef struct s_all
 {
