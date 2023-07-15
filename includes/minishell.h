@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/07/15 17:42:54 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/07/15 21:18:13 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 
 # include "libft.h"
 # include <fcntl.h>
-# include <readline/readline.h>
-# include <readline/history.h>
 # include <limits.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <stdarg.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
-# include <unistd.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <unistd.h>
 
 // > TYPE 1
 // >> TYPE 2
@@ -34,10 +34,10 @@
 typedef struct s_cmd
 {
 	char	**file;
-	char 	**args;
+	char	**args;
 	char	*cmd;
-	int		*type;	
-}	t_cmd;
+	int		*type;
+}			t_cmd;
 
 typedef struct s_all
 {
@@ -48,10 +48,9 @@ typedef struct s_all
 	int		pid[1024];
 	char	*path_cmd1;
 	int		nbcmd;
-	
+
 	char	**tab;
 }			t_all;
-
 
 char		**keep_path(t_all *all);
 void		ft_free_split(char **tab);
@@ -71,4 +70,6 @@ int			open_error(t_all *all, char **cmd_args);
 char		*ft_strjoingnl(char *s1, char *s2);
 char		*ft_strcpy(char *dest, char *src);
 
+void		init_shell(t_all *all, char **env);
+void		run_easyshell(t_all *all, char **env);
 #endif

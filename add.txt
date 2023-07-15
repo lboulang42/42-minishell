@@ -18,3 +18,13 @@ https://www.ibm.com/docs/fr/rational-clearquest/9.0.0?topic=tags-meta-characters
 GRAMMAR SHELL;
 
 https://pubs.opengroup.org/onlinepubs/009604499/utilities/xcu_chap02.html 
+
+liste
+
+files
+
+word
+redirection
+quote
+double quote
+flag

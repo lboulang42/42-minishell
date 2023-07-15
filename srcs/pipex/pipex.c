@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 22:02:20 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/07/15 17:51:57 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/07/15 18:09:04 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,57 +43,25 @@ char	*find_cmd(t_all *all, char **cmd_split)
 	return (result);
 }
 
-token **list[0]=ls [1] = -r
+// token **list[0]=ls [1] = -r
 
 
-struct *token 
-{
-	char *name = ls
-	char *type = str;
-}	s_token;
+// struct *token 
+// {
+// 	char *name = ls
+// 	char *type = str;
+// }	s_token;
 
-token **list_token;
+// token **list_token;
 
 
-malloc();
-list_token[1]
+// malloc();
+// list_token[1]
 
 // ls
 // -R 
 // > 
-// outfile 
-// -a 
-// -l
-listtoken[0] 
-name="ls -R";
-type="cmd";
-
-listtoken[2]
-name=">"
-type="redirection"
-
-listtoken[2]
-name="|"
-type="redirection"
-
-listtoken[2]
-name="a"
-type="word"
-
-listtoken[2]
-name="-R"
-type="flage"
-
-.....
-
-
-
-
-| wc -l | < Makefile | > out >> app1 >> app2 > out2 echo lol
-// [ls -R > outfile -a -l]|[ wc -l ]|[ < Makefile ]|[ > out >> app1 >> app2 > out2 echo lol]
-// {ls}{-R}{>}{outfile}{-a -l}{|}{wc -l}{< Makefile}...
-[0][ls -R > outfile -a -l]
-"|"
+// outfile s
 // {wc}{-l}
 // {<}{Makefile}
 // {>}{out}{>>}{app1}{>>}{app2}{>}{out2}{echo}{lol}
