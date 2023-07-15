@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 15:23:04 by lboulang          #+#    #+#             */
-/*   Updated: 2023/07/15 15:34:45 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/07/15 16:13:10 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+#include <readline/readline.h>
+#include <readline/history.h>
 # include <unistd.h>
 # include <stdio.h>
 # include "../../libft/libft.h"
