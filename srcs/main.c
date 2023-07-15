@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/07/15 19:46:04 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/07/15 22:38:55 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	if (argc != 1)
 		return (0);
-    init_shell(&all, env);
+	init_shell(&all, env);
 	run_easyshell(&all, env);
 	return (0);
 }
 
-void init_shell(t_all *all, char **env)
+void	init_shell(t_all *all, char **env)
 {
- // add sinal later;   
+	// add sinal later;
 }
 
 void	run_easyshell(t_all *all, char **env)
@@ -44,7 +44,7 @@ void	run_easyshell(t_all *all, char **env)
 			free(str);
 			continue ;
 		}
-		printf("[%s]\n", str);
+		check_alone_quote(all, str);
 		add_history(str);
 		all->tab = ft_split(str, '|');
 		all->nbcmd = counter(str, '|');

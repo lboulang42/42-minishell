@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/07/15 21:18:13 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/07/15 22:39:11 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+# define DQUOTE '"'
+# define SQUOTE '\''
 // > TYPE 1
 // >> TYPE 2
 // < TYPE 3
@@ -72,4 +74,5 @@ char		*ft_strcpy(char *dest, char *src);
 
 void		init_shell(t_all *all, char **env);
 void		run_easyshell(t_all *all, char **env);
+int			check_alone_quote(t_all *all, char *str);
 #endif
