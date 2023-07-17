@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/07/15 22:38:55 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/07/17 17:03:42 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,79 @@ void	init_shell(t_all *all, char **env)
 
 void	run_easyshell(t_all *all, char **env)
 {
-	char	*str;
+	char	*input;
 
 	all->env = env;
 	while (1)
 	{
-		str = readline("easy-shell> ");
-		if (!str)
+		input = readline("easy-shell> ");
+		if (!input)
 			break ;
-		if (!*str)
+		if (!*input)
 		{
-			free(str);
+			free(input);
 			continue ;
 		}
-		check_alone_quote(all, str);
-		add_history(str);
-		all->tab = ft_split(str, '|');
-		all->nbcmd = counter(str, '|');
+		check_alone_quote(all, input);
+		if (syntax_error(all, input) == 1)
+		{
+			ft_printf("bash: syntax error near unexpected token *ADD LATER*\n");
+			exit(1);
+		}
+		init_token(all, input);
+		add_history(input);
+		all->tab = ft_split(input, '|');
+		all->nbcmd = counter(input, '|');
 		pipex(all, all->tab);
 		close_pipes(all);
 		free_resources(all);
-		free(str);
+		free(input);
 	}
 }
+
+void	save_str_quote(t_all *all, char *input)
+{
+	int	i;
+
+	i = -1;
+	while (input[++i])
+	{
+		if (input[i] == DQUOTE)
+		{
+			while (input[++i] != DQUOTE && input[i])
+				input[i] = input[i] * -1;
+		}
+		if (input[i] == SQUOTE)
+		{
+			while (input[++i] != SQUOTE && input[i])
+				input[i] = input[i] * -1;
+		}
+	}
+}
+
+void	init_token(t_all *all, char *input)
+{
+	int	i;
+
+	i = 0;
+	save_str_quote(all, input);
+	printf("\n\n");
+
+}
+// quote open ferme , error,
+// syntqx error error,
+// change quote garder la string,
+// double quote garder la string et expension pour $,
+// tokenistation atribution de types pour chqaue case du tableau,
+// ajouter des types pour les files en fonction des chevrons
+// ajouter les rules par mots et regarder si l'input est correcte
+// cree les differentes cmd grace au pipe et envoyer a leo.
+
+// files
+// pipe
+// double pipe >> APPEND ; << delimiteur heredoc
+// word
+// chevron
+// quote
+// double quote -> expend
+// flag

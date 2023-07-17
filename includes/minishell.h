@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/07/15 22:39:11 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:28:22 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,7 @@ char		*ft_strcpy(char *dest, char *src);
 void		init_shell(t_all *all, char **env);
 void		run_easyshell(t_all *all, char **env);
 int			check_alone_quote(t_all *all, char *str);
+int			syntax_error(t_all *all, char *input);
+void		init_token(t_all *all, char *input);
+
 #endif
