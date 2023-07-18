@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 15:43:51 by lboulang          #+#    #+#             */
 /*   Updated: 2023/06/26 18:26:04 by lboulang         ###   ########.fr       */
+=======
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/07 15:43:51 by lboulang          #+#    #+#             */
+/*   Updated: 2023/07/13 18:52:25 by gcozigon         ###   ########.fr       */
+>>>>>>> 2168ca81c5cec8ffe3daa3fe5050ad794b7ab53c
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +33,10 @@ typedef struct s_list
 }					t_list;
 
 ////////*ft_atoi_itoa.c*////////
+<<<<<<< HEAD
+=======
+int					counter(char *str, char c);
+>>>>>>> 2168ca81c5cec8ffe3daa3fe5050ad794b7ab53c
 
 int					ft_atoi(const char *nptr);
 char				*ft_itoa(int n);
