@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/07/17 17:03:42 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/07/18 17:25:56 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,10 @@ void	run_easyshell(t_all *all, char **env)
 			free(input);
 			continue ;
 		}
-		check_alone_quote(all, input);
-		if (syntax_error(all, input) == 1)
-		{
-			ft_printf("bash: syntax error near unexpected token *ADD LATER*\n");
-			exit(1);
-		}
+		syntax_error(all, input);
 		init_token(all, input);
 		add_history(input);
+		// token_recognition(all, input);
 		all->tab = ft_split(input, '|');
 		all->nbcmd = counter(input, '|');
 		pipex(all, all->tab);
@@ -60,6 +56,18 @@ void	run_easyshell(t_all *all, char **env)
 		free(input);
 	}
 }
+
+// void	token_recognition(t_all *all, char *input)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	while (1)
+// 	{
+// 		/* code */
+// 	}
+	
+// }
 
 void	save_str_quote(t_all *all, char *input)
 {
@@ -87,7 +95,6 @@ void	init_token(t_all *all, char *input)
 
 	i = 0;
 	save_str_quote(all, input);
-	printf("\n\n");
 
 }
 // quote open ferme , error,
