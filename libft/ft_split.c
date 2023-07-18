@@ -3,16 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 20:32:30 by lboulang          #+#    #+#             */
 /*   Updated: 2023/07/13 18:52:19 by gcozigon         ###   ########.fr       */
+=======
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/11 20:32:30 by lboulang          #+#    #+#             */
+/*   Updated: 2023/04/22 18:37:31 by lboulang         ###   ########.fr       */
+>>>>>>> 9cbe6a9efa30e9fc46744dde5daa1810a0224ce3
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+<<<<<<< HEAD
 int	counter(char *str, char c)
+=======
+static int	counter(char *str, char c)
+>>>>>>> 9cbe6a9efa30e9fc46744dde5daa1810a0224ce3
 {
 	int	i;
 	int	counter;
