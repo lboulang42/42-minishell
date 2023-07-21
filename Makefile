@@ -6,13 +6,13 @@
 #    By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/11 19:43:05 by lboulang          #+#    #+#              #
-#    Updated: 2023/07/15 22:36:39 by gcozigon         ###   ########.fr        #
+#    Updated: 2023/07/21 15:49:46 by gcozigon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			= 			minishell
 
-SRCS_NAMES 		=	main.c tmp.c \
+SRCS_NAMES 		=	main.c syntax_error.c utils_parsing.c \
 					pipex/utils1.c pipex/utils2.c pipex/utils3.c pipex/pipex.c
 
 LIBFT			=	libft.a
