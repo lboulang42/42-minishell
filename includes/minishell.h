@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/07/21 15:49:06 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/07/27 19:44:07 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,25 @@
 // < TYPE 3
 // << TYPE 4
 
+typedef struct s_env
+{
+	char	*name;
+	char	*value;
+	int		display;
+	struct s_env	*next;
+}	t_env;
+
+typedef struct s_data
+{
+	char	**m_env;
+	int		status;
+	char    **token;
+    int     n_lines;//nombre de lines differentes a exec (cat | echo) = 2 n_lines
+    int     n_cmd;//nombre de commandes a exec (echo  -n "magroz" "bite") = 4 n_cmd
+	t_env	*env;
+}	t_data;
+
+
 typedef struct s_cmd
 {
 	char	**file;
@@ -53,6 +72,18 @@ typedef struct s_all
 
 	char	**tab;
 }			t_all;
+
+/*error_handler.c*/
+
+void	ft_err(char *err_msg);
+
+/*envhandler.c*/
+void	init_env(t_data *data, char **env);
+void	print_t_env(t_env *env);
+t_env	*t_env_new(char	*name, char *value, int display);
+t_env	*get_last_t_env(t_env *env);
+void	add_t_env(t_env **env, char *name, char *value, int display);
+void	free_t_env(t_env **env);
 
 char		**keep_path(t_all *all);
 void		ft_free_split(char **tab);
