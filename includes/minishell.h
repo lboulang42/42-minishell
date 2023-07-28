@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/07/27 19:44:07 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/07/28 15:29:51 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int			is_meta(char c);
 int			append_char_and_spaces(char *tmp, char c, int j);
 int			append_double_char_and_spaces(char *tmp, char c1, char c2, int j);
 int			count_meta(char *input);
+int			count_quote(char *input);
 
 void		syntax_error(t_all *all, char *input);
 int			check_alone_quote(t_all *all, char *str);

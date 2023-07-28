@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/07/21 15:54:25 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/07/28 16:10:02 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,25 @@ char	*expand_input(char *input)
 	return (tmp);
 }
 
+char	*delete_quote(char *input)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+
+	i = -1;
+	j = 0;
+	tmp = malloc((ft_strlen(input)) - ((count_quote(input))) + 1);
+	while (input[++i])
+	{
+		while (input[i] == SQUOTE || input[i] == DQUOTE )
+			i++;
+		tmp[j++] = input[i];
+	}
+	tmp[j] = '\0';
+	return (tmp);
+}
+
 void	run_easyshell(t_all *all, char **env)
 {
 	char	*input;
@@ -74,9 +93,12 @@ void	run_easyshell(t_all *all, char **env)
 			continue ;
 		}
 		tmp = expand_input(input);
-		printf("%s\n", tmp);
+		printf("expand str = %s\n\n", tmp);
 		syntax_error(all, tmp);
 		init_token(all, tmp);
+		printf("save str = %s\n\n", tmp);
+		tmp = delete_quote(tmp);
+		printf("delete quote = %s\n", tmp);
 		add_history(tmp);
 		// token_recognition(all, tmp);
 		all->tab = ft_split(tmp, '|');
