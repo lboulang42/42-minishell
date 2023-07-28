@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/07/28 16:10:02 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/07/28 19:31:26 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,3 +147,19 @@ void	init_token(t_all *all, char *input)
 {
 	save_str_quote(all, input);
 }
+
+/*
+
+si le dernier c'est > >> << < |
+	ERROR
+si le premier c'est |
+	ERROR
+si > >> << < est suivi de > >> << < |
+	ERROR
+si | est suivi de |
+	ERROR
+
+
+
+
+*/
