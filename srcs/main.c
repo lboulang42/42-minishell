@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/07/28 19:31:26 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/07/29 17:20:43 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,24 +57,25 @@ char	*expand_input(char *input)
 	return (tmp);
 }
 
-char	*delete_quote(char *input)
+char *delete_quote(char *input)
 {
-	int		i;
-	int		j;
-	char	*tmp;
+    int i = 0;
+    int j = 0;
+    char *tmp;
 
-	i = -1;
-	j = 0;
-	tmp = malloc((ft_strlen(input)) - ((count_quote(input))) + 1);
-	while (input[++i])
-	{
-		while (input[i] == SQUOTE || input[i] == DQUOTE )
-			i++;
-		tmp[j++] = input[i];
-	}
-	tmp[j] = '\0';
-	return (tmp);
+    tmp = malloc(ft_strlen(input) - count_quote(input) + 1);
+    if (!tmp)
+        return (NULL);
+    while (input[i])
+    {
+        if (input[i] != SQUOTE && input[i] != DQUOTE)
+            tmp[j++] = input[i];
+        i++;
+    }
+    tmp[j] = '\0';
+    return (tmp);
 }
+
 
 void	run_easyshell(t_all *all, char **env)
 {
@@ -92,14 +93,14 @@ void	run_easyshell(t_all *all, char **env)
 			free(input);
 			continue ;
 		}
+		add_history(input);
 		tmp = expand_input(input);
 		printf("expand str = %s\n\n", tmp);
+		save_str_quote(all, input);
 		syntax_error(all, tmp);
-		init_token(all, tmp);
 		printf("save str = %s\n\n", tmp);
 		tmp = delete_quote(tmp);
 		printf("delete quote = %s\n", tmp);
-		add_history(tmp);
 		// token_recognition(all, tmp);
 		all->tab = ft_split(tmp, '|');
 		all->nbcmd = counter(tmp, '|');
@@ -111,17 +112,6 @@ void	run_easyshell(t_all *all, char **env)
 	}
 }
 
-// void	token_recognition(t_all *all, char *input)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (1)
-// 	{
-// 		/* code */
-// 	}
-
-// }
 
 void	save_str_quote(t_all *all, char *input)
 {
@@ -142,24 +132,3 @@ void	save_str_quote(t_all *all, char *input)
 		}
 	}
 }
-
-void	init_token(t_all *all, char *input)
-{
-	save_str_quote(all, input);
-}
-
-/*
-
-si le dernier c'est > >> << < |
-	ERROR
-si le premier c'est |
-	ERROR
-si > >> << < est suivi de > >> << < |
-	ERROR
-si | est suivi de |
-	ERROR
-
-
-
-
-*/
