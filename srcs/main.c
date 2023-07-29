@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/07/29 17:20:43 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/07/29 18:39:19 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ char *delete_quote(char *input)
     return (tmp);
 }
 
-
 void	run_easyshell(t_all *all, char **env)
 {
 	char	*input;
@@ -94,9 +93,9 @@ void	run_easyshell(t_all *all, char **env)
 			continue ;
 		}
 		add_history(input);
+		save_str_quote(all, input);
 		tmp = expand_input(input);
 		printf("expand str = %s\n\n", tmp);
-		save_str_quote(all, input);
 		syntax_error(all, tmp);
 		printf("save str = %s\n\n", tmp);
 		tmp = delete_quote(tmp);
@@ -111,7 +110,6 @@ void	run_easyshell(t_all *all, char **env)
 		free(tmp);
 	}
 }
-
 
 void	save_str_quote(t_all *all, char *input)
 {

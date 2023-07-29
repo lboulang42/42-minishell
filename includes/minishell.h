@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/07/29 16:43:38 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/07/29 18:37:41 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ int		syntax_error(t_all *all, char *input);
 int			check_alone_quote(char *str);
 int			check_pipes(char *str);
 int			check_rafters(char *str);
+void	save_str_quote(t_all *all, char *input);
 
 void		init_token(t_all *all, char *input);
 void		token_recognition(t_all *all, char *input);
