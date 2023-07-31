@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:34:12 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/07/29 17:17:33 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/07/30 20:13:20 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,3 +113,4 @@ int	syntax_error(t_all *all, char *input)
 		return (1);
 	return (0);
 }
+

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tosend.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/30 20:48:26 by gcozigon          #+#    #+#             */
+/*   Updated: 2023/07/30 22:40:24 by gcozigon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -15,10 +27,10 @@ void	print_t_env(t_env *env)
 	tmp = env;
 	while (tmp)
 	{
-		printf("\nVAR IN ENV:\n");
-		printf("name:%s\n", tmp->name);
-		printf("value:%s\n", tmp->value);
-		printf("value:%s\n", tmp->display);
+		// printf("\nVAR IN ENV:\n");
+		// printf("name:%s\n", tmp->name);
+		// printf("value:%s\n", tmp->value);
+		// printf("value:%s\n", tmp->display);
 		tmp = tmp->next;
 	}
 }
@@ -115,4 +127,33 @@ void	init_env(t_data *data, char **env)
 		ft_free_tab((void **)split_temp);
 		free(value);
 	}
+}
+
+int		is_same_string(char *str1, char *str2)
+{
+	int i;
+	
+	i = -1;
+	while (str1[++i] && str2[++i])
+	{
+		if (str1[i] != str2[i])
+			return (1);		
+	}
+	return (0);
+}
+
+char    *get_value_by_key(t_env *full_env, char *key)
+{
+    t_env   *tmp;
+
+    tmp = full_env;
+    if (!key)
+        return (printf("no value by key fdp\n"), NULL);
+    while (tmp)
+    {
+        if (is_same_string(tmp->name, key))
+            return (ft_strdup(tmp->value));
+        tmp = tmp->next;
+    }
+    return (printf("no key in env\n"), NULL);
 }

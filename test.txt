@@ -1,0 +1,2 @@
+echo	"$SHLVL"	'$SHLVL'	"'$SHLVL'"	'"$SHLVL"'	'$SH"LVL'	"$SH'LVL"	"$"SHLVL	'$'SHLVL	$S'HLVL'	$S"HLVL"	$S'$SHLVL'	$S"$SHLVL"
+		1			$SHLVL		'1'			"$SHLVL"	$SH"LVL		'LVL		$SHLVL		$SHLVL		HLVL		HLVL		$SHLVL		1

@@ -34,3 +34,12 @@ redirection
 quote
 double quote
 flag
+
+
+
+
+
+$SHLVL = 1
+
+echo $""SHLVL     $''SHLVL  $1SHLVL $SHLVL_ $$SHLVL
+     SHLVL          SHLVL    SHLVL  VIDE    1

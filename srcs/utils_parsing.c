@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 15:46:23 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/07/28 15:28:05 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/07/30 20:13:45 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,3 +79,4 @@ int	count_quote(char *input)
 	}
 	return (res);
 }
+
