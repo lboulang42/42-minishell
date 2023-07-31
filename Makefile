@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+         #
+#    By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/11 19:43:05 by lboulang          #+#    #+#              #
-#    Updated: 2023/07/30 20:53:05 by gcozigon         ###   ########.fr        #
+#    Updated: 2023/07/31 16:46:46 by lboulang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			= 			minishell
 
 SRCS_NAMES 		=	main.c syntax_error.c utils_parsing.c tosend.c\
-					pipex/utils1.c pipex/utils2.c pipex/utils3.c pipex/pipex.c
+#pipex/utils1.c pipex/utils2.c pipex/utils3.c pipex/pipex.c
 
 LIBFT			=	libft.a
 

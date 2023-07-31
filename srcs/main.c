@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/07/31 00:50:02 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/07/31 17:41:32 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	if (argc != 1)
 		return (0);
+	init_env(&all, env);
 	init_shell(&all, env);
 	run_easyshell(&all, env);
+	free_t_env(&all.env);
 	return (0);
 }
 
@@ -92,7 +94,7 @@ void	ft_free_split(char **tab)
 int	count_expand(char *str)
 {
 	int	i;
-	int res;
+	int	res;
 
 	i = -1;
 	res = 0;
@@ -110,35 +112,100 @@ int	count_expand(char *str)
 
 char	*keep_key(char *str)
 {
-	int	i;
+	int		i;
+	char	*key;
+	int		l;
 
 	i = -1;
-	char *key;
 	// malloc(sizeof(char *) count_exp)
-	int l;
-	save_str_quote(str);
-	l =  count_expand(str);
-	
-	ft_printf("NB DOLLARDS = %d", l); 
+	save_str_quote(str, 1);
+	l = count_expand(str);
+	// ft_printf("NB DOLLARDS = %d", l);
 	return (key);
 }
 
-void	expand_input(char *input, t_data *data, char **env)
+int ismeta(char c)
 {
-	init_env(data, env);
-	print_t_env(data->env);
+	if (c == ' ')
+		return 1;
+	if (c == 39)
+		return 1;
+	if (c == '"')
+		return 1;
+	if (c == '\t')
+		return 1;
+	return 0;
+}
+
+char *expndstring(char *source, int start, int stop, char *to_add)
+{
+	char *new_str;
+	int i = 0;
+	int j = 0;
+	printf("src = %s\n", source);
+	new_str = malloc(sizeof(char ) * (ft_strlen(source) + ft_strlen(to_add) - (stop-start)));
+	while (i != start)
+	{
+		new_str[i] = source[i];
+		i++;
+	}
+	while (to_add[j])
+	{
+		new_str[i+j] = to_add[j];
+		j++;
+	}
+	i += stop;
+	while (source[i])
+	{
+		new_str[i+j] = source[i];
+		i++;
+	}
+	// free(source);
+	printf("newstr = *%s*\n", new_str);
+	return (new_str);
+}
+
+void	expand_input(char *input, t_all *data, char **env)
+{
+	int		i;
+	char	*dollar_value;
+	int		j;
+	char	*value;
+
+	// print_t_env(data->env);
 	keep_key(input);
-	free_t_env(&data->env);
-	// get_value_by_key(t_env *full_env, char *key)
+	printf("inp = %s\n", input);
+	i = -1;
+	while (input[++i])
+	{
+		if (input[i] == '$')
+		{
+			j = 0;
+			while (input[i + j] && !ismeta(input[i+j]))
+				j++;
+			if (ismeta(input[i+j]))
+				j--;
+			dollar_value = ft_substr(input, i + 1, j);
+			value = get_value_by_key(data->env, dollar_value);
+			//si pas de value
+			// printf("detected $\nKey = %s\nVAlue = %s\n", dollar_value, value);
+			input = expndstring(input, i, j, value);
+			printf("new input = %s\n", input);
+			// i = 0;
+			printf("newinput = %s\n", input);
+		}
+		
+	}
+	//
 }
 
 void	run_easyshell(t_all *all, char **env)
 {
 	char	*input;
 	char	*tmp;
-	t_data	data;
 
-	all->env = env;
+	// t_data	data;
+	// all->env = env;
 	while (1)
 	{
 		input = readline("easy-shell> ");
@@ -150,41 +217,52 @@ void	run_easyshell(t_all *all, char **env)
 			continue ;
 		}
 		add_history(input);
-		save_str_quote(input);
+		save_str_quote(input, 3);
 		tmp = add_spaces_input(input);
-		printf("add_spaces str = %s\n\n", tmp);
-		syntax_error(all, tmp);
-		printf("save str = %s\n\n", tmp);
-		expand_input(tmp, &data, env);
+		// printf("add_spaces str = %s\n\n", tmp);
+		if (syntax_error(all, tmp) == 1)
+		{
+			// des bqils a free IMO
+			printf("continue !");
+			continue ;
+		}
+		// printf("save str = %s\n\n", tmp);
+		expand_input(tmp, all, env);
 		tmp = delete_quote(tmp);
-		printf("delete quote = %s\n\n", tmp);
+		// printf("delete quote = %s\n\n", tmp);
 		// token_recognition(all, tmp);
-		all->tab = ft_split(tmp, '|');
-		all->nbcmd = counter(tmp, '|');
-		pipex(all, all->tab);
-		close_pipes(all);
-		free_resources(all);
-		ft_free_split(all->tab);
+		// all->tab = ft_split(tmp, '|');
+		// all->nbcmd = counter(tmp, '|');
+		// pipex(all, all->tab);
+		// close_pipes(all);
+		// free_resources(all);
+		// ft_free_split(all->tab);
 		free(tmp);
 	}
 }
 
-void	save_str_quote(char *input)
+void	save_str_quote(char *input, int flag)
 {
 	int	i;
 
 	i = -1;
 	while (input[++i])
 	{
-		if (input[i] == DQUOTE)
+		if (flag == 1 || flag == 3)
 		{
-			while (input[++i] != DQUOTE && input[i])
-				input[i] = input[i] * -1;
+			if (input[i] == DQUOTE)
+			{
+				while (input[++i] != DQUOTE && input[i])
+					input[i] = input[i] * -1;
+			}
 		}
-		if (input[i] == SQUOTE)
+		if (flag == 2 || flag == 3)
 		{
-			while (input[++i] != SQUOTE && input[i])
-				input[i] = input[i] * -1;
+			if (input[i] == SQUOTE)
+			{
+				while (input[++i] != SQUOTE && input[i])
+					input[i] = input[i] * -1;
+			}
 		}
 	}
 }

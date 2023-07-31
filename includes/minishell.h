@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/07/31 00:46:00 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/07/31 17:18:32 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,15 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-typedef struct s_data
-{
-	char	**m_env;
-	int		status;
-	char    **token;
-    int     n_lines;//nombre de lines differentes a exec (cat | echo) = 2 n_lines
-    int     n_cmd;//nombre de commandes a exec (echo  -n "magroz" "bite") = 4 n_cmd
-	t_env	*env;
-}	t_data;
+// typedef struct s_data
+// {
+// 	char	**m_env;
+// 	int		status;
+// 	char    **token;
+//     int     n_lines;//nombre de lines differentes a exec (cat | echo) = 2 n_lines
+//     int     n_cmd;//nombre de commandes a exec (echo  -n "magroz" "bite") = 4 n_cmd
+
+// }	t_all;
 
 
 typedef struct s_cmd
@@ -62,23 +62,27 @@ typedef struct s_cmd
 
 typedef struct s_all
 {
-	char	**env;
+	// char	**env;
 	char	**path;
 	int		prev;
 	int		pipe_fd[2];
 	int		pid[1024];
 	char	*path_cmd1;
 	int		nbcmd;
-
 	char	**tab;
+
+
+	t_env	*env;
 }			t_all;
 
 /*error_handler.c*/
 
 void	ft_err(char *err_msg);
 
+char    *get_value_by_key(t_env *full_env, char *key);
+
 /*envhandler.c*/
-void	init_env(t_data *data, char **env);
+void	init_env(t_all *data, char **env);
 void	print_t_env(t_env *env);
 t_env	*t_env_new(char	*name, char *value, int display);
 t_env	*get_last_t_env(t_env *env);
@@ -118,7 +122,7 @@ int		syntax_error(t_all *all, char *input);
 int			check_alone_quote(char *str);
 int			check_pipes(char *str);
 int			check_rafters(char *str);
-void	save_str_quote(char *input);
+void	save_str_quote(char *input, int flag);
 
 void		init_token(t_all *all, char *input);
 void		token_recognition(t_all *all, char *input);
