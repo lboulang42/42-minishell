@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/01 18:11:58 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/01 18:34:34 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,74 +107,57 @@ void	inverse_string(char *str, int flag)
 	}
 }
 
-char *extract_key_name(char *str, int start)
-{
-	int name_len = 0;
-	char *res;
-	if (ft_isalpha(str[start]))
-	{
-		while (str[start+name_len] && ft_isalpha(str[start+name_len]))
-			name_len++;
-		// printf("name_len = %d\n", name_len);
-		res = ft_substr(str, start, name_len);
-		// printf("res = %s\n", res);
-		return (res);
-	}
-	if (ft_isdigit(str[start]))
-	{
-		while (str[start+name_len] && ft_isdigit(str[start+name_len]))
-			name_len++;
-		// printf("name_len = %d\n", name_len);
-		res = ft_substr(str, start, name_len);
-		// printf("res = %s\n", res);
-		return (res);
-	}
-	// if (str[start] == '?')
-	// 	return (ft_strdup("?\0"));
-	return (NULL);
+char *extract_key_name(char *str, int start) {
+    int name_len = 0;
+    char *res = NULL; // Initialisation à NULL
+    if (ft_isalpha(str[start])) {
+        while (str[start + name_len] && ft_isalpha(str[start + name_len]))
+            name_len++;
+        res = ft_substr(str, start, name_len);
+    } else if (ft_isdigit(str[start])) {
+        while (str[start + name_len] && ft_isdigit(str[start + name_len]))
+            name_len++;
+        res = ft_substr(str, start, name_len);
+    }
+    return res;
 }
 
-char *insert_expansion(char *str, char *key_name, char *key_value, int index_variable)
-{
-	int i;
-	int index_value;
-	int len_variable;
-	char *new_str;
-	
-	i = -1;
-	len_variable =  ft_strlen(key_name) + 1;
-	if (!key_value)
-	{
-		new_str = malloc(sizeof(char) * (ft_strlen(str) - len_variable+1));
-		while (++i < index_variable)
-			new_str[i] = str[i];
-		while (str[i+len_variable])
-		{
-			new_str[i] = str[i+len_variable];
-			i++;
-		}
-		new_str[i] = '\0';
-		return (free(str), new_str);
-	}
+char *insert_expansion(char *str, char *key_name, char *key_value, int index_variable) {
+    int i = -1;
+    int len_variable = ft_strlen(key_name) + 1;
+    if (!key_value) {
+        char *new_str = malloc(sizeof(char) * (ft_strlen(str) - len_variable + 1));
+        if (new_str) {
+            while (++i < index_variable)
+                new_str[i] = str[i];
+            while (str[i + len_variable]) {
+                new_str[i] = str[i + len_variable];
+                i++;
+            }
+            new_str[i] = '\0';
+        }
+        free(str);
+        return new_str;
+    }
 
-
-	//$PATH|$USER|hello|$sah|$PWD|oui
-	
-	new_str = malloc(sizeof(char *) * (ft_strlen(str) - len_variable + ft_strlen(key_value) + 1));
-	while (++i < index_variable)
-		new_str[i] = str[i];
-	index_value = -1;
-	while (key_value[++index_value])
-		new_str[i + index_value] = key_value[index_value];
-	while (str[i + len_variable])
-	{
-		new_str[i+index_value] = str[i + len_variable];
-		i++;
-	}
-	
-	return (free(str), new_str);
-	return (str);
+    char *new_str = malloc(sizeof(char) * (ft_strlen(str) - len_variable + ft_strlen(key_value) + 1));
+    if (new_str) {
+        while (++i < index_variable)
+            new_str[i] = str[i];
+        int index_value = -1;
+        while (key_value[++index_value])
+            new_str[i + index_value] = key_value[index_value];
+        while (str[i + len_variable]) {
+            new_str[i + index_value] = str[i + len_variable];
+            i++;
+        }
+        new_str[i + index_value] = '\0';
+    }
+    free(str);
+    return new_str;
 }
+
+
 
 char *expand_string(char *str, t_env *env)
 {
@@ -186,7 +169,7 @@ char *expand_string(char *str, t_env *env)
 
 	while (str[++i])
 	{
-		if (str[i] == '$'  && str[i+1])
+		if (str[i] == '$'  && str[i+1] && str[i+1] != ' ')
 		{
 			key_name = extract_key_name(str, i+1);
 			key_value = get_value_by_key(env, key_name);
