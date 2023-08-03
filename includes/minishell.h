@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/07/31 17:18:32 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/03 12:39:04 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,26 @@
 
 # define DQUOTE '"'
 # define SQUOTE '\''
-// > TYPE 1
-// >> TYPE 2
-// < TYPE 3
-// << TYPE 4
+
+
+# ifndef ERR_SYNTX
+#  define ERR_SYNTX "Pipex: Syntax error near unexpected token:"
+# endif
+
+# ifndef ERR_NOSUCHF
+#  define ERR_NOSUCHF "No such file or directory"
+# endif
+
+# ifndef ERR_NOTDIR
+#  define ERR_NOTDIR "not a directory"
+# endif
+
+# ifndef ERR_CMD
+#  define ERR_CMD "command not found: "
+# endif
+# ifndef ERR_PERM
+#  define ERR_PERM "permission denied"
+# endif
 
 typedef struct s_env
 {
@@ -50,7 +66,13 @@ typedef struct s_env
 //     int     n_cmd;//nombre de commandes a exec (echo  -n "magroz" "bite") = 4 n_cmd
 
 // }	t_all;
+#define MAX_ARGS 64 //a tej
 
+typedef struct s_arguments
+{
+	char	*args[MAX_ARGS];
+	int		count;
+}	t_arguments;
 
 typedef struct s_cmd
 {
@@ -65,16 +87,22 @@ typedef struct s_all
 	// char	**env;
 	char	**path;
 	int		prev;
-	int		pipe_fd[2];
+	int		link_fd[2];
 	int		pid[1024];
 	char	*path_cmd1;
 	int		nbcmd;
 	char	**tab;
-
+	int		infile_fd;
+	int		outfile_fd;
 
 	t_env	*env;
 }			t_all;
 
+
+/*leo*/
+char	*find_cmd_2(t_all *all, char *cmd_name);
+void	exec_init(t_all *all, char *input);
+void	inverse_string(char *str, int flag);
 /*error_handler.c*/
 
 void	ft_err(char *err_msg);

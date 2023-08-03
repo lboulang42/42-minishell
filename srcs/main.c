@@ -6,11 +6,13 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/01 18:34:34 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/03 14:05:28 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+#include <signal.h>
 
 int	main(int argc, char **argv, char **env)
 {
@@ -29,6 +31,7 @@ int	main(int argc, char **argv, char **env)
 void	init_shell(t_all *all, char **env)
 {
 	// add sinal later;
+	
 }
 
 /*
@@ -188,6 +191,27 @@ char *expand_string(char *str, t_env *env)
 	return (str);
 }
 
+char	*delete_quote(char *input)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+
+	i = 0;
+	j = 0;
+	tmp = malloc(ft_strlen(input) - count_quote(input) + 1);
+	if (!tmp)
+		return (NULL);
+	while (input[i])
+	{
+		if (input[i] != SQUOTE && input[i] != DQUOTE)
+			tmp[j++] = input[i];
+		i++;
+	}
+	tmp[j] = '\0';
+	free(input);
+	return (tmp);
+}
 
 void	run_easyshell(t_all *all, char **env)
 {
@@ -206,23 +230,12 @@ void	run_easyshell(t_all *all, char **env)
 			continue ;
 		}
 		add_history(input);
-		// printf("base input = %s\n", input);
-		
-		inverse_string(input, SQUOTE);
-		// printf("inversed input = %s\n", input);
-
-
+		inverse_string(input, SQUOTE);//inverse les squote
 		input = add_spaces_input(input);//gab function
-		// printf("space added input= %s\n", input);
 		input = expand_string(input, all->env);
-		printf("expanded string = %s\n", input);
-
+		inverse_string(input, DQUOTE);//inverse aussi les dquote pour l'exec (seront remis nrmal apres)
+		exec_init(all, input);
 		free(input);
-		// inverse_string(input, SQUOTE);
-		// printf("re-inversed input3 = %s\n", input);
-
-		//remet only les sngle
-		//inverse all here
 	}
 }
 
@@ -269,27 +282,7 @@ xx
 }
 
 
-char	*delete_quote(char *input)
-{
-	int		i;
-	int		j;
-	char	*tmp;
 
-	i = 0;
-	j = 0;
-	tmp = malloc(ft_strlen(input) - count_quote(input) + 1);
-	if (!tmp)
-		return (NULL);
-	while (input[i])
-	{
-		if (input[i] != SQUOTE && input[i] != DQUOTE)
-			tmp[j++] = input[i];
-		i++;
-	}
-	tmp[j] = '\0';
-	free(input);
-	return (tmp);
-}
 
 void	ft_free_split(char **tab)
 {
