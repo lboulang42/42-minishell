@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tosend.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 20:48:26 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/07/31 17:01:35 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/03 20:10:41 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ void	init_env(t_all *data, char **env)
 	char	**split_temp;
 	char	*value;
 	i = -1;
+	data->default_env = env;
+
 	if (!env || !*env)
 	{
 		add_t_env(&data->env, NULL, NULL, 0);

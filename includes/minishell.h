@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/03 12:39:04 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/03 20:10:53 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct s_cmd
 typedef struct s_all
 {
 	// char	**env;
+	char **default_env;
 	char	**path;
 	int		prev;
 	int		link_fd[2];
