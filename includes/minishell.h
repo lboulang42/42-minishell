@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/03 20:10:53 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:22:21 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_all
 	int		infile_fd;
 	int		outfile_fd;
 
+	int		exit_code;
 	t_env	*env;
 }			t_all;
 
@@ -104,6 +105,7 @@ typedef struct s_all
 char	*find_cmd_2(t_all *all, char *cmd_name);
 void	exec_init(t_all *all, char *input);
 void	inverse_string(char *str, int flag);
+char	*ft_check_acces(char **env_path, char *cmd_name, int i);
 /*error_handler.c*/
 
 void	ft_err(char *err_msg);
@@ -123,7 +125,6 @@ void		ft_free_split(char **tab);
 int			clean_args(t_all *all, char **av);
 int			pipex(t_all *all, char **av);
 char		*keep_access(t_all *all, int nb, char *cmd);
-void		ft_check_acces(char *path, char *cmd_name);
 char		*check_relative_paths(t_all *all, char **cmd_split);
 char		*check_absolute_path(char **cmd_split);
 char		*generate_test_path(char *path, char *cmd);
