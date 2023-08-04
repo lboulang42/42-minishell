@@ -6,13 +6,14 @@
 #    By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/11 19:43:05 by lboulang          #+#    #+#              #
-#    Updated: 2023/08/02 20:56:40 by lboulang         ###   ########.fr        #
+#    Updated: 2023/08/04 19:23:33 by lboulang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			= 			minishell
 
-SRCS_NAMES 		=	main.c syntax_error.c utils_parsing.c tosend.c exec_leo/exec_clean.c
+SRCS_NAMES 		=	main.c syntax_error.c utils_parsing.c tosend.c exec_leo/exec_clean2.c exec_leo/wait_pid.C
+
 # pipex/utils1.c
 # pipex/utils2.c pipex/utils3.c pipex/pipex.c
 

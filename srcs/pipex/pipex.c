@@ -3,45 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 22:02:20 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/07/15 18:09:04 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/04 18:20:01 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_redir(t_all *all, int nb)
-{
-	if (nb != 0)
-	{
-		dup2(all->prev, STDIN_FILENO);
-		close(all->prev);
-	}
-	if (nb != all->nbcmd - 1)
-		dup2(all->pipe_fd[1], STDOUT_FILENO);
-	close(all->pipe_fd[0]);
-	close(all->pipe_fd[1]);
-}
+// void	ft_redir(t_all *all, int nb)
+// {
+// 	if (nb != 0)
+// 	{
+// 		dup2(all->prev, STDIN_FILENO);
+// 		close(all->prev);
+// 	}
+// 	if (nb != all->nbcmd - 1)
+// 		dup2(all->pipe_fd[1], STDOUT_FILENO);
+// 	close(all->pipe_fd[0]);
+// 	close(all->pipe_fd[1]);
+// }
 
-char	*find_cmd(t_all *all, char **cmd_split)
-{
-	char	*result;
+// char	*find_cmd(t_all *all, char **cmd_split)
+// {
+// 	char	*result;
 
-	if (!*cmd_split)
-		return (NULL);
-	if (ft_strrchr(cmd_split[0], '/'))
-	{
-		if (!access(cmd_split[0], F_OK | X_OK))
-			return (cmd_split[0]);
-		return (ft_check_acces(cmd_split[0], cmd_split[0]), NULL);
-	}
-	all->path = keep_path(all);
-	result = check_relative_paths(all, cmd_split);
-	free_split(all->path);
-	return (result);
-}
+// 	if (!*cmd_split)
+// 		return (NULL);
+// 	if (ft_strrchr(cmd_split[0], '/'))
+// 	{
+// 		if (!access(cmd_split[0], F_OK | X_OK))
+// 			return (cmd_split[0]);
+// 		return (ft_check_acces(cmd_split[0], cmd_split[0]), NULL);
+// 	}
+// 	all->path = keep_path(all);
+// 	result = check_relative_paths(all, cmd_split);
+// 	free_split(all->path);
+// 	return (result);
+// }
 
 // token **list[0]=ls [1] = -r
 

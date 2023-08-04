@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 20:56:22 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/04 19:17:16 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:38:57 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,21 +223,15 @@ char	*ft_check_acces(char **env_path, char *cmd_name, int i)
 {
 	char	*cmd_path;
 
-	if (!ft_strncmp(cmd_name, "/", 1))
+	
+	if (!ft_strchr(cmd_name, "/"))
 	{
 		cmd_path = ft_strdup(cmd_name);
 		if (!access(cmd_path, F_OK | X_OK))
 			return (cmd_path);
 		return (ft_access_fail(cmd_path, cmd_name), NULL);
 	}
-	if (!env_path)
-	{
-		cmd_path = ft_strdup(cmd_name);
-		if (!access(cmd_name, F_OK | X_OK))
-			return (cmd_path);
-		return (ft_access_fail(cmd_path, cmd_name), NULL);
-	}
-	while (env_path[++i])
+	while (env_path && env_path[++i])
 	{
 		cmd_path = ft_join_path(env_path[i], cmd_name);
 		if (!access(cmd_path, F_OK | X_OK))
