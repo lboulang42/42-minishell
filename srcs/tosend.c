@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 20:48:26 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/07/30 22:40:24 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/03 20:10:41 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void	print_t_env(t_env *env)
 	tmp = env;
 	while (tmp)
 	{
-		// printf("\nVAR IN ENV:\n");
-		// printf("name:%s\n", tmp->name);
-		// printf("value:%s\n", tmp->value);
-		// printf("value:%s\n", tmp->display);
+		printf("\nVAR IN ENV:\n");
+		printf("name:%s\n", tmp->name);
+		printf("value:%s\n", tmp->value);
+		printf("value:%d\n", tmp->display);
 		tmp = tmp->next;
 	}
 }
@@ -92,13 +92,15 @@ void	free_t_env(t_env **env)
 	}
 }
 
-void	init_env(t_data *data, char **env)
+void	init_env(t_all *data, char **env)
 {
 	int	i;
 	t_env   *tmp;
 	char	**split_temp;
 	char	*value;
 	i = -1;
+	data->default_env = env;
+
 	if (!env || !*env)
 	{
 		add_t_env(&data->env, NULL, NULL, 0);
@@ -134,12 +136,14 @@ int		is_same_string(char *str1, char *str2)
 	int i;
 	
 	i = -1;
+	if (ft_strlen(str1) != ft_strlen(str2))
+		return (0);
 	while (str1[++i] && str2[++i])
 	{
 		if (str1[i] != str2[i])
-			return (1);		
+			return (0);		
 	}
-	return (0);
+	return (1);
 }
 
 char    *get_value_by_key(t_env *full_env, char *key)

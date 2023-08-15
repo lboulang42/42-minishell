@@ -1,0 +1,4 @@
+cmd1 $PATH | cmd2 '$dontexpand' | cmd3 "'$PWD'" << cmd4 ""$USER"">'"$EXPNDPAS"' $EXPANDMAISTROUVEPAS
+
+
+test echo $//

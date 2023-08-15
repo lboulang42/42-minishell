@@ -3,17 +3,18 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+         #
+#    By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/11 19:43:05 by lboulang          #+#    #+#              #
-#    Updated: 2023/07/30 20:53:05 by gcozigon         ###   ########.fr        #
+#    Updated: 2023/08/02 20:56:40 by lboulang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			= 			minishell
 
-SRCS_NAMES 		=	main.c syntax_error.c utils_parsing.c tosend.c\
-					pipex/utils1.c pipex/utils2.c pipex/utils3.c pipex/pipex.c
+SRCS_NAMES 		=	main.c syntax_error.c utils_parsing.c tosend.c exec_leo/exec_clean.c
+# pipex/utils1.c
+# pipex/utils2.c pipex/utils3.c pipex/pipex.c
 
 LIBFT			=	libft.a
 
@@ -55,6 +56,7 @@ $(OBJS) : $(DIR_OBJS)/%.o : $(DIR_SRCS)/%.c
 $(DIR_OBJS):
 	mkdir -p $(DIR_OBJS)
 	mkdir -p objs/pipex
+	mkdir -p objs/exec_leo
 
 clean:
 	make clean -C libft

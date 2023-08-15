@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_len.c                                           :+:      :+:    :+:   */
+/*   ft_print_tab.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/22 17:13:05 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/01 17:55:58 by lboulang         ###   ########.fr       */
+/*   Created: 2023/08/02 20:10:25 by lboulang          #+#    #+#             */
+/*   Updated: 2023/08/03 14:11:45 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-/*Return The Lenght Of The String S*/
-size_t	ft_strlen(const char *s)
+#include <stdio.h>
+void ft_print_tab_leo(char **tab, char *iterate_name)
 {
-	size_t	i;
+	int i;
 
-	i = 0;
-	if (!s || !*s)
-		return (i);
-	while (s[i])
-		i++;
-	return (i);
+	i = -1;
+	if (!iterate_name)
+		while (tab[++i])
+			fprintf(stderr, "%s\n", tab[i]);
+	else
+		while (tab[++i])
+			fprintf(stderr, "%s[%i] : %s\n", iterate_name, i, tab[i]);
 }

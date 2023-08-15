@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_bonus.c                                      :+:      :+:    :+:   */
+/*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:18:56 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/07/13 18:45:20 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/02 20:33:34 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,7 @@ char	**keep_path(t_all *all)
 	return (NULL);
 }
 
-void	ft_check_acces(char *path, char *cmd_name)
-{
-	if (path[ft_strlen(path) - 1] == '/')
-		return ((void)ft_printf("Pipex : %s: not a directory\n", cmd_name));
-	if (access(path, F_OK))
-		return ((void)ft_printf("Pipex : command not found: %s\n", cmd_name));
-	if (access(path, X_OK))
-		return ((void)ft_printf("Pipex : permission denied : %s\n", cmd_name));
-}
+
 
 char	*check_absolute_path(char **cmd_split)
 {
@@ -60,20 +52,6 @@ char	*check_absolute_path(char **cmd_split)
 	return (NULL);
 }
 
-char	*generate_test_path(char *path, char *cmd)
-{
-	char	*join_tmp;
-	char	*test_path;
-
-	join_tmp = ft_strjoin(path, "/");
-	if (!join_tmp)
-		return (NULL);
-	test_path = ft_strjoin(join_tmp, cmd);
-	free(join_tmp);
-	if (!test_path)
-		return (NULL);
-	return (test_path);
-}
 
 char	*check_relative_paths(t_all *all, char **cmd_split)
 {
