@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/15 15:14:12 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/16 16:35:35 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ char *expand_string(char *str, t_env *env)
 			if (ft_isdigit(str[i+1]))
 			{
 				key_name = ft_strdup(" ");
-				key_value = ft_strdup(" ");
+				key_value = ft_strdup("");
 			}
 			else
 			{
