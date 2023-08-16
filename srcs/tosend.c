@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/30 20:48:26 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/03 20:10:41 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/16 18:12:09 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ void	init_env(t_all *data, char **env)
 	}
 }
 
+
 int		is_same_string(char *str1, char *str2)
 {
 	int i;
@@ -138,13 +139,11 @@ int		is_same_string(char *str1, char *str2)
 	i = -1;
 	if (ft_strlen(str1) != ft_strlen(str2))
 		return (0);
-	while (str1[++i] && str2[++i])
-	{
-		if (str1[i] != str2[i])
-			return (0);		
-	}
+	if (ft_strncmp(str1, str2, ft_strlen(str2)))
+		return (0);	
 	return (1);
 }
+
 
 char    *get_value_by_key(t_env *full_env, char *key)
 {
