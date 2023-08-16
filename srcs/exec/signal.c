@@ -1,36 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_len.c                                           :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/22 17:13:05 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/13 13:53:21 by lboulang         ###   ########.fr       */
+/*   Created: 2023/08/13 15:04:58 by lboulang          #+#    #+#             */
+/*   Updated: 2023/08/16 18:41:46 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-/*Return The Lenght Of The String S*/
-size_t	ft_strlen(const char *s)
+void	ctrlc(int sig)
 {
-	size_t	i;
-
-	i = 0;
-	if (!s || !*s)
-		return (i);
-	while (s[i])
-		i++;
-	return (i);
+	if (sig == SIGINT)
+	{
+		ft_putchar('\n');
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}   
 }
 
-int	ft_tab_len(char **tab)
+void	ctrld(int sig)
 {
-	int count = 0;
-	if (!tab)
-		return (0);
-	while (tab[count])
-		count++;
-	return (count);
+	if (sig == SIGQUIT)
+		exit(131);
 }

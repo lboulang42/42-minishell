@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 15:43:51 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/02 20:28:48 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/13 13:53:38 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int					ft_toupper(int c);
 ////////ft_len.c////////
 
 size_t				ft_strlen(const char *s);
+int					ft_tab_len(char **tab);
 
 ////////ft_lst1.c////////
 

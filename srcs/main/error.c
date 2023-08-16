@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tosendmain.c                                       :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/22 14:29:10 by lboulang          #+#    #+#             */
-/*   Updated: 2023/07/27 20:09:42 by gcozigon         ###   ########.fr       */
+/*   Created: 2023/08/16 17:23:50 by lboulang          #+#    #+#             */
+/*   Updated: 2023/08/16 18:55:58 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **env)
+void	err_msg(char *err_msg, char *function_name)
 {
-	t_data	data;
-	(void)av;
-	
-	if (ac != 1)
-		return (ft_err(AV_ERR), 1);
-	init_env(&data, env);
-    print_t_env(data.env);
-    free_t_env(&data.env);
+	if (!function_name)
+		return ((void)printf("%s\n", err_msg));
+	return ((void)printf("%s : function : %s\n", err_msg, function_name));
 }

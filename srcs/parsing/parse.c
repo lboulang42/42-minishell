@@ -1,36 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_len.c                                           :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/22 17:13:05 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/13 13:53:21 by lboulang         ###   ########.fr       */
+/*   Created: 2023/08/13 14:11:58 by lboulang          #+#    #+#             */
+/*   Updated: 2023/08/13 14:12:24 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-/*Return The Lenght Of The String S*/
-size_t	ft_strlen(const char *s)
+
+
+int		is_same_string(char *str1, char *str2)
 {
-	size_t	i;
-
-	i = 0;
-	if (!s || !*s)
-		return (i);
-	while (s[i])
-		i++;
-	return (i);
-}
-
-int	ft_tab_len(char **tab)
-{
-	int count = 0;
-	if (!tab)
+	int i;
+	
+	i = -1;
+	if (ft_strlen(str1) != ft_strlen(str2))
 		return (0);
-	while (tab[count])
-		count++;
-	return (count);
+	while (str1[++i] && str2[++i])
+	{
+		if (str1[i] != str2[i])
+			return (0);		
+	}
+	return (1);
 }

@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_tab.c                                     :+:      :+:    :+:   */
+/*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/02 20:10:25 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/16 18:29:47 by lboulang         ###   ########.fr       */
+/*   Created: 2023/08/13 13:28:34 by lboulang          #+#    #+#             */
+/*   Updated: 2023/08/13 13:28:57 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdio.h>
+#include "minishell.h"
 
-//kick ce bail
-void ft_print_tab_leo(char **tab, char *iterate_name)
+/* flag = squote ; dquote ; squote +dquote */
+void	inverse_string(char *str, int flag)
 {
-	int i;
+	int	i;
 
 	i = -1;
-	if (!iterate_name)
-		while (tab[++i])
-			fprintf(stderr, "%s\n", tab[i]);
-	else
-		while (tab[++i])
-			fprintf(stderr, "%s[%i] : %s\n", iterate_name, i, tab[i]);
+	while (str[++i])
+	{
+		if (str[i] == DQUOTE)
+			while (str[++i] && str[i] != DQUOTE)
+				if (flag == DQUOTE || flag == DQUOTE+SQUOTE)
+					str[i] *= -1;
+		if (str[i] == SQUOTE)
+			while (str[++i] && str[i] != SQUOTE)
+				if (flag == SQUOTE || flag == SQUOTE+DQUOTE)
+					str[i] *= -1;
+	}
 }
