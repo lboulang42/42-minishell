@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+         #
+#    By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/11 19:43:05 by lboulang          #+#    #+#              #
-#    Updated: 2023/08/16 18:19:34 by lboulang         ###   ########.fr        #
+#    Updated: 2023/08/17 18:23:11 by gcozigon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,9 @@ SRCS_NAMES 		=	exec/exec.c\
 					main/error.c\
 					parsing/expand.c\
 					parsing/parse.c\
+					parsing/syntax_error.c\
 					parsing/handle_quotes.c\
+					parsing/utils_parsing.c\
 					t_env/t_env_operation.c\
 					t_env/t_env_init.c\
 
