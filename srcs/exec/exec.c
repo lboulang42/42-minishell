@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/16 18:30:15 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/17 18:29:27 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,6 @@ char	*ft_join_path(char *try_path, char *cmd_name)
 		return (free(tmp_path), NULL);
 	free(tmp_path);
 	return (cmd_path);
-}
-
-int	is_meta(char c)
-{
-	if (c == '<' || c == '>' || c == '|')
-		return (1);
-	return (0);
-}
-
-int	count_meta(char *input)
-{
-	int	i;
-	int	res;
-
-	i = -1;
-	res = 0;
-	while (input[++i])
-	{
-		if (is_meta(input[i]) == 1)
-			res++;
-	}
-	return (res);
 }
 
 int is_this_meta(char *s, char *metachar)

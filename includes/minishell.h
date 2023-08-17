@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/16 18:25:37 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/17 18:28:48 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,7 @@ t_env	*get_last_t_env(t_env *env);
 void	print_t_env(t_env *env);
 /**/
 
+int	count_quote(char *input);
 /*main/erro.c*/
 void    err_msg(char *err_msg, char *function_name);
 

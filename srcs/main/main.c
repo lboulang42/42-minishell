@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/16 19:00:08 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/17 18:25:44 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int main(int argc, char **argv, char **env)
 	return (0); // return last status code
 }
 
-void run_easyshell(t_all *all, char **env)
+void	run_easyshell(t_all *all, char **env)
 {
 	char	*input;
 
@@ -34,17 +34,28 @@ void run_easyshell(t_all *all, char **env)
 	{
 		input = readline("easy-shell> ");
 		if (!input)
-			break;
+			break ;
 		if (!*input)
 		{
 			free(input);
-			continue;
+			continue ;
 		}
 		add_history(input);
-		inverse_string(input, SQUOTE);	 // inverse les squote
-		input = add_spaces_input(input); // gab function
+		
+		inverse_string(input, SQUOTE);
+		inverse_string(input, DQUOTE);
+		input = add_spaces_input(input);
+		if (syntax_error(all, input) == 1)
+		{
+			// des bqils a free IMO
+			printf("continue !\n");
+			continue ;
+		}
+		inverse_string(input, DQUOTE);
 		input = expand_string(input, all->env);
-		inverse_string(input, DQUOTE); // inverse aussi les dquote pour l'exec (seront remis nrmal apres)
+		inverse_string(input, DQUOTE);
+		input = delete_quote(input);
+		inverse_string(input, DQUOTE);
 		exec_init(all, input);
 		free(input);
 	}

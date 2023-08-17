@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 14:11:58 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/13 14:12:24 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/17 17:16:44 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,7 @@ int		is_same_string(char *str1, char *str2)
 	i = -1;
 	if (ft_strlen(str1) != ft_strlen(str2))
 		return (0);
-	while (str1[++i] && str2[++i])
-	{
-		if (str1[i] != str2[i])
-			return (0);		
-	}
+	if (ft_strncmp(str1, str2, ft_strlen(str2)))
+		return (0);	
 	return (1);
 }

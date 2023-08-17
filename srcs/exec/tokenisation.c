@@ -3,22 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   tokenisation.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:39:07 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/16 18:50:53 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/17 18:31:27 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void inverse_all(char *str)
+{
+	int i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] < 0)
+			str[i] *= -1;
+	}
+}
 
 void	tokens_positif(char **tokens)
 {
 	int i;
 	i = -1;
 	while (tokens[++i])
-		inverse_string(tokens[i], SQUOTE+DQUOTE);
+		inverse_all(tokens[i]);
 }
+
 
 static int tab_len(char **tab)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:29:20 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/16 17:32:59 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/17 17:04:39 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,20 +116,49 @@ char *extract_key_name(char *str, int start)
     return (NULL);
 }
 
+
+char    *get_value_by_key(t_env *full_env, char *key)
+{
+    t_env   *tmp;
+
+    tmp = full_env;
+    if (!key)
+        return (printf("no value by key fdp\n"), NULL);
+    while (tmp)
+    {
+        if (is_same_string(tmp->name, key))
+            return (ft_strdup(tmp->value));
+        tmp = tmp->next;
+    }
+    return (printf("no key in env\n"), NULL);
+}
+
 char *expand_string(char *str, t_env *env)
 {
 	int i;
 	char *key_value;
 	char *key_name;
+	
 	i = -1;
 
 	while (str[++i])
 	{
 		if (str[i] == '$'  && str[i+1] && str[i+1] != ' ')
 		{
-			key_name = extract_key_name(str, i+1);
-			key_value = get_key(env, key_name);
+			if (ft_isdigit(str[i+1]))
+			{
+				key_name = ft_strdup(" ");
+				key_value = ft_strdup("");
+			}
+			else
+			{
+				key_name = extract_key_name(str, i+1);
+				key_value = get_value_by_key(env, key_name);
+			}
+			printf("key_name = *%s*\n\n", key_name);
+			printf("key_value = *%s*\n\n", key_value);
 			str = insert_expansion(str, key_name, key_value, i);
+			
 			i += ft_strlen(key_value)-1;
 			if (key_name)
 				free(key_name);
