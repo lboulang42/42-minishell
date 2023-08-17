@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/17 18:28:48 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/17 18:35:22 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,10 @@ void	print_t_env(t_env *env);
 /**/
 
 int	count_quote(char *input);
+
+char	*delete_quote(char *input);
+
+int	syntax_error(t_all *all, char *input);
 /*main/erro.c*/
 void    err_msg(char *err_msg, char *function_name);
 
