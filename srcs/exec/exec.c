@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/18 16:54:59 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/18 17:46:52 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,8 @@ void    handle_line(t_all *all, char *line, int total_pipes, int index_pipe)//to
 		close(all->link_fd[1]);
 		if (cmd_path && tokens)
 			execve(cmd_path, tokens, all->default_env);
+		free_t_env(&all->env);
+		ft_free_tab((void **)tokens);
 		exit(127);
 	}
 	else
@@ -153,6 +155,9 @@ char *get_path_putain(char *cmd, t_env *env)
 	char *cmd_path;
 	PATH = get_key(env, "PATH");//ca ca merde
 	spl_path = ft_split(PATH, ':');//ca ca merde
+	
 	cmd_path = ft_check_acces(spl_path, cmd, -1);
+	free(PATH);
+	ft_free_tab((void **)spl_path);
 	return (cmd_path);
 }

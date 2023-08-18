@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:28:34 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/17 18:28:28 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/18 17:41:09 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ char	*delete_quote(char *input)
 
 	i = 0;
 	j = 0;
-	tmp = malloc(ft_strlen(input) - count_quote(input) + 1);
+	int countquote = count_quote(input);
+	tmp = malloc(sizeof(char) * (ft_strlen(input) - countquote +1));
 	if (!tmp)
 		return (NULL);
 	while (input[i])
