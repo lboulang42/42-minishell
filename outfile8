@@ -1,0 +1,36 @@
+#    By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+         #
+#    Updated: 2023/08/17 18:23:11 by gcozigon         ###   ########.fr        #
+SRCS_NAMES 		=	exec/exec.c\
+					exec/redirection_handler.c\
+					exec/tokenisation.c\
+					exec/signal.c\
+					main/init.c\
+					main/main.c\
+					main/error.c\
+					parsing/expand.c\
+					parsing/parse.c\
+					parsing/syntax_error.c\
+					parsing/handle_quotes.c\
+					parsing/utils_parsing.c\
+					t_env/t_env_operation.c\
+					t_env/t_env_init.c\
+# pipex/utils1.c
+# pipex/utils2.c pipex/utils3.c pipex/pipex.c
+DIR_SRCS		=	srcs
+OBJS_NAMES		=	${SRCS_NAMES:.c=.o}
+DEPS			=	${SRCS_NAMES:.c=.d}
+INC				=	-Iincludes -Ilibft
+CC				=	cc
+MAKEFLAGS		=	--no-print-directory
+	@echo "\033[31;5mminishell\033[0m"
+$(OBJS) : $(DIR_OBJS)/%.o : $(DIR_SRCS)/%.c
+	$(CC) -g3 $(CDFLAGS) $(INC) -c $< -o $@ 
+	mkdir -p objs/exec
+	make clean -C libft
+fclean:	clean
+	make fclean -C libft
+	clear && valgrind --suppressions=ignore.txt -s --track-fds=yes --track-origins=yes --leak-check=full --show-leak-kinds=all ./minishell
+	clear && valgrind --suppressions=ignore.txt -s --track-fds=yes --track-origins=yes --leak-check=full --show-leak-kinds=all ./minishell
+re:	fclean all
+-include $(DEPS)
+.PHONY:	all clean fclean re bonus leaks stop

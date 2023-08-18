@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/17 18:29:27 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/18 16:54:59 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,15 @@ void	exec_init(t_all *all, char *input)
 	i = -1;
 	lines = ft_split(input, '|');//gerer si cmd vide plus tard
 	lines_number = ft_tab_len(lines);
+	all->prev = -1;
 	while (lines[++i])
 		handle_line(all, lines[i], lines_number, i);
 	for (int j = 0; j < lines_number; j++)
 		waitpid(all->pid[j], NULL, 0);
+	if (all->prev > 0)
+		close(all->prev);
 	signal(SIGINT, & ctrlc);
-	close(all->link_fd[0]);
+	
 	ft_free_tab((void **)lines);
 }
 
@@ -102,11 +105,11 @@ void    handle_line(t_all *all, char *line, int total_pipes, int index_pipe)//to
 {
 	char    **tokens;
 	char *cmd_path;
+	
 
 	pipe(all->link_fd);
 	signal(SIGINT, SIG_IGN);
 	tokens = ft_split(line, ' ');
-
 	all->pid[index_pipe] = fork();
 	if (all->pid[index_pipe] == 0)
 	{
@@ -124,7 +127,7 @@ void    handle_line(t_all *all, char *line, int total_pipes, int index_pipe)//to
 		if (index_pipe != total_pipes - 1)
 		{
 			dup2(all->link_fd[1], 1);
-		}	
+		}
 		close(all->link_fd[0]);
 		close(all->link_fd[1]);
 		if (cmd_path && tokens)
@@ -138,6 +141,8 @@ void    handle_line(t_all *all, char *line, int total_pipes, int index_pipe)//to
 			close(all->prev);
 		all->prev = all->link_fd[0];
 	}
+	if (all->link_fd[1] > 0)
+		close(all->link_fd[1]);
 	ft_free_tab((void **)tokens);
 }
 
