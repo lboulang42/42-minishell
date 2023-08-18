@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/18 19:31:42 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/18 19:57:11 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ char	*ft_check_acces(char **env_path, char *cmd_name, int i)
 char **get_env(t_env *env)
 {
 	t_env *tmp;
-	char **res;
+	char **res = NULL;
 	char *temp2;
 	
 	int counter = 0;
@@ -122,7 +122,7 @@ char **get_env(t_env *env)
 		tmp = tmp->next;
 		counter++;
 	}
-	res = malloc(sizeof(char *) * counter+1);
+	res = malloc(sizeof(char *) * (counter+1));
 	tmp = env;
 	counter = 0;
 	while (tmp)

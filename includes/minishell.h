@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/18 19:01:51 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/18 19:46:35 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,17 @@ typedef struct s_all
 
 /*NEW*/
 
+
+char	*ft_get_file(char *buffer, int fd);
+char	*ft_get_line(char *buffer);
+int	ft_is_same_line(char *line, char *limiter);
+
+char	*ft_update_buffer(char *buffer);
+char	*ft_join_free(char *str1, char *str2);
+
 /*exec/exec.c*/
 void	exec_init(t_all *all, char *input);
 void    handle_line(t_all *all, char **lines, int index_pipe);
-// void    handle_line(t_all *all, char *line, int total_pipes, int index_pipe);//tokenisation de con
 char	*get_path_putain(char *cmd, t_env *env);
 void	ft_access_fail(char *cmd_path, char *cmd_name);
 char	*ft_join_path(char *try_path, char *cmd_name);

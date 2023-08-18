@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:33:35 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/13 13:59:30 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/18 19:50:27 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,26 @@ int handle_infile(t_all *all, char **tokens_array, int index_name)
 
 int handle_heredoc(t_all *all, char **tokens_array, int index_name)
 {
-	// (void)limiter;
-	return (0);
+	
+	int fd[2];
+	static char *buffer;
+	char *line;
+	pipe(fd);
+	while (1)
+	{
+		ft_printf("Minishell here_doc >>");
+		buffer = ft_get_file(buffer, 0);
+		line = ft_get_line(buffer);
+		buffer = ft_update_buffer(buffer);
+		if (ft_is_same_line(line, tokens_array[index_name]))
+			break;
+		ft_putstr_fd(line, fd[1]);
+		free(line);
+	}
+	free(line);
+	free(buffer);
+	close(fd[1]);
+	return (fd[0]);
 }
 
 int handle_outfile_trunc(t_all *all, char **tokens_array, int index_name)

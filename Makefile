@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+         #
+#    By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/11 19:43:05 by lboulang          #+#    #+#              #
-#    Updated: 2023/08/17 18:23:11 by gcozigon         ###   ########.fr        #
+#    Updated: 2023/08/18 19:38:52 by lboulang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME			= 			minishell
 SRCS_NAMES 		=	exec/exec.c\
 					exec/redirection_handler.c\
 					exec/tokenisation.c\
+					exec/gnl.c\
 					exec/signal.c\
 					main/init.c\
 					main/main.c\
