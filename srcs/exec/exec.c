@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/18 17:46:52 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/18 19:31:42 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ int is_this_meta(char *s, char *metachar)
 
 void	ft_access_fail(char *cmd_path, char *cmd_name)
 {
+	if (!cmd_path)
+	{
+		printf("Minishell :%s:%s\n", ERR_CMD, cmd_name);
+		return ;
+	}
 	if (cmd_path[ft_strlen(cmd_path) - 1] == '/')
 	{
 		ft_printf("Pipex: %s: %s\n", cmd_path, ERR_NOTDIR);
@@ -52,7 +57,8 @@ void	ft_access_fail(char *cmd_path, char *cmd_name)
 		ft_printf("Pipex: %s: '%s'\n", cmd_name, ERR_CMD);
 	else if (access(cmd_path, X_OK))
 		ft_printf("Pipex: %s: %s\n", cmd_path, ERR_PERM);
-	free(cmd_path);
+	if (cmd_path)
+		free(cmd_path);
 }
 
 void	exec_init(t_all *all, char *input)
@@ -63,10 +69,11 @@ void	exec_init(t_all *all, char *input)
 
 	i = -1;
 	lines = ft_split(input, '|');//gerer si cmd vide plus tard
+	free(input);
 	lines_number = ft_tab_len(lines);
 	all->prev = -1;
 	while (lines[++i])
-		handle_line(all, lines[i], lines_number, i);
+		handle_line(all, lines, i);
 	for (int j = 0; j < lines_number; j++)
 		waitpid(all->pid[j], NULL, 0);
 	if (all->prev > 0)
@@ -82,9 +89,10 @@ separate way if cmd is global path / only name / only name without PATH in env
 char	*ft_check_acces(char **env_path, char *cmd_name, int i)
 {
 	char	*cmd_path;
+
+	cmd_path = NULL;
 	if (ft_strchr(cmd_name, '/'))
 	{
-		
 		cmd_path = ft_strdup(cmd_name);
 		if (!access(cmd_path, F_OK | X_OK))
 			return (cmd_path);
@@ -101,15 +109,44 @@ char	*ft_check_acces(char **env_path, char *cmd_name, int i)
 	return (ft_access_fail(cmd_path, cmd_name), NULL);
 }
 
-void    handle_line(t_all *all, char *line, int total_pipes, int index_pipe)//tokenisation de con
+char **get_env(t_env *env)
+{
+	t_env *tmp;
+	char **res;
+	char *temp2;
+	
+	int counter = 0;
+	tmp = env;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		counter++;
+	}
+	res = malloc(sizeof(char *) * counter+1);
+	tmp = env;
+	counter = 0;
+	while (tmp)
+	{
+		temp2 = ft_strjoin(tmp->name, (char *)"=");
+		res[counter] = ft_strjoin(temp2, tmp->value);
+		free(temp2);
+		tmp = tmp->next;
+		counter++;
+	}
+	res[counter] = NULL;
+	return (res);
+}
+
+void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation de con
 {
 	char    **tokens;
 	char *cmd_path;
-	
 
 	pipe(all->link_fd);
 	signal(SIGINT, SIG_IGN);
-	tokens = ft_split(line, ' ');
+	tokens = ft_split(all_lines[index_pipe], ' ');
+	if (!tokens)
+		return;
 	all->pid[index_pipe] = fork();
 	if (all->pid[index_pipe] == 0)
 	{
@@ -124,16 +161,19 @@ void    handle_line(t_all *all, char *line, int total_pipes, int index_pipe)//to
 			dup2(all->prev, 0);
 			close(all->prev);
 		}
-		if (index_pipe != total_pipes - 1)
+		if (index_pipe != ft_tab_len(all_lines) - 1)
 		{
 			dup2(all->link_fd[1], 1);
 		}
 		close(all->link_fd[0]);
 		close(all->link_fd[1]);
+		char **env = get_env(all->env);//faut test avec export
 		if (cmd_path && tokens)
-			execve(cmd_path, tokens, all->default_env);
+			execve(cmd_path, tokens, env);
+		ft_free_tab((void **)env);
 		free_t_env(&all->env);
 		ft_free_tab((void **)tokens);
+		ft_free_tab((void **)all_lines);
 		exit(127);
 	}
 	else
@@ -153,9 +193,14 @@ char *get_path_putain(char *cmd, t_env *env)
 	char *PATH;
 	char **spl_path;
 	char *cmd_path;
-	PATH = get_key(env, "PATH");//ca ca merde
-	spl_path = ft_split(PATH, ':');//ca ca merde
 	
+	PATH = get_key(env, "PATH");//ca ca merde
+	if (!PATH)
+	{
+		cmd_path = ft_check_acces(NULL, cmd, -1);
+		return (cmd_path);	
+	}
+	spl_path = ft_split(PATH, ':');//ca ca merde
 	cmd_path = ft_check_acces(spl_path, cmd, -1);
 	free(PATH);
 	ft_free_tab((void **)spl_path);

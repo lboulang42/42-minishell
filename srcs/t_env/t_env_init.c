@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 17:21:15 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/16 18:27:05 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/18 19:16:55 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,12 @@ void	init_env(t_all *data, char **env)//y'a des merdes a gerer la dedans
 	char	*name;
 
 	i = -1;
-	data->default_env = env;//?
+	// data->default_env = env;//?
 	if (!env || !*env)
-		return (add_t_env(&data->env, NULL, NULL), err_msg(NO_ENV, NULL));
+	{
+		data->env = NULL;		
+		return ((void)err_msg(NO_ENV, NULL));
+	}
 	while (env[++i])
 	{
 		name = get_env_name(env[i]);

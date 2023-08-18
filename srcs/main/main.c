@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/17 18:25:44 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/18 19:28:49 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,12 @@ void	run_easyshell(t_all *all, char **env)
 			continue ;
 		}
 		add_history(input);
-		
 		inverse_string(input, SQUOTE);
 		inverse_string(input, DQUOTE);
 		input = add_spaces_input(input);
 		if (syntax_error(all, input) == 1)
 		{
-			// des bqils a free IMO
-			printf("continue !\n");
+			free(input);
 			continue ;
 		}
 		inverse_string(input, DQUOTE);
@@ -57,6 +55,5 @@ void	run_easyshell(t_all *all, char **env)
 		input = delete_quote(input);
 		inverse_string(input, DQUOTE);
 		exec_init(all, input);
-		free(input);
 	}
 }

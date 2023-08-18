@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/17 18:35:22 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/18 19:01:51 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ typedef struct s_cmd
 typedef struct s_all
 {
 	// char	**env;
-	char **default_env;
+	// char **default_env;
 	char	**path;
 	int		prev;
 	int		link_fd[2];
@@ -114,7 +114,8 @@ typedef struct s_all
 
 /*exec/exec.c*/
 void	exec_init(t_all *all, char *input);
-void    handle_line(t_all *all, char *line, int total_pipes, int index_pipe);//tokenisation de con
+void    handle_line(t_all *all, char **lines, int index_pipe);
+// void    handle_line(t_all *all, char *line, int total_pipes, int index_pipe);//tokenisation de con
 char	*get_path_putain(char *cmd, t_env *env);
 void	ft_access_fail(char *cmd_path, char *cmd_name);
 char	*ft_join_path(char *try_path, char *cmd_name);
