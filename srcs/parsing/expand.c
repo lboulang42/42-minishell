@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:29:20 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/17 17:04:39 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/18 17:28:09 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ char	*add_spaces_input(char *str)
 	new_str = malloc((ft_strlen(str)) + ((count_meta(str)) * 2) + 1);
 	while (str[i])
 	{
+		if (str[i] == '\t' || str[i] == '\n' || str[i] == '\r')
+			str[i] = ' ';
 		if (is_meta(str[i]) == 1 && is_meta(str[i + 1]) == 1)
 		{
 			j = append_double_char_and_spaces(new_str, str[i], str[i + 1], j);
@@ -99,20 +101,20 @@ char *extract_key_name(char *str, int start)
     char *key_name;
     
 	name_len = 0;
-	if (ft_isalpha(str[start]))
-	{
-        while (str[start + name_len] && ft_isalpha(str[start + name_len]))
-            name_len++;
-        key_name = ft_substr(str, start, name_len);
+	// if (ft_isalpha(str[start]))
+	// {
+    //     while (str[start + name_len] && ft_isalpha(str[start + name_len]))
+    //         name_len++;
+    //     key_name = ft_substr(str, start, name_len);
+	// 	return (key_name);
+    // } 
+	// if (ft_isdigit(str[start])) 
+	// {
+    while (str[start + name_len] && ( ft_isalpha(str[start + name_len]) || ft_isdigit(str[start  + name_len]) ) )
+           name_len++;
+	key_name = ft_substr(str, start, name_len);
 		return (key_name);
-    } 
-	if (ft_isdigit(str[start])) 
-	{
-        while (str[start + name_len] && ft_isdigit(str[start + name_len]))
-            name_len++;
-        key_name = ft_substr(str, start, name_len);
-		return (key_name);
-    }
+    // }
     return (NULL);
 }
 
