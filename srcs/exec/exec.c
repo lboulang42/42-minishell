@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/18 19:57:11 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/19 16:36:35 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,12 +141,19 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 {
 	char    **tokens;
 	char *cmd_path;
-
+	int	builtin_code;
+	
 	pipe(all->link_fd);
 	signal(SIGINT, SIG_IGN);
 	tokens = ft_split(all_lines[index_pipe], ' ');
 	if (!tokens)
 		return;
+	builtin_code = is_builtin(tokens[0]);
+	if (builtin_code >= 0)
+	{
+		exec_builtin(tokens, all, builtin_code, all_lines, index_pipe);
+		return;		
+	}
 	all->pid[index_pipe] = fork();
 	if (all->pid[index_pipe] == 0)
 	{
@@ -167,6 +174,7 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 		}
 		close(all->link_fd[0]);
 		close(all->link_fd[1]);
+		
 		char **env = get_env(all->env);//faut test avec export
 		if (cmd_path && tokens)
 			execve(cmd_path, tokens, env);

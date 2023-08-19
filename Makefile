@@ -6,7 +6,7 @@
 #    By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/11 19:43:05 by lboulang          #+#    #+#              #
-#    Updated: 2023/08/18 19:38:52 by lboulang         ###   ########.fr        #
+#    Updated: 2023/08/19 16:42:06 by lboulang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,14 @@ SRCS_NAMES 		=	exec/exec.c\
 					parsing/utils_parsing.c\
 					t_env/t_env_operation.c\
 					t_env/t_env_init.c\
+					builtin/cd.c\
+					builtin/echo.c\
+					builtin/exec_builtin.c\
+					builtin/exit.c\
+					builtin/export.c\
+					builtin/pwd.c\
+					builtin/unset.c\
+					builtin/env.c\
 
 # pipex/utils1.c
 # pipex/utils2.c pipex/utils3.c pipex/pipex.c
@@ -75,6 +83,7 @@ $(DIR_OBJS):
 	mkdir -p objs/main
 	mkdir -p objs/parsing
 	mkdir -p objs/t_env
+	mkdir -p objs/builtin
 
 clean:
 	make clean -C libft

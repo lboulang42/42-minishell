@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/18 19:46:35 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/19 16:38:16 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,9 @@ typedef struct s_env
 // }	t_all;
 #define MAX_ARGS 64 //a tej
 
+
+
+
 typedef struct s_arguments
 {
 	char	*args[MAX_ARGS];
@@ -109,6 +112,19 @@ typedef struct s_all
 	int		exit_code;
 	t_env	*env;
 }			t_all;
+
+
+//builtins
+int	cd(void);
+int		echo(void);
+int		is_builtin(char *cmd_name);
+int		exec_builtin(char **tokens, t_all *all, int i, char **all_lines, int index_pipe);
+int   	ft_exit(void);
+int   	export(void);
+int		pwd(void);
+int		unset(void);
+int env(t_all *all);
+
 
 /*NEW*/
 

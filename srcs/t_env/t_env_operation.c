@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:27:33 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/16 18:25:26 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/19 16:38:33 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	print_t_env(t_env *env)//tempo
 		tmp = tmp->next;
 	}
 }
+
+
 t_env	*get_last_t_env(t_env *env)
 {
 	if (!env)
