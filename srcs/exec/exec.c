@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/19 16:36:35 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/20 21:49:27 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,17 @@ void	exec_init(t_all *all, char *input)
 	free(input);
 	lines_number = ft_tab_len(lines);
 	all->prev = -1;
+	all->btn_fd = -1;
 	while (lines[++i])
 		handle_line(all, lines, i);
 	for (int j = 0; j < lines_number; j++)
-		waitpid(all->pid[j], NULL, 0);
+	{
+		if (all->pid[j] >= 0)
+			waitpid(all->pid[j], NULL, 0);
+	}
 	if (all->prev > 0)
 		close(all->prev);
 	signal(SIGINT, & ctrlc);
-	
 	ft_free_tab((void **)lines);
 }
 
@@ -137,6 +140,42 @@ char **get_env(t_env *env)
 	return (res);
 }
 
+void	ft_close(int fd)
+{
+	if (fd > 0)
+		close(fd);
+}
+
+void redirection_execve(t_all *all, char **all_lines, int index_pipe)
+{
+	if (index_pipe != 0)
+	{
+		dup2(all->prev, 0);
+		close(all->prev);
+	}
+	if (index_pipe != ft_tab_len(all_lines) - 1)
+	{
+		dup2(all->link_fd[1], 1);
+	}
+	close(all->link_fd[0]);
+	close(all->link_fd[1]);
+}
+
+int plug_builtin(char **tokens, t_all *all, int i, char **all_lines, int index_pipe)
+{
+	if (index_pipe != ft_tab_len(all_lines) -1)
+	{
+		dup2(all->link_fd[1], 1);
+	}
+	if (index_pipe != 0)
+	{
+		dup2(all->prev, 0);
+		ft_close(all->prev);
+	}
+	ft_close(all->link_fd[0]);
+	ft_close(all->link_fd[1]);
+}
+
 void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation de con
 {
 	char    **tokens;
@@ -149,10 +188,25 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 	if (!tokens)
 		return;
 	builtin_code = is_builtin(tokens[0]);
-	if (builtin_code >= 0)
+	if (builtin_code >= 0 && ft_tab_len(all_lines) == 1)
 	{
-		exec_builtin(tokens, all, builtin_code, all_lines, index_pipe);
-		return;		
+		all->pid[index_pipe] = -1;
+		if (get_outfile_infile_builtin(all, tokens) == -2)
+		{
+			ft_free_tab((void **)tokens);
+			close(all->link_fd[0]);
+			close(all->link_fd[1]);
+			//update_status to 1 ? car fail d'infile outfile
+			return ;
+		}
+		fprintf(stderr, "rentre ici");
+		tokens = kick_empty_tokens(tokens);
+		tokens_positif(tokens);
+		execute_builtin(tokens, all, builtin_code, all_lines, index_pipe);
+		ft_free_tab((void **)tokens);
+		close(all->link_fd[0]);
+		close(all->link_fd[1]);
+		return ;
 	}
 	all->pid[index_pipe] = fork();
 	if (all->pid[index_pipe] == 0)
@@ -162,19 +216,17 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 		get_outfile_infile(all, tokens);//redirige les infiles/outfiles de la line;
 		tokens = kick_empty_tokens(tokens);//vire les bails vide
 		tokens_positif(tokens);//repasse tout en positif
+		if (builtin_code >= 0)
+		{
+			plug_builtin(tokens, all, builtin_code, all_lines, index_pipe);
+			execute_builtin(tokens, all, builtin_code, all_lines, index_pipe);
+			free_t_env(&all->env);
+			ft_free_tab((void **)tokens);
+			ft_free_tab((void **)all_lines);
+			exit(0);
+		}
+		redirection_execve(all, all_lines, index_pipe);
 		cmd_path = get_path_putain(tokens[0], all->env);
-		if (index_pipe != 0)
-		{
-			dup2(all->prev, 0);
-			close(all->prev);
-		}
-		if (index_pipe != ft_tab_len(all_lines) - 1)
-		{
-			dup2(all->link_fd[1], 1);
-		}
-		close(all->link_fd[0]);
-		close(all->link_fd[1]);
-		
 		char **env = get_env(all->env);//faut test avec export
 		if (cmd_path && tokens)
 			execve(cmd_path, tokens, env);
@@ -195,6 +247,8 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 		close(all->link_fd[1]);
 	ft_free_tab((void **)tokens);
 }
+
+
 
 char *get_path_putain(char *cmd, t_env *env)
 {

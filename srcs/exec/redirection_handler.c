@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:33:35 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/18 19:50:27 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/20 21:48:00 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,45 @@ int handle_outfile_append(t_all *all, char **tokens_array, int index_name)
 	return (fd);
 }
 
+int	get_outfile_infile_builtin(t_all *all, char **tokens)
+{
+	int	i;
+
+	i = -1;
+	int fd = -1;
+	while (tokens[++i +1])
+	{
+		if (is_this_meta(tokens[i], "<"))
+			fd = handle_infile(all, tokens, i+1);//infile name = i+1
+		else if (is_this_meta(tokens[i], "<<"))
+			fd = handle_heredoc(all, tokens, i+1);//i+1 = limiter du here_doc
+		else if (is_this_meta(tokens[i], ">"))
+			fd = handle_outfile_trunc(all, tokens, i+1);
+		else if (is_this_meta(tokens[i], ">>"))
+			fd = handle_outfile_append(all, tokens, i+1);
+		if (is_this_meta(tokens[i], "<") || is_this_meta(tokens[i], "<<") || is_this_meta(tokens[i], ">") || is_this_meta(tokens[i], ">>"))
+		{
+			if (fd == -1)
+			{
+				if (errno == 13)
+					printf("minishell: %s: Permission Denied\n", tokens[i+1]);
+				else
+					printf("minishell :%s: NO such file or dir\n", tokens[i+1]);
+				//free du bordel ici imo
+				return (-2);
+			}
+			if ((is_this_meta(tokens[i], "<") || is_this_meta(tokens[i], "<<")))
+				dup2(fd, 0);
+			else
+				dup2(fd, 1);
+			close(fd);
+			tokens[i][0] = '\0';
+			tokens[i + 1][0] = '\0';
+		}
+	}
+	return (fd);
+}
+
 void	get_outfile_infile(t_all *all, char **tokens)
 {
 	int	i;
@@ -80,8 +119,14 @@ void	get_outfile_infile(t_all *all, char **tokens)
 		{
 			if (fd == -1)
 			{
-				fprintf(stderr, "%s: ERRORRRRR\n", tokens[i + 1]);
-				exit(1);
+				if (errno ==13)
+					printf("minishell: %s: Permission Denied\n", tokens[i+1]);
+				else
+					printf("minishell :%s: NO such file or dir\n", tokens[i+1]);
+				//freee tout batard
+				close(all->link_fd[0]);
+				close(all->link_fd[1]);
+				exit (1);
 			}
 			if ((is_this_meta(tokens[i], "<") || is_this_meta(tokens[i], "<<")))
 				dup2(fd, 0);

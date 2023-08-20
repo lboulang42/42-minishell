@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 15:02:37 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/19 16:33:52 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/20 15:09:41 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	pwd(void)
 	getcwd(path, PATH_MAX);
 	if (path[0])
     {
-		ft_putendl(path);
+		printf("%s\n", path);
         return (EXIT_SUCCESS);
     }
     return (EXIT_FAILURE);

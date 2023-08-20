@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/19 16:38:16 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/20 20:42:21 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,15 @@
 # define DQUOTE '"'
 # define SQUOTE '\''
 
-
+# define MINI "Minishell"
 //temporaire :
 # define ERR_KEY_VAL "No Value With This Key"
 # define NO_ENV "No env Submitted in init_env()"
 //
 
-
+#define EXIT_MISS 2
+#include <errno.h>
+# define ERR_TOOMAN "too many arguments"
 # ifndef ERR_MALL
 #  define ERR_MALL "Minishell : Malloc Error"
 # endif
@@ -108,22 +110,27 @@ typedef struct s_all
 	char	**tab;
 	int		infile_fd;
 	int		outfile_fd;
-
+	int		btn_fd;
 	int		exit_code;
 	t_env	*env;
 }			t_all;
 
 
 //builtins
+int	get_outfile_infile_builtin(t_all *all, char **tokens);
 int	cd(void);
-int		echo(void);
+int		echo(char **tokens);
 int		is_builtin(char *cmd_name);
 int		exec_builtin(char **tokens, t_all *all, int i, char **all_lines, int index_pipe);
-int   	ft_exit(void);
+void    ft_exit(t_all *all, char **tokens, char **all_lines);
 int   	export(void);
 int		pwd(void);
 int		unset(void);
 int env(t_all *all);
+
+int plug_builtin(char **tokens, t_all *all, int i, char **all_lines, int index_pipe);
+void	execute_builtin(char **tokens, t_all *all, int i, char **all_lines, int index_pipe);
+void ping_close(char *name, int fd);
 
 
 /*NEW*/
