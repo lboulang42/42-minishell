@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:28:12 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/21 17:38:20 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/21 23:49:54 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	execute_builtin(char **tokens, t_all *all, int i, char **all_lines, int ind
     else if (i == 4)
         pwd();
     else if (i == 5)
-        unset();
+        unset(all->env, tokens);
     else if (i == 6)
         env(all);
 }

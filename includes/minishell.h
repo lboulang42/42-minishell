@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/21 17:38:03 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/21 23:50:03 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void    export(t_all *all, char **tokens, int parse_flag);
 void do_export(t_all *all, char *key, char *value);
 
 int		pwd(void);
-int		unset(void);
+void    unset(t_env *env, char **tokens);
 int env(t_all *all);
 
 int plug_builtin(char **tokens, t_all *all, int i, char **all_lines, int index_pipe);
