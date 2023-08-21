@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/21 17:29:25 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/21 18:18:55 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int print_export(t_all *all)
 	return (EXIT_SUCCESS);
 }
 
-
 void do_export(t_all *all, char *key, char *value)
 {
 	t_env *tmp;
@@ -39,6 +38,7 @@ void do_export(t_all *all, char *key, char *value)
 	char *temp_val;
 	
 	tmp = all->env;
+	
 	while (tmp)
 	{
 		if (is_same_string(tmp->name, key))
@@ -85,7 +85,21 @@ si export pas call
 	- deja in, edit;
 */
 
-void    export(t_all *all, char **tokens)
+int parse_name(char *name)
+{
+	int i;
+	i = -1;
+	while (name[++i])
+	{
+		if (i == 0 && (name[i] == '=' || ft_isdigit(name[i])))
+			return (0);
+		if (!ft_isalnum(name[i]) && name[i] != '_')
+			return (0);
+	}
+	return (1);
+}
+
+void    export(t_all *all, char **tokens, int parse_flag)//must be cleaned
 {
 	int i;
 	int index_egal;
@@ -97,13 +111,25 @@ void    export(t_all *all, char **tokens)
 		return ((void)print_export(all));
 	while (tokens[++i])
 	{
-		if (ft_strchr(tokens[i], '='))
+		if (ft_strchr(tokens[i], '=') && tokens[i][0] != '=')
 		{
 			name = get_env_name(tokens[i]);
 			value = get_env_value(tokens[i], name);
-			do_export(all, name, value);
-			free(name);
-			free(value);
+			if (!parse_flag)
+				do_export(all, name, value);
+			else
+			{
+				if (parse_name(name))
+					do_export(all, name, value);
+				else
+					printf("minishell: export: '%s': not a valid identifier\n", tokens[i]);
+			}
+			if (name)
+				free(name);
+			if (value)
+				free(value);
 		}
+		else if (!parse_name(tokens[i]))
+			printf("minishell: export: '%s': not a valid identifier\n", tokens[i]);
 	}
 }
