@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:33:35 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/20 21:48:00 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/21 23:30:08 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int handle_heredoc(t_all *all, char **tokens_array, int index_name)
 		buffer = ft_update_buffer(buffer);
 		if (ft_is_same_line(line, tokens_array[index_name]))
 			break;
+		line = expand_string(line, all->env);
 		ft_putstr_fd(line, fd[1]);
 		free(line);
 	}
