@@ -6,13 +6,13 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 18:33:44 by lboulang          #+#    #+#             */
-/*   Updated: 2023/04/22 18:56:31 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/21 14:54:26 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*Locates The First Occurence Of little In bug, 
+/*Locates The First Occurence Of little In big, 
 No More Than len Char Are Searched*/
 char	*ft_strnstr(const char	*big, const char *little, size_t len)
 {

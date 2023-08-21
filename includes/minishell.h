@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/20 20:42:21 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:26:12 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,8 @@ typedef struct s_all
 	t_env	*env;
 }			t_all;
 
-
+char	*get_env_name(char *env_line);
+char	*get_env_value(char *env_line, char *name);
 //builtins
 int	get_outfile_infile_builtin(t_all *all, char **tokens);
 int	cd(void);
@@ -123,7 +124,7 @@ int		echo(char **tokens);
 int		is_builtin(char *cmd_name);
 int		exec_builtin(char **tokens, t_all *all, int i, char **all_lines, int index_pipe);
 void    ft_exit(t_all *all, char **tokens, char **all_lines);
-int   	export(void);
+void    export(t_all *all, char **tokens);
 int		pwd(void);
 int		unset(void);
 int env(t_all *all);

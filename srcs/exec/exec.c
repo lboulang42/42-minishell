@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/20 21:49:27 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:55:46 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,6 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 			//update_status to 1 ? car fail d'infile outfile
 			return ;
 		}
-		fprintf(stderr, "rentre ici");
 		tokens = kick_empty_tokens(tokens);
 		tokens_positif(tokens);
 		execute_builtin(tokens, all, builtin_code, all_lines, index_pipe);

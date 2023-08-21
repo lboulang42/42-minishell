@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:28:12 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/20 19:57:32 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:26:07 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	execute_builtin(char **tokens, t_all *all, int i, char **all_lines, int ind
     else if (i == 2)
         ft_exit(all, tokens, all_lines);
     else if (i == 3)
-        export();
+        export(all, tokens);
     else if (i == 4)
         pwd();
     else if (i == 5)
