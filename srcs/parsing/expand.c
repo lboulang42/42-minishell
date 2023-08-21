@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:29:20 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/18 17:28:09 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/21 23:30:32 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,8 +157,8 @@ char *expand_string(char *str, t_env *env)
 				key_name = extract_key_name(str, i+1);
 				key_value = get_value_by_key(env, key_name);
 			}
-			printf("key_name = *%s*\n\n", key_name);
-			printf("key_value = *%s*\n\n", key_value);
+			// printf("key_name = *%s*\n\n", key_name);
+			// printf("key_value = *%s*\n\n", key_value);
 			str = insert_expansion(str, key_name, key_value, i);
 			
 			i += ft_strlen(key_value)-1;

@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:33:35 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/21 23:30:08 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/21 23:43:08 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int handle_infile(t_all *all, char **tokens_array, int index_name)
 	return (fd);
 }
 
-int handle_heredoc(t_all *all, char **tokens_array, int index_name)
+int handle_heredoc(t_all *all, char **tokens_array, int index_name)//peut leak si ctrl+d pendant le heredoc
 {
 	
 	int fd[2];
