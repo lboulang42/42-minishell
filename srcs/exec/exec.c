@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/21 15:55:46 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/22 00:16:34 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 		}
 		tokens = kick_empty_tokens(tokens);
 		tokens_positif(tokens);
-		execute_builtin(tokens, all, builtin_code, all_lines, index_pipe);
+		execute_builtin(tokens, all, builtin_code, all_lines);
 		ft_free_tab((void **)tokens);
 		close(all->link_fd[0]);
 		close(all->link_fd[1]);
@@ -218,7 +218,7 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 		if (builtin_code >= 0)
 		{
 			plug_builtin(tokens, all, builtin_code, all_lines, index_pipe);
-			execute_builtin(tokens, all, builtin_code, all_lines, index_pipe);
+			execute_builtin(tokens, all, builtin_code, all_lines);
 			free_t_env(&all->env);
 			ft_free_tab((void **)tokens);
 			ft_free_tab((void **)all_lines);

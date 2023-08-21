@@ -6,16 +6,12 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 15:02:37 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/20 15:09:41 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/22 00:20:36 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-#include "limits.h"
-#ifndef PATH_MAX
-# define PATH_MAX 8192
-#endif
+#include <limits.h>
 
 int	pwd(void)
 {
@@ -29,8 +25,3 @@ int	pwd(void)
     }
     return (EXIT_FAILURE);
 }
-
-// char	*pwd_malloc(void)
-// {
-// 	return (getcwd(0, 0));
-// }
