@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:37:46 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/19 16:44:27 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/22 19:19:20 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int env(t_all *all)
         return (EXIT_FAILURE);
 	while (tmp)
 	{
-		printf("%s=%s\n", tmp->name, tmp->value);
+		if (tmp->display == 1)
+			printf("%s=%s\n", tmp->name, tmp->value);
 		tmp = tmp->next;
 	}
     return (EXIT_SUCCESS);

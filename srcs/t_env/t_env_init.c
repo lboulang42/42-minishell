@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 17:21:15 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/21 15:17:15 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/22 19:16:21 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	init_env(t_all *data, char **env)//y'a des merdes a gerer la dedans
 	char	*name;
 
 	i = -1;
-	// data->default_env = env;//?
 	if (!env || !*env)
 	{
 		data->env = NULL;		
@@ -61,14 +60,15 @@ void	init_env(t_all *data, char **env)//y'a des merdes a gerer la dedans
 			if (value)
 			{
 				if (i == 0)
-					data->env = t_env_new(name, value);
+					data->env = t_env_new(name, value, 1);
 				else
-					add_t_env(&data->env, name, value);
+					add_t_env(&data->env, name, value, 1);
 				free(value);
 			}
 			free(name);
 		}
 	}
+	add_t_env(&data->env, "?", "0", 0);
 }
 
 void	free_t_env(t_env **env)
@@ -87,7 +87,7 @@ void	free_t_env(t_env **env)
 	}
 }
 
-t_env	*t_env_new(char	*name, char *value)
+t_env	*t_env_new(char	*name, char *value, int display)
 {
 	t_env	*new;
 
@@ -96,6 +96,7 @@ t_env	*t_env_new(char	*name, char *value)
 		return (err_msg(ERR_MALL, "t_env_new()"), NULL);
 	new->name = ft_strdup(name);
 	new->value = ft_strdup(value);
+	new->display = display;
 	new->next = NULL;
 	return (new);
 }

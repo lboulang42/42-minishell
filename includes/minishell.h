@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/22 00:22:48 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/22 19:29:56 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_env
 {
 	char	*name;
 	char	*value;
+	int		display;
 	struct s_env	*next;
 }	t_env;
 
@@ -107,7 +108,7 @@ char	*get_env_value(char *env_line, char *name);
 //builtins
 
 int	get_outfile_infile_builtin(t_all *all, char **tokens);
-int	cd(void);
+int    cd(t_all *all, char **tokens);
 int		echo(char **tokens);
 int		is_builtin(char *cmd_name);
 int		exec_builtin(char **tokens, t_all *all, int i, char **all_lines, int index_pipe);
@@ -119,7 +120,7 @@ int		pwd(void);
 void    unset(t_env *env, char **tokens);
 int env(t_all *all);
 
-int plug_builtin(char **tokens, t_all *all, int i, char **all_lines, int index_pipe);
+void	 plug_builtin(char **tokens, t_all *all, int i, char **all_lines, int index_pipe);
 void	execute_builtin(char **tokens, t_all *all, int i, char **all_lines);
 
 
@@ -181,8 +182,8 @@ int		is_same_string(char *str1, char *str2);
 void	init_env(t_all *data, char **env);
 char    *get_key(t_env *full_env, char *key);
 void	free_t_env(t_env **env);
-void	add_t_env(t_env **env, char *name, char *value);
-t_env	*t_env_new(char	*name, char *value);
+void	add_t_env(t_env **env, char *name, char *value, int display);
+t_env	*t_env_new(char	*name, char *value, int display);
 t_env	*get_last_t_env(t_env *env);
 void	print_t_env(t_env *env);
 /**/

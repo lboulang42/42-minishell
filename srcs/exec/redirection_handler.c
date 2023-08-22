@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:33:35 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/21 23:43:08 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/22 19:14:31 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,16 @@ int	get_outfile_infile_builtin(t_all *all, char **tokens)
 				else
 					printf("minishell :%s: NO such file or dir\n", tokens[i+1]);
 				//free du bordel ici imo
+				close(all->link_fd[1]);
+				close(all->link_fd[0]);
 				return (-2);
 			}
-			if ((is_this_meta(tokens[i], "<") || is_this_meta(tokens[i], "<<")))
-				dup2(fd, 0);
-			else
+			if (!(is_this_meta(tokens[i], "<") || is_this_meta(tokens[i], "<<")))
 				dup2(fd, 1);
 			close(fd);
 			tokens[i][0] = '\0';
 			tokens[i + 1][0] = '\0';
+			return (fd);
 		}
 	}
 	return (fd);
@@ -124,7 +125,7 @@ void	get_outfile_infile(t_all *all, char **tokens)
 					printf("minishell: %s: Permission Denied\n", tokens[i+1]);
 				else
 					printf("minishell :%s: NO such file or dir\n", tokens[i+1]);
-				//freee tout batard
+				//freee tout batard https://www.youtube.com/watch?v=6rZIgyKFbNY
 				close(all->link_fd[0]);
 				close(all->link_fd[1]);
 				exit (1);

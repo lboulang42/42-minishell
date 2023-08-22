@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:27:33 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/19 16:38:33 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/22 19:16:26 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,11 @@ t_env	*get_last_t_env(t_env *env)
 	return (env);
 }
 
-void	add_t_env(t_env **env, char *name, char *value)
+void	add_t_env(t_env **env, char *name, char *value, int display)
 {
 	t_env	*temp;
 	t_env	*new;
-	
-	new = t_env_new(name, value);
+	new = t_env_new(name, value, display);
 	if (!env || !*env)
 	{
 		*env = new;

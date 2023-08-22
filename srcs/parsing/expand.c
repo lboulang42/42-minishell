@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:29:20 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/21 23:30:32 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/22 18:06:44 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,20 +101,11 @@ char *extract_key_name(char *str, int start)
     char *key_name;
     
 	name_len = 0;
-	// if (ft_isalpha(str[start]))
-	// {
-    //     while (str[start + name_len] && ft_isalpha(str[start + name_len]))
-    //         name_len++;
-    //     key_name = ft_substr(str, start, name_len);
-	// 	return (key_name);
-    // } 
-	// if (ft_isdigit(str[start])) 
-	// {
-    while (str[start + name_len] && ( ft_isalpha(str[start + name_len]) || ft_isdigit(str[start  + name_len]) ) )
+
+    while (str[start + name_len] && ( ft_isalpha(str[start + name_len]) || ft_isdigit(str[start  + name_len]) || str[start+name_len] == '_' ||  str[start+name_len] == '?' ) )
            name_len++;
 	key_name = ft_substr(str, start, name_len);
 		return (key_name);
-    // }
     return (NULL);
 }
 
@@ -125,14 +116,14 @@ char    *get_value_by_key(t_env *full_env, char *key)
 
     tmp = full_env;
     if (!key)
-        return (printf("no value by key fdp\n"), NULL);
+        return (NULL);
     while (tmp)
     {
         if (is_same_string(tmp->name, key))
             return (ft_strdup(tmp->value));
         tmp = tmp->next;
     }
-    return (printf("no key in env\n"), NULL);
+    return (NULL);
 }
 
 char *expand_string(char *str, t_env *env)
@@ -140,7 +131,6 @@ char *expand_string(char *str, t_env *env)
 	int i;
 	char *key_value;
 	char *key_name;
-	
 	i = -1;
 
 	while (str[++i])
@@ -157,10 +147,7 @@ char *expand_string(char *str, t_env *env)
 				key_name = extract_key_name(str, i+1);
 				key_value = get_value_by_key(env, key_name);
 			}
-			// printf("key_name = *%s*\n\n", key_name);
-			// printf("key_value = *%s*\n\n", key_value);
 			str = insert_expansion(str, key_name, key_value, i);
-			
 			i += ft_strlen(key_value)-1;
 			if (key_name)
 				free(key_name);

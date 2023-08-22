@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/21 18:18:55 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/22 19:18:05 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int print_export(t_all *all)
 		return (EXIT_SUCCESS);
 	/*
 	remet l'env dans l'ordre alpha des name avant;
-	
+
+
 	*/
 	while (tmp)
 	{
@@ -50,32 +51,11 @@ void do_export(t_all *all, char *key, char *value)
 		}
 		tmp = tmp->next;
 	}
-	add_t_env(&all->env, key, value);
+	add_t_env(&all->env, key, value, 1);
 }
 
-int indexof(char *str, char c)
-{
-	int i;
 
-	i = -1;
-	while (str[++i])
-		if (str[i] == c)
-			return (i);
-	return (-1);
-}
 
-int is_already_in_env(t_env *env, char *name)
-{
-	t_env *tmp;
-	tmp = env;
-	while (tmp)
-	{
-		if (is_same_string(tmp->name, name))
-			return (1);
-		tmp = tmp->next;
-	}
-	return (0);
-}
 
 /*
 si export call

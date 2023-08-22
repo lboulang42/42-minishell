@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/22 00:16:34 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/22 19:21:41 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,19 +122,19 @@ char **get_env(t_env *env)
 	tmp = env;
 	while (tmp)
 	{
-		tmp = tmp->next;
 		counter++;
+		tmp = tmp->next;
 	}
 	res = malloc(sizeof(char *) * (counter+1));
 	tmp = env;
 	counter = 0;
 	while (tmp)
 	{
-		temp2 = ft_strjoin(tmp->name, (char *)"=");
-		res[counter] = ft_strjoin(temp2, tmp->value);
-		free(temp2);
-		tmp = tmp->next;
-		counter++;
+			temp2 = ft_strjoin(tmp->name, (char *)"=");
+			res[counter] = ft_strjoin(temp2, tmp->value);
+			free(temp2);
+			tmp = tmp->next;
+			counter++;
 	}
 	res[counter] = NULL;
 	return (res);
@@ -161,7 +161,7 @@ void redirection_execve(t_all *all, char **all_lines, int index_pipe)
 	close(all->link_fd[1]);
 }
 
-int plug_builtin(char **tokens, t_all *all, int i, char **all_lines, int index_pipe)
+void plug_builtin(char **tokens, t_all *all, int i, char **all_lines, int index_pipe)
 {
 	if (index_pipe != ft_tab_len(all_lines) -1)
 	{
@@ -194,8 +194,8 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 		if (get_outfile_infile_builtin(all, tokens) == -2)
 		{
 			ft_free_tab((void **)tokens);
-			close(all->link_fd[0]);
-			close(all->link_fd[1]);
+			// close(all->link_fd[0]);
+			// close(all->link_fd[1]);
 			//update_status to 1 ? car fail d'infile outfile
 			return ;
 		}
@@ -203,8 +203,11 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 		tokens_positif(tokens);
 		execute_builtin(tokens, all, builtin_code, all_lines);
 		ft_free_tab((void **)tokens);
-		close(all->link_fd[0]);
-		close(all->link_fd[1]);
+		if (all->link_fd[0])
+			close(all->link_fd[0]);
+		if (all->link_fd[1])
+			close(all->link_fd[1]);
+		//status code
 		return ;
 	}
 	all->pid[index_pipe] = fork();

@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:28:12 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/22 00:16:52 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/22 19:30:11 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ execute le bon builtin
 void	execute_builtin(char **tokens, t_all *all, int i, char **all_lines)
 {
 	if (i == 0)
-		cd();
+		cd(all, tokens);
 	else if (i == 1)
 		echo(tokens);
 	else if (i == 2)
