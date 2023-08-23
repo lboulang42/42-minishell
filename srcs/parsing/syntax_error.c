@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 16:56:49 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/17 16:57:00 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/23 21:16:57 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	check_pipes(char *str)
 	while (str[++i] && str[i] == ' ')
 		if (str[i + 1] == '|')
 			return (1);
-	while (str[++i])
+	while (str[i++])
 	{
 		if (str[i] == '|')
 		{

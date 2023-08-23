@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/23 18:50:21 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/23 21:13:19 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	run_easyshell(t_all *all, char **env)
 		if (syntax_error(all, input) == 1)
 		{
 			free(input);
+			do_export(all, "?", "1");
 			continue ;
 		}
 		inverse_string(input, DQUOTE);
