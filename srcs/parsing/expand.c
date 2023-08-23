@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:29:20 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/23 18:13:15 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/23 21:25:40 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,12 @@ char *extract_key_name(char *str, int start)
     
 	name_len = 0;
 
-    while (str[start + name_len] && ( ft_isalpha(str[start + name_len]) || ft_isdigit(str[start  + name_len]) || str[start+name_len] == '_' ||  str[start+name_len] == '?' ) )
+    if (str[start+name_len] == '?')
+	{
+		key_name = ft_substr(str, start, 1);
+		return (key_name);
+	}
+	while (str[start + name_len] && ( ft_isalpha(str[start + name_len]) || ft_isdigit(str[start  + name_len]) || str[start+name_len] == '_' ||  str[start+name_len] == '?' ) )
            name_len++;
 	key_name = ft_substr(str, start, name_len);
 		return (key_name);
