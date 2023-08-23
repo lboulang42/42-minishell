@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/22 19:29:56 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/23 21:04:32 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,13 @@ typedef struct s_all
 	int		pid[1024];//doit etre malloc et pas taille fixe, possible de faire plus de 1024 |
 	int		btn_fd;
 	int		exit_code;
+	char	*here_doc_buffer;
+	char	*here_doc_line;
+	char	*here_doc_limiter;
+	int		here_doc_fd[2];
+	char *here_doc_readline;
+	char **all_lines;
+	char **tokens;
 	t_env	*env;
 }			t_all;
 
@@ -107,21 +114,21 @@ char	*get_env_name(char *env_line);
 char	*get_env_value(char *env_line, char *name);
 //builtins
 
-int	get_outfile_infile_builtin(t_all *all, char **tokens);
+int	get_outfile_infile_builtin(t_all *all, char **tokens, char **all_lines);
 int    cd(t_all *all, char **tokens);
 int		echo(char **tokens);
 int		is_builtin(char *cmd_name);
 int		exec_builtin(char **tokens, t_all *all, int i, char **all_lines, int index_pipe);
 void    ft_exit(t_all *all, char **tokens, char **all_lines);
-void    export(t_all *all, char **tokens, int parse_flag);
+int    export(t_all *all, char **tokens, int parse_flag);
 void do_export(t_all *all, char *key, char *value);
 
 int		pwd(void);
-void    unset(t_env *env, char **tokens);
+int    unset(t_env *env, char **tokens);
 int env(t_all *all);
 
 void	 plug_builtin(char **tokens, t_all *all, int i, char **all_lines, int index_pipe);
-void	execute_builtin(char **tokens, t_all *all, int i, char **all_lines);
+int	execute_builtin(char **tokens, t_all *all, int i, char **all_lines);
 
 
 /*NEW*/
@@ -146,9 +153,9 @@ int	is_meta(char c);
 char *extract_key_name(char *str, int start);
 
 /*exec/redirection handler*/
-void	get_outfile_infile(t_all *all, char **tokens);
+void	get_outfile_infile(t_all *all, char **tokens, char **all_lines);
 int handle_outfile_trunc(t_all *all, char **tokens_array, int index_name);
-int handle_heredoc(t_all *all, char **tokens_array, int index_name);
+int handle_heredoc(t_all *all, char **tokens_array, int index_name, char **all_lines);
 int handle_infile(t_all *all, char **tokens_array, int index_name);
 int handle_outfile_append(t_all *all, char **tokens_array, int index_name);
 	
@@ -163,8 +170,10 @@ void	init_shell(t_all *all, char **env);
 int	main(int argc, char **argv, char **env);
 void	run_easyshell(t_all *all, char **env);
 
+void	reactiv(int sig);
 void	ctrlc(int sig);
-void	ctrld(int sig);
+void ctrldhere_doc(int sig);
+t_all *init_data(void);
 
 /*parsing/expand.c*/
 char	*add_spaces_input(char *str);

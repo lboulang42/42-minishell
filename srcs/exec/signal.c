@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 15:04:58 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/18 19:09:10 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/23 19:45:24 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ctrlc(int sig)
 {
+	fprintf(stderr, "ctrlc hit\n");
 	if (sig == SIGINT)
 	{
 		ft_putchar('\n');
@@ -22,13 +23,31 @@ void	ctrlc(int sig)
 		rl_redisplay();
 	}   
 }
-
-void	ctrld(int sig)
+	
+void ctrldhere_doc(int sig)
 {
-	fprintf(stderr, "ctrl D sa mere");
-	if (sig == SIGQUIT)
+	t_all *all;
+
+	all = init_data();
+	if (sig == SIGINT)
 	{
-		fprintf(stderr, "ctrl D sa mere");
-		exit(131);
+		close(all->here_doc_fd[1]);
+		close(all->here_doc_fd[0]);
+		close(all->link_fd[0]);
+		close(all->link_fd[1]);
+		if (all->here_doc_limiter)
+			free(all->here_doc_limiter);
+		free_t_env(&all->env);
+		ft_free_tab((void **)all->all_lines);
+		ft_free_tab((void **)all->tokens);
+		ft_putchar('\n');
+		exit(130);//reverif
 	}
+}
+void	reactiv(int sig)
+{
+	fprintf(stderr, "reactiv hit\n");
+
+	if (sig == SIGQUIT)
+		exit(131);
 }

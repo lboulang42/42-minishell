@@ -6,13 +6,13 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:37:46 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/22 19:19:20 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/23 20:56:22 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int env(t_all *all)
+int env(t_all *all)//faut parser sale fdp emv $? ca maerche pas
 {
 	t_env *tmp;
 

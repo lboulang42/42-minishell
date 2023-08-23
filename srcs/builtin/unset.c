@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/22 17:50:13 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/23 21:04:24 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ void do_unset(t_env *env, char *key)
         tmp = tmp->next;
     }
 }
-
-void    unset(t_env *env, char **tokens)
+/*
+fail jamais
+*/
+int    unset(t_env *env, char **tokens)
 {
     int i;
 
@@ -50,4 +52,5 @@ void    unset(t_env *env, char **tokens)
             continue;
         do_unset(env, tokens[i]);
     }
+    return (0);
 }

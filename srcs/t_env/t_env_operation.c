@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:27:33 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/22 19:16:26 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/23 17:59:13 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,5 @@ char    *get_key(t_env *full_env, char *key)
             return (ft_strdup(tmp->value));
         tmp = tmp->next;
     }
-	return (err_msg(ERR_KEY_VAL, "get_key()"), NULL);//faudra kick plus tard
+	return ( NULL);//faudra kick plus tarderr_msg(ERR_KEY_VAL, "get_key()"),
 }

@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/22 19:18:05 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/23 21:04:51 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int print_export(t_all *all)
 	return (EXIT_SUCCESS);
 }
 
+/*not a valid identifier : do_parsing*/
 void do_export(t_all *all, char *key, char *value)
 {
 	t_env *tmp;
@@ -39,7 +40,6 @@ void do_export(t_all *all, char *key, char *value)
 	char *temp_val;
 	
 	tmp = all->env;
-	
 	while (tmp)
 	{
 		if (is_same_string(tmp->name, key))
@@ -52,6 +52,7 @@ void do_export(t_all *all, char *key, char *value)
 		tmp = tmp->next;
 	}
 	add_t_env(&all->env, key, value, 1);
+	return ;
 }
 
 
@@ -79,7 +80,7 @@ int parse_name(char *name)
 	return (1);
 }
 
-void    export(t_all *all, char **tokens, int parse_flag)//must be cleaned
+int    export(t_all *all, char **tokens, int parse_flag)//must be cleaned
 {
 	int i;
 	int index_egal;
@@ -88,7 +89,7 @@ void    export(t_all *all, char **tokens, int parse_flag)//must be cleaned
 	
 	i = 0;
 	if (!tokens[1])
-		return ((void)print_export(all));
+		return (print_export(all), 0);
 	while (tokens[++i])
 	{
 		if (ft_strchr(tokens[i], '=') && tokens[i][0] != '=')
@@ -100,9 +101,15 @@ void    export(t_all *all, char **tokens, int parse_flag)//must be cleaned
 			else
 			{
 				if (parse_name(name))
+				{
 					do_export(all, name, value);
+					return (0);
+				}
 				else
+				{
 					printf("minishell: export: '%s': not a valid identifier\n", tokens[i]);
+					return (1);
+				}
 			}
 			if (name)
 				free(name);
@@ -110,6 +117,9 @@ void    export(t_all *all, char **tokens, int parse_flag)//must be cleaned
 				free(value);
 		}
 		else if (!parse_name(tokens[i]))
+		{
 			printf("minishell: export: '%s': not a valid identifier\n", tokens[i]);
+			return (1);
+		}
 	}
 }

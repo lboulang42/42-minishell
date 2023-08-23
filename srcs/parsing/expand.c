@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:29:20 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/22 20:19:42 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/23 18:13:15 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,8 @@ char *expand_string(char *str, t_env *env)
 	char *key_value;
 	char *key_name;
 	i = -1;
-
+	if (!str)
+		return (NULL);
 	while (str[++i])
 	{
 		if (str[i] == '$'  && str[i+1] && str[i+1] != ' ')

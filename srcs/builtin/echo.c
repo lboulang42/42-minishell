@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/22 00:14:37 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/23 20:58:36 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,5 @@ int	echo(char **tokens)
 	}
 	if (is_n == 0)
 		printf("\n");
-	return (2);
+	return (0);
 }

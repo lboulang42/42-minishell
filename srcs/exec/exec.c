@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/22 20:25:33 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/23 21:07:02 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,24 +66,35 @@ void	exec_init(t_all *all, char *input)
 	char	**lines;//lines = inputs splités aux |
 	int     lines_number;
 	int		i;
-
+	int wstatus;
+	char *tmp;
+	
 	i = -1;
-	lines = ft_split(input, '|');//gerer si cmd vide plus tard
+	all->all_lines = NULL;
+	all->all_lines = ft_split(input, '|');//gerer si cmd vide plus tard
 	free(input);
-	lines_number = ft_tab_len(lines);
+	lines_number = ft_tab_len(all->all_lines);
 	all->prev = -1;
 	all->btn_fd = -1;
-	while (lines[++i])
-		handle_line(all, lines, i);
+	while (all->all_lines[++i])
+		handle_line(all, all->all_lines, i);
 	for (int j = 0; j < lines_number; j++)
 	{
 		if (all->pid[j] >= 0)
-			waitpid(all->pid[j], NULL, 0);
+		{
+			waitpid(all->pid[j], &wstatus, 0);
+			if (WIFEXITED(wstatus))
+			{
+				tmp = ft_itoa(WEXITSTATUS(wstatus))	;
+				do_export(all, "?", tmp);
+				free(tmp);
+			}
+		}
 	}
 	if (all->prev > 0)
 		close(all->prev);
 	signal(SIGINT, & ctrlc);
-	ft_free_tab((void **)lines);
+	ft_free_tab((void **)all->all_lines);
 }
 
 /*
@@ -181,60 +192,69 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 	char    **tokens;
 	char *cmd_path;
 	int	builtin_code;
+	int btn_fd;
+	int default_out;
 	
 	pipe(all->link_fd);
 	signal(SIGINT, SIG_IGN);
-	tokens = ft_split(all_lines[index_pipe], ' ');
-	if (!tokens)
+	all->tokens = ft_split(all_lines[index_pipe], ' ');
+	if (!all->tokens)
 		return;
-	builtin_code = is_builtin(tokens[0]);
+	builtin_code = is_builtin(all->tokens[0]);
 	if (builtin_code >= 0 && ft_tab_len(all_lines) == 1)
 	{
 		all->pid[index_pipe] = -1;
-		if (get_outfile_infile_builtin(all, tokens) == -2)
+		default_out = dup(1);
+		btn_fd = get_outfile_infile_builtin(all, all->tokens, all_lines);
+		if (btn_fd == -2)
 		{
-			ft_free_tab((void **)tokens);
-			// close(all->link_fd[0]);
-			// close(all->link_fd[1]);
-			//update_status to 1 ? car fail d'infile outfile
+			ft_free_tab((void **)all->tokens);
+			do_export(all, "?", "1");
 			return ;
 		}
-		tokens = kick_empty_tokens(tokens);
-		tokens_positif(tokens);
-		execute_builtin(tokens, all, builtin_code, all_lines);
-		ft_free_tab((void **)tokens);
-		if (all->link_fd[0])
-			close(all->link_fd[0]);
-		if (all->link_fd[1])
-			close(all->link_fd[1]);
+		all->tokens = kick_empty_tokens(all->tokens);
+		tokens_positif(all->tokens);
+		int status = execute_builtin(all->tokens, all, builtin_code, all_lines);
+		ft_free_tab((void **)all->tokens);
+		close(all->link_fd[0]);
+		close(all->link_fd[1]);
+		dup2(default_out, 1);
+		close(default_out);
+		char *atoi;
+		atoi = ft_itoa(status);
+		do_export(all, "?", atoi);
+		free(atoi);
+		
+
 		//status code
 		return ;
 	}
 	all->pid[index_pipe] = fork();
 	if (all->pid[index_pipe] == 0)
 	{
+
 		signal(SIGINT, & ctrlc);
-		signal(SIGQUIT, & ctrld);
-		get_outfile_infile(all, tokens);//redirige les infiles/outfiles de la line;
-		tokens = kick_empty_tokens(tokens);//vire les bails vide
-		tokens_positif(tokens);//repasse tout en positif
+		signal(SIGQUIT, & reactiv);
+		get_outfile_infile(all, all->tokens, all_lines);//redirige les infiles/outfiles de la line;
+		all->tokens = kick_empty_tokens(all->tokens);//vire les bails vide
+		tokens_positif(all->tokens);//repasse tout en positif
 		if (builtin_code >= 0)
 		{
-			plug_builtin(tokens, all, builtin_code, all_lines, index_pipe);
-			execute_builtin(tokens, all, builtin_code, all_lines);
+			plug_builtin(all->tokens, all, builtin_code, all_lines, index_pipe);
+			execute_builtin(all->tokens, all, builtin_code, all_lines);
 			free_t_env(&all->env);
-			ft_free_tab((void **)tokens);
+			ft_free_tab((void **)all->tokens);
 			ft_free_tab((void **)all_lines);
 			exit(0);
 		}
 		redirection_execve(all, all_lines, index_pipe);
-		cmd_path = get_path_putain(tokens[0], all->env);
+		cmd_path = get_path_putain(all->tokens[0], all->env);
 		char **env = get_env(all->env);//faut test avec export
-		if (cmd_path && tokens)
-			execve(cmd_path, tokens, env);
+		if (cmd_path && all->tokens)
+			execve(cmd_path, all->tokens, env);
 		ft_free_tab((void **)env);
 		free_t_env(&all->env);
-		ft_free_tab((void **)tokens);
+		ft_free_tab((void **)all->tokens);
 		ft_free_tab((void **)all_lines);
 		exit(127);
 	}
@@ -244,10 +264,11 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 		if (all->prev > 0)
 			close(all->prev);
 		all->prev = all->link_fd[0];
+		signal(SIGQUIT, SIG_IGN);
 	}
 	if (all->link_fd[1] > 0)
 		close(all->link_fd[1]);
-	ft_free_tab((void **)tokens);
+	ft_free_tab((void **)all->tokens);
 }
 
 

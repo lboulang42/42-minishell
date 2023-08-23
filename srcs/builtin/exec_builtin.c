@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:28:12 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/22 19:30:11 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/23 21:01:40 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,20 @@ int	is_builtin(char *cmd_name)
 /*
 execute le bon builtin
 */
-void	execute_builtin(char **tokens, t_all *all, int i, char **all_lines)
+int	execute_builtin(char **tokens, t_all *all, int i, char **all_lines)
 {
 	if (i == 0)
-		cd(all, tokens);
+		return (cd(all, tokens));
 	else if (i == 1)
-		echo(tokens);
+		return (echo(tokens));
 	else if (i == 2)
-		ft_exit(all, tokens, all_lines);
+		return (ft_exit(all, tokens, all_lines), 1);
 	else if (i == 3)
-		export(all, tokens, 1);
+		return (export(all, tokens, 1));
 	else if (i == 4)
-		pwd();
+		return (pwd());
 	else if (i == 5)
-		unset(all->env, tokens);
+		return (unset(all->env, tokens));
 	else if (i == 6)
-		env(all);
+		return (env(all));
 }

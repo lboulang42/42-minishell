@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 17:21:15 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/22 19:16:21 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/23 18:49:01 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	init_env(t_all *data, char **env)//y'a des merdes a gerer la dedans
 	i = -1;
 	if (!env || !*env)
 	{
-		data->env = NULL;		
+		data->env = NULL;
 		return ((void)err_msg(NO_ENV, NULL));
 	}
 	while (env[++i])
