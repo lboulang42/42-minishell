@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/24 14:30:10 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/24 19:36:24 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,4 +149,5 @@ int    export(t_all *all, char **tokens, int parse_flag)//must be cleaned
 			return (1);
 		}
 	}
+	return (0);
 }

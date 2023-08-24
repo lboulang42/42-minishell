@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/24 13:37:59 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/24 20:37:59 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+
 /*
 Structure globale minishell
 */
@@ -103,13 +104,13 @@ typedef struct s_all
 	int		here_doc_fd[2];
 	char *here_doc_readline;
 	char **all_lines;
+	int	default_out;
 	char **tokens;
 	t_env	*env;
 }			t_all;
 
 
-
-
+void    ft_exit_free(t_all *all);
 char	*get_env_name(char *env_line);
 char	*get_env_value(char *env_line, char *name);
 //builtins
@@ -130,7 +131,7 @@ int env(t_all *all);
 void	 plug_builtin(char **tokens, t_all *all, int i, char **all_lines, int index_pipe);
 int	execute_builtin(char **tokens, t_all *all, int i, char **all_lines);
 
-
+unsigned long long	ft_atoilonglong(const char *str, const char *str_safe);
 /*NEW*/
 
 

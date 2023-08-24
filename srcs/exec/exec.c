@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/24 13:40:45 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/24 21:58:50 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 	if (builtin_code >= 0 && ft_tab_len(all_lines) == 1)
 	{
 		all->pid[index_pipe] = -1;
-		default_out = dup(1);
+		all->default_out = dup(1);
 		btn_fd = get_outfile_infile_builtin(all, all->tokens, all_lines);
 		if (btn_fd == -2)
 		{
@@ -226,8 +226,8 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 		ft_free_tab((void **)all->tokens);
 		close(all->link_fd[0]);
 		close(all->link_fd[1]);
-		dup2(default_out, 1);
-		close(default_out);
+		dup2(all->default_out, 1);
+		close(all->default_out);
 		char *atoi;
 		atoi = ft_itoa(status);
 		do_export(all, "?", atoi);
