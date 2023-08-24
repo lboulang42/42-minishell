@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/20 21:47:14 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/24 13:52:22 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void ft_exit(t_all *all, char **tokens, char **all_lines)
     long long int   exit_code;
     char *tmp;
     i = 0;
-    fprintf(stderr, "in ft_exit()");
     if (ft_tab_len(tokens) == 1)//ajouter l'exit code par défaut comme fait exit(); besoin des PID;
     {
         printf("exit\n");
@@ -80,13 +79,14 @@ void ft_exit(t_all *all, char **tokens, char **all_lines)
 			tmp++;
 		if (i > 1)
 		{
-			printf("exit\nbash: exit: too many arguments\n");
+			printf("exit\n");
+			fprintf(stderr, "Minishell: exit: too many arguments\n");
             ft_exit_free(all, tokens, all_lines);
-            exit(127);
+            exit(1);
 		}
 		if (*tmp != '\0' || exit_code > LLONG_MAX || exit_code < LLONG_MIN)
         {
-            printf("minishell: exit: %s: numeric argument required\n", tmp);
+            fprintf(stderr, "minishell: exit: %s: numeric argument required\n", tmp);
             ft_exit_free(all, tokens, all_lines);
             exit(2);
         }

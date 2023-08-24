@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/23 21:07:02 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/24 13:40:45 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,27 @@ void	ft_access_fail(char *cmd_path, char *cmd_name)
 {
 	if (!cmd_path)
 	{
-		printf("Minishell :%s:%s\n", ERR_CMD, cmd_name);
+		fprintf(stderr, "Minishell:%s:%s\n", ERR_CMD, cmd_name);
+		// printf("Minishell :%s:%s\n", ERR_CMD, cmd_name);
 		return ;
 	}
 	if (cmd_path[ft_strlen(cmd_path) - 1] == '/')
 	{
-		ft_printf("Pipex: %s: %s\n", cmd_path, ERR_NOTDIR);
+		fprintf(stderr, "Minishell: %s: %s\n", cmd_path, ERR_NOTDIR);
+		// ft_printf("Pipex: %s: %s\n", cmd_path, ERR_NOTDIR);
 		free(cmd_path);
 		return ;
 	}
 	if (access(cmd_path, F_OK))
-		ft_printf("Pipex: %s: '%s'\n", cmd_name, ERR_CMD);
+	{
+		fprintf(stderr, "Minishell: %s: %s\n", cmd_name, ERR_CMD);
+		// ft_printf("Pipex: %s: '%s'\n", cmd_name, ERR_CMD);
+	}
 	else if (access(cmd_path, X_OK))
-		ft_printf("Pipex: %s: %s\n", cmd_path, ERR_PERM);
+	{
+		fprintf(stderr, "Minishell: %s: %s\n", cmd_path, ERR_PERM);
+		// ft_printf("Pipex: %s: %s\n", cmd_path, ERR_PERM);
+	}
 	if (cmd_path)
 		free(cmd_path);
 }
@@ -224,8 +232,6 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 		atoi = ft_itoa(status);
 		do_export(all, "?", atoi);
 		free(atoi);
-		
-
 		//status code
 		return ;
 	}
@@ -256,6 +262,8 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 		free_t_env(&all->env);
 		ft_free_tab((void **)all->tokens);
 		ft_free_tab((void **)all_lines);
+		// if (!cmd_path)
+		// 	exit (126);
 		exit(127);
 	}
 	else

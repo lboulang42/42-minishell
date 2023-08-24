@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/22 19:54:11 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/24 13:09:44 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int do_cd(t_all *all, char *path)
     res = chdir(path);
     if (res == -1)
     {
+        fprintf(stderr, " No such file or directory");
         //plug les signaux
-        printf("bash: cd: a: No such file or directory\n");
         return (EXIT_FAILURE);
     }
     pwd = getcwd(0, 0);

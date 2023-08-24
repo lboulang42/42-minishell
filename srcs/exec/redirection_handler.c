@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:33:35 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/23 20:35:54 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/24 13:47:46 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@ int	get_outfile_infile_builtin(t_all *all, char **tokens, char **all_lines)
 			if (fd == -1)
 			{
 				if (errno == 13)
-					printf("minishell: %s: Permission Denied\n", tokens[i+1]);
+					fprintf(stderr, "Minishell: %s: %s\n", tokens[i+1], ERR_PERM);
 				else
-					printf("minishell :%s: NO such file or dir\n", tokens[i+1]);
+					fprintf(stderr, "Minishell :%s: %s\n", tokens[i+1], ERR_NOSUCHF);
 				close(all->link_fd[1]);
 				close(all->link_fd[0]);
 				return (-2);
@@ -144,9 +144,9 @@ void	get_outfile_infile(t_all *all, char **tokens, char **all_lines)
 			if (fd == -1)
 			{
 				if (errno ==13)
-					printf("minishell: %s: Permission Denied\n", tokens[i+1]);
+					fprintf(stderr, "Minishell: %s: %s\n", tokens[i+1], ERR_PERM);
 				else
-					printf("minishell :%s: NO such file or dir\n", tokens[i+1]);
+					fprintf(stderr, "Minishell :%s: %s\n", tokens[i+1], ERR_NOSUCHF);
 				free_t_env(&all->env);
 				ft_free_tab((void **)all_lines);
 				ft_free_tab((void **)tokens);

@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 16:56:49 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/23 21:16:57 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/24 13:48:46 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,17 +105,17 @@ int	syntax_error(t_all *all, char *input)
 {
 	if (check_alone_quote(input))
 	{
-		ft_printf("Minishell : close quote\n");
+		fprintf(stderr, "Minishell : syntax error : please close quotes\n");
 		return (1);
 	}
 	if (check_pipes(input))
 	{
-		ft_printf("Minishell : syntax error near unexpected token `|'\n");
+		fprintf(stderr, "Minishell : syntax error near unexpected token `|'\n");
 		return (1);
 	}
 	if (check_rafters(input))
 	{
-		ft_printf("Minishell : syntax error near unexpected token `newline'\n");
+		fprintf(stderr, "Minishell : syntax error near unexpected token `newline'\n");
 		return (1);
 	}
 	return (0);

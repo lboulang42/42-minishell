@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 15:04:58 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/23 19:45:24 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/24 13:48:01 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	ctrlc(int sig)
 {
-	fprintf(stderr, "ctrlc hit\n");
 	if (sig == SIGINT)
 	{
 		ft_putchar('\n');
@@ -46,8 +45,6 @@ void ctrldhere_doc(int sig)
 }
 void	reactiv(int sig)
 {
-	fprintf(stderr, "reactiv hit\n");
-
 	if (sig == SIGQUIT)
 		exit(131);
 }

@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/23 21:22:25 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/24 14:02:12 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,11 @@ int main(int argc, char **argv, char **env)
 	init_shell(all, env);
 	run_easyshell(all, env);
 	stat = get_key(all->env, "?");
+	// fprintf(stderr, "stat = %s\n", stat);
 	status = ft_atoi(stat);
 	free(stat);
 	free_t_env(&all->env);
+	// fprintf(stderr, "last status return : %d\n", status);
 	return (status); // return last status code
 }
 

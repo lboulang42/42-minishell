@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/23 21:04:32 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/24 13:37:59 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@
 # endif
 
 # ifndef ERR_CMD
-#  define ERR_CMD "command not found: "
+#  define ERR_CMD "command not found"
 # endif
 # ifndef ERR_PERM
-#  define ERR_PERM "permission denied"
+#  define ERR_PERM "Permission denied"
 # endif
 
 

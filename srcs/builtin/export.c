@@ -6,27 +6,54 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/23 21:04:51 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/24 14:30:10 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int print_export(t_all *all)
+int is_bigger(char *s1, char *s2)
+{
+	int i = 0;
+	
+	while (s1[i] && s2[i])
+	{
+		if (s1[i] > s2[i])
+			return (1);
+		i++;
+	}
+	if (!s1[i] && s2[i])
+		return (0);
+	if (s1[i] && !s2[i])
+		return (1);
+	return (1);
+}
+
+int is_sorted_env(t_env *env)
 {
 	t_env *tmp;
 
+	tmp = env;
+	while (tmp && tmp->next)
+	{
+		if (is_bigger(tmp->name, tmp->next->name))
+			return (0);
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
+int print_export(t_all *all)
+{
+	t_env *tmp;
 	tmp = all->env;
 	if (!tmp)
 		return (EXIT_SUCCESS);
-	/*
-	remet l'env dans l'ordre alpha des name avant;
-
-
-	*/
+//sort env ?
 	while (tmp)
 	{
-		printf("export %s=\"%s\"\n", tmp->name, tmp->value);
+		if (tmp->display == 1)
+			printf("export %s=\"%s\"\n", tmp->name, tmp->value);
 		tmp = tmp->next;
 	}
 	return (EXIT_SUCCESS);
@@ -107,7 +134,7 @@ int    export(t_all *all, char **tokens, int parse_flag)//must be cleaned
 				}
 				else
 				{
-					printf("minishell: export: '%s': not a valid identifier\n", tokens[i]);
+					fprintf(stderr, "minishell: export: '%s': not a valid identifier\n", tokens[i]);
 					return (1);
 				}
 			}
@@ -118,7 +145,7 @@ int    export(t_all *all, char **tokens, int parse_flag)//must be cleaned
 		}
 		else if (!parse_name(tokens[i]))
 		{
-			printf("minishell: export: '%s': not a valid identifier\n", tokens[i]);
+			fprintf(stderr, "minishell: export: '%s': not a valid identifier\n", tokens[i]);
 			return (1);
 		}
 	}
