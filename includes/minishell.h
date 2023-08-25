@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/24 20:37:59 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/25 18:12:32 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,11 +121,12 @@ int		echo(char **tokens);
 int		is_builtin(char *cmd_name);
 int		exec_builtin(char **tokens, t_all *all, int i, char **all_lines, int index_pipe);
 void    ft_exit(t_all *all, char **tokens, char **all_lines);
-int    export(t_all *all, char **tokens, int parse_flag);
+int export(t_all *all, char **tokens);
 void do_export(t_all *all, char *key, char *value);
 
 int		pwd(void);
-int    unset(t_env *env, char **tokens);
+// int    unset(t_env *env, char **tokens);
+int    unset(t_all *all, char **tokens);
 int env(t_all *all);
 
 void	 plug_builtin(char **tokens, t_all *all, int i, char **all_lines, int index_pipe);
@@ -134,7 +135,7 @@ int	execute_builtin(char **tokens, t_all *all, int i, char **all_lines);
 unsigned long long	ft_atoilonglong(const char *str, const char *str_safe);
 /*NEW*/
 
-
+int	ft_strcmp(const char *s1, const char *s2);
 char	*ft_get_file(char *buffer, int fd);
 char	*ft_get_line(char *buffer);
 int	ft_is_same_line(char *line, char *limiter);

@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 17:21:15 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/24 21:52:58 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/25 17:17:29 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	init_env(t_all *data, char **env)//y'a des merdes a gerer la dedans
 			if (value)
 			{
 				if (i == 0)
-					data->env = t_env_new(name, value, 1);
+					add_t_env(&data->env, name, value, 1);
+					// data->env = t_env_new(name, value, 1);
 				else
 					add_t_env(&data->env, name, value, 1);
 				free(value);

@@ -6,51 +6,68 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/23 21:04:24 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/25 18:45:22 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void do_unset(t_env *env, char *key)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-    t_env *tmp;
-    t_env *tmp2;
-    
-    tmp = env;
-    tmp2 = env;
+	unsigned char	*copy;
+	unsigned char	*copy2;
+
+	copy = (unsigned char *)s1;
+	copy2 = (unsigned char *)s2;
+	while (*copy || *copy2)
+	{
+		if (*copy != *copy2)
+			return (*copy - *copy2);
+		copy++;
+		copy2++;
+	}
+	return (0);
+}
+
+void do_unset(t_all *all, char *key)
+{
+    t_env *tmp = all->env;
+    t_env *prev = NULL;
+
     while (tmp)
     {
-        if (is_same_string(tmp->name, key))
+        if (!ft_strcmp(tmp->name, key))
         {
-            if (tmp->next)
-                tmp2->next = tmp->next;
+            if (prev)
+                prev->next = tmp->next;
             else
-                tmp2->next = NULL;
+                all->env = tmp->next;
             if (tmp->name)
                 free(tmp->name);
             if (tmp->value)
                 free(tmp->value);
+            tmp->name = NULL;
+            tmp->value = NULL;
+            tmp->display = 0;
             free(tmp);
             return ;
         }
-        tmp2 = tmp;
+        prev = tmp;
         tmp = tmp->next;
     }
 }
-/*
-fail jamais
-*/
-int    unset(t_env *env, char **tokens)
+
+int    unset(t_all *all, char **tokens)
 {
     int i;
 
     i = 0;
+    if (!tokens[1])
+        return (0);
     while (tokens[++i])
     {
-        if (is_same_string(tokens[i], "?"))
-            continue;
-        do_unset(env, tokens[i]);
+        if (!is_same_string(tokens[i], "?"))
+            do_unset(all, tokens[i]);
     }
     return (0);
 }

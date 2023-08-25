@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/24 19:40:55 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/25 18:43:03 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	run_easyshell(t_all *all, char **env)
 
 	while (1)
 	{
+		// print_t_env(all->env);
 		input = readline("easy-shell> ");
 		// signal(SIGINT, & ctrlc);
 		if (!input)
@@ -76,5 +77,6 @@ void	run_easyshell(t_all *all, char **env)
 		input = delete_quote(input);
 		inverse_string(input, DQUOTE);
 		exec_init(all, input);
+		// print_t_env(all->env);
 	}
 }

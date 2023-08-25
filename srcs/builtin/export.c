@@ -6,42 +6,11 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/24 19:36:24 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/25 21:32:33 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int is_bigger(char *s1, char *s2)
-{
-	int i = 0;
-	
-	while (s1[i] && s2[i])
-	{
-		if (s1[i] > s2[i])
-			return (1);
-		i++;
-	}
-	if (!s1[i] && s2[i])
-		return (0);
-	if (s1[i] && !s2[i])
-		return (1);
-	return (1);
-}
-
-int is_sorted_env(t_env *env)
-{
-	t_env *tmp;
-
-	tmp = env;
-	while (tmp && tmp->next)
-	{
-		if (is_bigger(tmp->name, tmp->next->name))
-			return (0);
-		tmp = tmp->next;
-	}
-	return (1);
-}
 
 int print_export(t_all *all)
 {
@@ -59,17 +28,19 @@ int print_export(t_all *all)
 	return (EXIT_SUCCESS);
 }
 
-/*not a valid identifier : do_parsing*/
-void do_export(t_all *all, char *key, char *value)
+
+void	do_export(t_all *all, char *key, char *value)
 {
 	t_env *tmp;
 	t_env  *tmp_before;
 	char *temp_val;
 	
+	if (!key || !*key)
+		return;
 	tmp = all->env;
 	while (tmp)
 	{
-		if (is_same_string(tmp->name, key))
+		if (!ft_strcmp(tmp->name, key))
 		{
 			if (tmp->value)
 				free(tmp->value);
@@ -82,16 +53,6 @@ void do_export(t_all *all, char *key, char *value)
 	return ;
 }
 
-
-
-
-/*
-si export call
-	- deja in, edit;
-	- pas in, add;
-si export pas call
-	- deja in, edit;
-*/
 
 int parse_name(char *name)
 {
@@ -107,47 +68,61 @@ int parse_name(char *name)
 	return (1);
 }
 
-int    export(t_all *all, char **tokens, int parse_flag)//must be cleaned
+int parse_export(char *token)
 {
 	int i;
-	int index_egal;
+	i = -1;
+	while (token[++i])
+	{
+		if (i == 0)
+		{
+			if (!ft_isalpha(token[i]) && token[i] != '_')
+				return (0);
+		}
+		if (token[i] == '=')
+			return (1);
+		if (!ft_isalnum(token[i]) && token[i] != '_')
+			return (0);
+	}
+	return (1);
+}
+
+int export(t_all *all, char **tokens)
+{
+	int i;
 	char *name;
 	char *value;
-	
+	int status = 0;
 	i = 0;
 	if (!tokens[1])
 		return (print_export(all), 0);
 	while (tokens[++i])
 	{
-		if (ft_strchr(tokens[i], '=') && tokens[i][0] != '=')
-		{
-			name = get_env_name(tokens[i]);
-			value = get_env_value(tokens[i], name);
-			if (!parse_flag)
-				do_export(all, name, value);
-			else
-			{
-				if (parse_name(name))
-				{
-					do_export(all, name, value);
-					return (0);
-				}
-				else
-				{
-					fprintf(stderr, "minishell: export: '%s': not a valid identifier\n", tokens[i]);
-					return (1);
-				}
-			}
-			if (name)
-				free(name);
-			if (value)
-				free(value);
-		}
-		else if (!parse_name(tokens[i]))
+		if (!parse_export(tokens[i]))
 		{
 			fprintf(stderr, "minishell: export: '%s': not a valid identifier\n", tokens[i]);
-			return (1);
+			status = 1;
+			continue;
 		}
+		if (!ft_strchr(tokens[i], '='))
+			continue;
+		name = get_env_name(tokens[i]);
+		if (!name)
+		{
+			status = 1;
+			continue;
+		}
+		value = get_env_value(tokens[i], name);
+		if (!value)
+		{
+			free(name);
+			status = 1;
+			continue;
+		}
+		do_export(all, name, value);
+		free(name);
+		free(value);
+		status = 0;
 	}
-	return (0);
+	return (status);
 }
