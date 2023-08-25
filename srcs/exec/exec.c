@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/25 23:26:28 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/25 23:49:50 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,48 +40,34 @@ int is_this_meta(char *s, char *metachar)
 	return (1);
 }
 
-void	ft_access_fail(char *cmd_path, char *cmd_name)
-{
-	if (cmd_path[ft_strlen(cmd_path) - 1] == '/')
-	{
-		ft_printf("Pipex: %s: %s\n", cmd_path, ERR_NOTDIR);
-		free(cmd_path);
-		return ;
-	}
-	if (access(cmd_path, F_OK))
-		ft_printf("Pipex: %s: '%s'\n", cmd_name, ERR_CMD);
-	else if (access(cmd_path, X_OK))
-		ft_printf("Pipex: %s: %s\n", cmd_path, ERR_PERM);
-	free(cmd_path);
-}
 
 void	ft_access_fail(char *cmd_path, char *cmd_name)
 {
-	// if (!cmd_path)
-	// {
-	// 	fprintf(stderr, "Minishell:%s:%s\n", ERR_CMD, cmd_name);
-	// 	// printf("Minishell :%s:%s\n", ERR_CMD, cmd_name);
-	// 	// return ;
-	// }
-	// if (cmd_path[ft_strlen(cmd_path) - 1] == '/')
-	// {
-	// 	fprintf(stderr, "Minishell: %s: %s\n", cmd_path, ERR_NOTDIR);
-	// 	// ft_printf("Pipex: %s: %s\n", cmd_path, ERR_NOTDIR);
-	// 	free(cmd_path);
-	// 	// return ;
-	// }
-	// if (access(cmd_path, F_OK))
-	// {
-	// 	fprintf(stderr, "Minishell: %s: %s\n", cmd_name, ERR_CMD);
-	// 	// return ;
-	// 	// ft_printf("Pipex: %s: '%s'\n", cmd_name, ERR_CMD);
-	// }
-	// else if (access(cmd_path, X_OK))
-	// {
-	// 	fprintf(stderr, "Minishell: %s: %s\n", cmd_path, ERR_PERM);
-	// 	// ft_printf("Pipex: %s: %s\n", cmd_path, ERR_PERM);
-	// 	// return ;
-	// }
+	if (!cmd_path)
+	{
+		fprintf(stderr, "Minishell:%s:%s\n", ERR_CMD, cmd_name);
+		// printf("Minishell :%s:%s\n", ERR_CMD, cmd_name);
+		// return ;
+	}
+	if (cmd_path[ft_strlen(cmd_path) - 1] == '/')
+	{
+		fprintf(stderr, "Minishell: %s: %s\n", cmd_path, ERR_NOTDIR);
+		// ft_printf("Pipex: %s: %s\n", cmd_path, ERR_NOTDIR);
+		free(cmd_path);
+		// return ;
+	}
+	if (access(cmd_path, F_OK))
+	{
+		fprintf(stderr, "Minishell: %s: %s\n", cmd_name, ERR_CMD);
+		// return ;
+		// ft_printf("Pipex: %s: '%s'\n", cmd_name, ERR_CMD);
+	}
+	else if (access(cmd_path, X_OK))
+	{
+		fprintf(stderr, "Minishell: %s: %s\n", cmd_path, ERR_PERM);
+		// ft_printf("Pipex: %s: %s\n", cmd_path, ERR_PERM);
+		// return ;
+	}
 	
 	
 	if (cmd_path)
