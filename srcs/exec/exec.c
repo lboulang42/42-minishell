@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/25 18:42:59 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/25 23:26:28 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,29 +42,48 @@ int is_this_meta(char *s, char *metachar)
 
 void	ft_access_fail(char *cmd_path, char *cmd_name)
 {
-	if (!cmd_path)
-	{
-		fprintf(stderr, "Minishell:%s:%s\n", ERR_CMD, cmd_name);
-		// printf("Minishell :%s:%s\n", ERR_CMD, cmd_name);
-		return ;
-	}
 	if (cmd_path[ft_strlen(cmd_path) - 1] == '/')
 	{
-		fprintf(stderr, "Minishell: %s: %s\n", cmd_path, ERR_NOTDIR);
-		// ft_printf("Pipex: %s: %s\n", cmd_path, ERR_NOTDIR);
+		ft_printf("Pipex: %s: %s\n", cmd_path, ERR_NOTDIR);
 		free(cmd_path);
 		return ;
 	}
 	if (access(cmd_path, F_OK))
-	{
-		fprintf(stderr, "Minishell: %s: %s\n", cmd_name, ERR_CMD);
-		// ft_printf("Pipex: %s: '%s'\n", cmd_name, ERR_CMD);
-	}
+		ft_printf("Pipex: %s: '%s'\n", cmd_name, ERR_CMD);
 	else if (access(cmd_path, X_OK))
-	{
-		fprintf(stderr, "Minishell: %s: %s\n", cmd_path, ERR_PERM);
-		// ft_printf("Pipex: %s: %s\n", cmd_path, ERR_PERM);
-	}
+		ft_printf("Pipex: %s: %s\n", cmd_path, ERR_PERM);
+	free(cmd_path);
+}
+
+void	ft_access_fail(char *cmd_path, char *cmd_name)
+{
+	// if (!cmd_path)
+	// {
+	// 	fprintf(stderr, "Minishell:%s:%s\n", ERR_CMD, cmd_name);
+	// 	// printf("Minishell :%s:%s\n", ERR_CMD, cmd_name);
+	// 	// return ;
+	// }
+	// if (cmd_path[ft_strlen(cmd_path) - 1] == '/')
+	// {
+	// 	fprintf(stderr, "Minishell: %s: %s\n", cmd_path, ERR_NOTDIR);
+	// 	// ft_printf("Pipex: %s: %s\n", cmd_path, ERR_NOTDIR);
+	// 	free(cmd_path);
+	// 	// return ;
+	// }
+	// if (access(cmd_path, F_OK))
+	// {
+	// 	fprintf(stderr, "Minishell: %s: %s\n", cmd_name, ERR_CMD);
+	// 	// return ;
+	// 	// ft_printf("Pipex: %s: '%s'\n", cmd_name, ERR_CMD);
+	// }
+	// else if (access(cmd_path, X_OK))
+	// {
+	// 	fprintf(stderr, "Minishell: %s: %s\n", cmd_path, ERR_PERM);
+	// 	// ft_printf("Pipex: %s: %s\n", cmd_path, ERR_PERM);
+	// 	// return ;
+	// }
+	
+	
 	if (cmd_path)
 		free(cmd_path);
 }
@@ -211,21 +230,26 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 	builtin_code = is_builtin(all->tokens[0]);
 	if (builtin_code >= 0 && ft_tab_len(all_lines) == 1)
 	{
+		//echo hi < ./minishell_tester/test_files/infile bye bye
 		all->pid[index_pipe] = -1;
 		all->default_out = dup(1);
+		tokens_positif(all->tokens);
 		btn_fd = get_outfile_infile_builtin(all, all->tokens, all_lines);
 		if (btn_fd == -2)
 		{
 			ft_free_tab((void **)all->tokens);
 			do_export(all, "?", "1");
+			dup2(all->default_out, 1);
+			close(all->default_out);	
 			return ;
 		}
 		all->tokens = kick_empty_tokens(all->tokens);
-		tokens_positif(all->tokens);
+		// ft_print_tab_leo(all->tokens, "tokens");
 		int status = execute_builtin(all->tokens, all, builtin_code, all_lines);
+		// int status = 0;
 		ft_free_tab((void **)all->tokens);
-		close(all->link_fd[0]);
-		close(all->link_fd[1]);
+		// close(all->link_fd[0]);
+		// close(all->link_fd[1]);
 		dup2(all->default_out, 1);
 		close(all->default_out);
 		char *atoi;
@@ -241,19 +265,21 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 
 		signal(SIGINT, & ctrlc);
 		signal(SIGQUIT, & reactiv);
-		get_outfile_infile(all, all->tokens, all_lines);//redirige les infiles/outfiles de la line;
-		all->tokens = kick_empty_tokens(all->tokens);//vire les bails vide
 		tokens_positif(all->tokens);//repasse tout en positif
+		get_outfile_infile(all, all->tokens, all_lines, index_pipe);//redirige les infiles/outfiles de la line;
+		all->tokens = kick_empty_tokens(all->tokens);//vire les bails vide
+		redirection_execve(all, all_lines, index_pipe);
 		if (builtin_code >= 0)
 		{
-			plug_builtin(all->tokens, all, builtin_code, all_lines, index_pipe);
+			// plug_builtin(all->tokens, all, builtin_code, all_lines, index_pipe);
 			execute_builtin(all->tokens, all, builtin_code, all_lines);
 			free_t_env(&all->env);
 			ft_free_tab((void **)all->tokens);
 			ft_free_tab((void **)all_lines);
+			// close(all->link_fd[0]);
+			// close(all->link_fd[1]);
 			exit(0);
 		}
-		redirection_execve(all, all_lines, index_pipe);
 		cmd_path = get_path_putain(all->tokens[0], all->env);
 		char **env = get_env(all->env);//faut test avec export
 		if (cmd_path && all->tokens)

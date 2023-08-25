@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/25 18:12:32 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/25 21:49:50 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ int	is_meta(char c);
 char *extract_key_name(char *str, int start);
 
 /*exec/redirection handler*/
-void	get_outfile_infile(t_all *all, char **tokens, char **all_lines);
+void	get_outfile_infile(t_all *all, char **tokens, char **all_lines, int index_pipe);
 int handle_outfile_trunc(t_all *all, char **tokens_array, int index_name);
 int handle_heredoc(t_all *all, char **tokens_array, int index_name, char **all_lines);
 int handle_infile(t_all *all, char **tokens_array, int index_name);

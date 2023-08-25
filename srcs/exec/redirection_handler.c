@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:33:35 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/24 13:47:46 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/25 22:52:08 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,18 +112,59 @@ int	get_outfile_infile_builtin(t_all *all, char **tokens, char **all_lines)
 				close(all->link_fd[0]);
 				return (-2);
 			}
+			
 			if (is_this_meta(tokens[i], ">") || is_this_meta(tokens[i], ">>"))
+			{
 				dup2(fd, 1);
+				// dup2(fd, 0);
+			}
+			// else
+			// {
+				// dup2(fd, 1);
+			// }
+			close(all->link_fd[0]);
+			close(all->link_fd[1]);
+			if (all->prev > 0)
+				close(all->prev);
 			close(fd);
 			tokens[i][0] = '\0';
 			tokens[i + 1][0] = '\0';
-			return (fd);
+			// return (fd);
 		}
 	}
 	return (fd);
 }
 
-void	get_outfile_infile(t_all *all, char **tokens, char **all_lines)
+/*
+if (is_this_meta(tokens[i], "<") || is_this_meta(tokens[i], "<<"))
+			{
+				// fprintf(stderr, "REDIRECT ENTREE\n");
+				dup2(fd, 0);
+				if (index_pipe != ft_tab_len(all_lines) - 1)
+				{
+					dup2(all->link_fd[1], 1);
+				}
+			}
+			else
+			{
+				// fprintf(stderr, "REDIRECT SORTIE\n");
+				dup2(fd, 1);
+				if (index_pipe != 0)
+				{
+					dup2(all->prev, 0);
+					close(all->prev);
+				}
+			}
+			close(fd);
+			close(all->link_fd[0]);
+			close(all->prev);
+			close(all->link_fd[1]);
+			tokens[i][0] = '\0';
+			tokens[i + 1][0] = '\0';
+			
+
+*/
+void	get_outfile_infile(t_all *all, char **tokens, char **all_lines, int index_pipe)
 {
 	int	i;
 
@@ -141,6 +182,7 @@ void	get_outfile_infile(t_all *all, char **tokens, char **all_lines)
 			fd = handle_outfile_append(all, tokens, i+1);
 		if (is_this_meta(tokens[i], "<") || is_this_meta(tokens[i], "<<") || is_this_meta(tokens[i], ">") || is_this_meta(tokens[i], ">>"))
 		{
+			// fprintf(stderr, "entré ici\n");
 			if (fd == -1)
 			{
 				if (errno ==13)
@@ -154,13 +196,32 @@ void	get_outfile_infile(t_all *all, char **tokens, char **all_lines)
 				close(all->link_fd[1]);
 				exit (1);
 			}
-			if ((is_this_meta(tokens[i], "<") || is_this_meta(tokens[i], "<<")))
+			if (is_this_meta(tokens[i], "<") || is_this_meta(tokens[i], "<<"))
+			{
+				// fprintf(stderr, "REDIRECT ENTREE\n");
 				dup2(fd, 0);
+				if (index_pipe != ft_tab_len(all_lines) - 1)
+				{
+					dup2(all->link_fd[1], 1);
+				}
+			}
 			else
+			{
+				// fprintf(stderr, "REDIRECT SORTIE\n");
 				dup2(fd, 1);
+				if (index_pipe != 0)
+				{
+					dup2(all->prev, 0);
+					close(all->prev);
+				}
+			}
 			close(fd);
+			close(all->link_fd[0]);
+			close(all->prev);
+			close(all->link_fd[1]);
 			tokens[i][0] = '\0';
 			tokens[i + 1][0] = '\0';
 		}
 	}
 }
+	
