@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/25 18:43:03 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/26 01:56:34 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int main(int argc, char **argv, char **env)
 	return (status); // return last status code
 }
 
+
 void	run_easyshell(t_all *all, char **env)
 {
 	char	*input;
@@ -77,6 +78,5 @@ void	run_easyshell(t_all *all, char **env)
 		input = delete_quote(input);
 		inverse_string(input, DQUOTE);
 		exec_init(all, input);
-		// print_t_env(all->env);
 	}
 }

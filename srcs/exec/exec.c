@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/25 23:49:50 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/26 19:34:25 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+      #include <sys/types.h>
+       #include <sys/stat.h>
+       #include <unistd.h>
 char	*ft_join_path(char *try_path, char *cmd_name)
 {
 	char	*tmp_path;
@@ -40,36 +42,40 @@ int is_this_meta(char *s, char *metachar)
 	return (1);
 }
 
-
-void	ft_access_fail(char *cmd_path, char *cmd_name)
+int find(char *str, char c)
 {
-	if (!cmd_path)
+	int i;
+
+	i = -1;
+	while (str[++i])
+		if (str[i] == c)
+			return (1);
+	return (0);
+}
+
+void	ft_access_fail(char **PATHvaaaar, char *cmd_path, char *cmd_name)
+{
+	char *tmp;
+
+	if (cmd_path)
 	{
-		fprintf(stderr, "Minishell:%s:%s\n", ERR_CMD, cmd_name);
-		// printf("Minishell :%s:%s\n", ERR_CMD, cmd_name);
-		// return ;
+		if (access(cmd_path, F_OK))
+		{
+			if (!find(cmd_name, '/'))
+				fprintf(stderr, "mini :%s : %s\n", cmd_name, "command not found");
+			else
+				fprintf(stderr, "mini :%s : %s\n", cmd_name, "No such file or directory");
+		
+			// fprintf(stderr, "minishell : %s: %s %s\n",cmd_name, "F_OK",  strerror(errno));
+			// return ;
+			// ft_printf("Pipex: %s: '%s'\n", cmd_name, ERR_CMD);
+		}
+		else if (access(cmd_path, X_OK))
+		{
+			fprintf(stderr, "minishell : %s: %s\n",cmd_name,  strerror(errno));
+			ft_kill_dir(PATHvaaaar, cmd_path, cmd_name);
+		}
 	}
-	if (cmd_path[ft_strlen(cmd_path) - 1] == '/')
-	{
-		fprintf(stderr, "Minishell: %s: %s\n", cmd_path, ERR_NOTDIR);
-		// ft_printf("Pipex: %s: %s\n", cmd_path, ERR_NOTDIR);
-		free(cmd_path);
-		// return ;
-	}
-	if (access(cmd_path, F_OK))
-	{
-		fprintf(stderr, "Minishell: %s: %s\n", cmd_name, ERR_CMD);
-		// return ;
-		// ft_printf("Pipex: %s: '%s'\n", cmd_name, ERR_CMD);
-	}
-	else if (access(cmd_path, X_OK))
-	{
-		fprintf(stderr, "Minishell: %s: %s\n", cmd_path, ERR_PERM);
-		// ft_printf("Pipex: %s: %s\n", cmd_path, ERR_PERM);
-		// return ;
-	}
-	
-	
 	if (cmd_path)
 		free(cmd_path);
 }
@@ -85,6 +91,8 @@ void	exec_init(t_all *all, char *input)
 	i = -1;
 	all->all_lines = NULL;
 	all->all_lines = ft_split(input, '|');//gerer si cmd vide plus tard
+	if (!all->all_lines)
+		return ((void)free(input));
 	free(input);
 	lines_number = ft_tab_len(all->all_lines);
 	all->prev = -1;
@@ -110,30 +118,64 @@ void	exec_init(t_all *all, char *input)
 	ft_free_tab((void **)all->all_lines);
 }
 
+void ft_kill_dir(char **PATHvar, char *cmd_path, char *cmd_name)
+{
+	t_all *all;
+
+	all = init_data();
+
+	if (cmd_path)
+		free(cmd_path);
+
+	ft_free_tab((void **)all->tokens);
+	free_t_env(&all->env);
+	ft_free_tab((void **)PATHvar);
+	ft_free_tab((void **)all->all_lines);
+	exit(126);
+}
 /*
 separate way if cmd is global path / only name / only name without PATH in env
 */
 char	*ft_check_acces(char **env_path, char *cmd_name, int i)
 {
 	char	*cmd_path;
+	struct stat tmp;
 
 	cmd_path = NULL;
 	if (ft_strchr(cmd_name, '/'))
 	{
 		cmd_path = ft_strdup(cmd_name);
-		if (!access(cmd_path, F_OK | X_OK))
+		if (access(cmd_path, F_OK | X_OK) != -1)
+		{
+			stat(cmd_path, &tmp);
+			if (!S_ISREG(tmp.st_mode))
+			{
+				fprintf(stderr, "minishell : %s : %s", cmd_name, "Is a directory");
+				ft_kill_dir(env_path, cmd_path, cmd_name);
+			}
 			return (cmd_path);
-		return (ft_access_fail(cmd_path, cmd_name), NULL);
+		}
+		return (ft_access_fail(env_path, cmd_path, cmd_name), NULL);
 	}
 	while (env_path && env_path[++i])
 	{
 		cmd_path = ft_join_path(env_path[i], cmd_name);
-		if (!access(cmd_path, F_OK | X_OK))
+		if (access(cmd_path, F_OK | X_OK) != -1)
+		{
+			stat(cmd_path, &tmp);
+			if (!S_ISREG(tmp.st_mode))
+			{
+				fprintf(stderr, "minishell : %s : %s", cmd_name, "Is a directory");
+				ft_kill_dir(env_path, cmd_path, cmd_name);
+			}
+
+
 			return (cmd_path);
+		}
 		if (env_path[i + 1])
 			free(cmd_path);
 	}
-	return (ft_access_fail(cmd_path, cmd_name), NULL);
+	return (ft_access_fail(env_path, cmd_path, cmd_name), NULL);
 }
 
 char **get_env(t_env *env)
@@ -200,6 +242,9 @@ void plug_builtin(char **tokens, t_all *all, int i, char **all_lines, int index_
 	ft_close(all->link_fd[1]);
 }
 
+/*
+premier token peut etre une redir
+*/
 void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation de con
 {
 	char    **tokens;
@@ -208,7 +253,6 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 	int btn_fd;
 	int default_out;
 	
-	pipe(all->link_fd);
 	signal(SIGINT, SIG_IGN);
 	all->tokens = ft_split(all_lines[index_pipe], ' ');
 	if (!all->tokens)
@@ -216,7 +260,6 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 	builtin_code = is_builtin(all->tokens[0]);
 	if (builtin_code >= 0 && ft_tab_len(all_lines) == 1)
 	{
-		//echo hi < ./minishell_tester/test_files/infile bye bye
 		all->pid[index_pipe] = -1;
 		all->default_out = dup(1);
 		tokens_positif(all->tokens);
@@ -226,16 +269,12 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 			ft_free_tab((void **)all->tokens);
 			do_export(all, "?", "1");
 			dup2(all->default_out, 1);
-			close(all->default_out);	
+			close(all->default_out);
 			return ;
 		}
 		all->tokens = kick_empty_tokens(all->tokens);
-		// ft_print_tab_leo(all->tokens, "tokens");
 		int status = execute_builtin(all->tokens, all, builtin_code, all_lines);
-		// int status = 0;
 		ft_free_tab((void **)all->tokens);
-		// close(all->link_fd[0]);
-		// close(all->link_fd[1]);
 		dup2(all->default_out, 1);
 		close(all->default_out);
 		char *atoi;
@@ -245,16 +284,16 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 		//status code
 		return ;
 	}
+	pipe(all->link_fd);
 	all->pid[index_pipe] = fork();
 	if (all->pid[index_pipe] == 0)
 	{
-
 		signal(SIGINT, & ctrlc);
 		signal(SIGQUIT, & reactiv);
 		tokens_positif(all->tokens);//repasse tout en positif
+		redirection_execve(all, all_lines, index_pipe);
 		get_outfile_infile(all, all->tokens, all_lines, index_pipe);//redirige les infiles/outfiles de la line;
 		all->tokens = kick_empty_tokens(all->tokens);//vire les bails vide
-		redirection_execve(all, all_lines, index_pipe);
 		if (builtin_code >= 0)
 		{
 			// plug_builtin(all->tokens, all, builtin_code, all_lines, index_pipe);
@@ -274,6 +313,7 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 		free_t_env(&all->env);
 		ft_free_tab((void **)all->tokens);
 		ft_free_tab((void **)all_lines);
+		free(cmd_path);
 		// if (!cmd_path)
 		// 	exit (126);
 		exit(127);
@@ -306,8 +346,8 @@ char *get_path_putain(char *cmd, t_env *env)
 		return (cmd_path);	
 	}
 	spl_path = ft_split(PATH, ':');//ca ca merde
-	cmd_path = ft_check_acces(spl_path, cmd, -1);
 	free(PATH);
+	cmd_path = ft_check_acces(spl_path, cmd, -1);
 	ft_free_tab((void **)spl_path);
 	return (cmd_path);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenisation.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:39:07 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/18 18:36:45 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/26 15:36:06 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@ void inverse_all(char *str)
 	int i;
 
 	i = -1;
-	while (str[++i])
-	{
-		if (str[i] < 0)
-			str[i] *= -1;
+
+    while (str[++i])
+    {
+        if (str[i] < 0 && str[i])
+		    str[i] *= -1;
 	}
 }
 

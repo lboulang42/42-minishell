@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:29:20 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/24 21:11:22 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/26 19:29:41 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*add_spaces_input(char *str)
 
 	i = 0;
 	j = 0;
-	new_str = malloc((ft_strlen(str)) + ((count_meta(str)) * 2) + 1);
+	new_str = malloc(sizeof(char)  * ((ft_strlen(str)) + ((count_meta(str)) * 2) + 1));
 	while (str[i])
 	{
 		if (str[i] == '\t' || str[i] == '\n' || str[i] == '\r')

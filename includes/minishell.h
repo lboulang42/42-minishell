@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/25 21:49:50 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/26 18:52:55 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,12 +147,14 @@ char	*ft_join_free(char *str1, char *str2);
 void	exec_init(t_all *all, char *input);
 void    handle_line(t_all *all, char **lines, int index_pipe);
 char	*get_path_putain(char *cmd, t_env *env);
-void	ft_access_fail(char *cmd_path, char *cmd_name);
+void	ft_access_fail(char **PATHvaaaar, char *cmd_path, char *cmd_name);
 char	*ft_join_path(char *try_path, char *cmd_name);
 int is_this_meta(char *s, char *metachar);
 int	count_meta(char *input);
 int	is_meta(char c);
 char *extract_key_name(char *str, int start);
+void ft_kill_dir(char **PATHvar, char *cmd_path, char *cmd_name);
+
 
 /*exec/redirection handler*/
 void	get_outfile_infile(t_all *all, char **tokens, char **all_lines, int index_pipe);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 16:56:49 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/24 13:48:46 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/26 19:48:03 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,23 @@ int	check_rafters(char *str)
 	return (0);
 }
 
+int check_empty(char *str)
+{
+	int i = -1;
+	int res = 0;//is empty
+
+	while (str[++i])
+		if (str[i] != ' ' && str[i] != '\t' && str[i] != '\v')
+			return (1);
+	return (0);
+}
+
 int	syntax_error(t_all *all, char *input)
 {
+	if (!check_empty(input))
+	{
+		return (1);
+	}
 	if (check_alone_quote(input))
 	{
 		fprintf(stderr, "Minishell : syntax error : please close quotes\n");

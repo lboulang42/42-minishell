@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/24 21:07:19 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/26 18:03:38 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ void ft_exit(t_all *all, char **tokens, char **all_lines)
 {
     int i;
     long long int   exit_code;
-    char *tmp;
     i = 0;
     if (ft_tab_len(tokens) == 1)//ajouter l'exit code par défaut comme fait exit(); besoin des PID;
     {
@@ -122,7 +121,7 @@ void ft_exit(t_all *all, char **tokens, char **all_lines)
 		i++;
 	if (tokens[1][i] != '\0')
 	{
-		fprintf(stderr, "minishell: exit: %s: numeric argument required\n", tmp);
+		fprintf(stderr, "minishell: exit: %s: numeric argument required\n", tokens[1]);
         ft_exit_free(all);
         exit(2);
 	}
