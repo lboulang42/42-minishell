@@ -1,0 +1,2 @@
+cat << stop | ls
+ls | cat << stop
