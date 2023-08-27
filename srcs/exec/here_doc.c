@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 17:46:20 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/27 17:54:09 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/28 01:11:27 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ void	child_heredoc(t_all *all)
 		if (is_same_string(all->here_doc_readline, all->here_doc_limiter))
 			break ;
 		all->here_doc_readline = expand_string(all->here_doc_readline, all->env);
-		ft_putstr_fd(all->here_doc_readline, all->here_doc_fd[1]);
-		ft_putstr_fd("\n", all->here_doc_fd[1]);
+		ft_putendl_fd(all->here_doc_readline, all->here_doc_fd[1]);
 		free(all->here_doc_readline);
 	}
 	ft_free_heredoc(all);
@@ -67,8 +66,17 @@ int	handle_heredoc(t_all *all, int index_name)
 	if (pid == 0)
 		child_heredoc(all);
 	free(all->here_doc_limiter);
-	wait_and_update(all, pid);
+	// wait_and_update(all, pid);
+	wait(NULL);
 	close(all->here_doc_fd[1]);
 	signal(SIGINT, SIG_IGN);
 	return (all->here_doc_fd[0]);
+}
+
+
+
+
+void do_here_doc(char *str)
+{
+	
 }

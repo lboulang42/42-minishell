@@ -6,31 +6,37 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:39:07 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/26 15:36:06 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/28 01:23:07 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void inverse_all(char *str)
+void inverse_all(char *str, int flag)
 {
 	int i;
 
 	i = -1;
-
-    while (str[++i])
+    if (flag == 1)
     {
-        if (str[i] < 0 && str[i])
-		    str[i] *= -1;
-	}
+        while (str[++i])
+            if (str[i] < 0 && str[i] != -'>' && str[i] != -'<')
+		        str[i] *= -1;
+    }
+    else if (flag == 0)
+    {
+        while (str[++i])
+            if (str[i] < 0 && str[i])
+		        str[i] *= -1;
+    }
 }
 
-void	tokens_positif(char **tokens)
+void	tokens_positif(char **tokens, int flag)
 {
 	int i;
 	i = -1;
 	while (tokens[++i])
-		inverse_all(tokens[i]);
+		inverse_all(tokens[i], flag);
 }
 
 

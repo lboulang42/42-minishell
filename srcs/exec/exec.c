@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/27 17:33:09 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/28 01:28:33 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,12 +111,9 @@ void	exec_init(t_all *all, char *input)
 	j = 0;
 	while (j < lines_number)
 	{
-		if (all->pid[j] >= 0)
-		{
-			waitpid(all->pid[j], &wstatus, 0);
-			if (WIFEXITED(wstatus))
-				update_status_int(all, WEXITSTATUS(wstatus));
-		}
+		waitpid(all->pid[j], &wstatus, 0);
+		if (WIFEXITED(wstatus))
+			update_status_int(all, WEXITSTATUS(wstatus));
 		j++;
 	}
 	if (all->prev > 0)
@@ -267,12 +264,13 @@ void child(t_all *all, int index_pipe, int builtin_code)
 	char	**env;
 
 	signal(SIGINT, & ctrlc);
-	tokens_positif(all->tokens);
+	tokens_positif(all->tokens, 1);
 	get_outfile_infile(all, all->tokens, all->all_lines, index_pipe);
 	redirection_execve(all, all->all_lines, index_pipe);
 	all->tokens = kick_empty_tokens(all->tokens);
 	if (builtin_code >= 0)
 	{
+		tokens_positif(all->tokens, 0);
 		int status = execute_builtin(all->tokens, all, builtin_code, all->all_lines);
 		free_t_env(&all->env);
 		ft_free_tab((void **)all->tokens);
@@ -282,7 +280,10 @@ void child(t_all *all, int index_pipe, int builtin_code)
 	cmd_path = get_path_putain(all->tokens[0], all->env);
 	env = get_env(all->env);
 	if (cmd_path && all->tokens)
+	{
+		tokens_positif(all->tokens, 0);
 		execve(cmd_path, all->tokens, env);
+	}
 	ft_free_child(all, env, cmd_path);
 	exit(127);
 }
@@ -332,11 +333,12 @@ void only_builtin(t_all *all, int index_pipe, int builtin_code)
 	
 	all->pid[index_pipe] = -1;
 	all->default_out = dup(1);
-	tokens_positif(all->tokens);
+	tokens_positif(all->tokens, 1);
 	btn_fd = get_outfile_infile_builtin(all, all->tokens, all->all_lines);
 	if (btn_fd == -2)
 		return ((void)ft_free_only_builtin(all, 1));
 	all->tokens = kick_empty_tokens(all->tokens);
+	tokens_positif(all->tokens, 0);
 	status = execute_builtin(all->tokens, all, builtin_code, all->all_lines);
 	ft_free_only_builtin(all, status);
 }

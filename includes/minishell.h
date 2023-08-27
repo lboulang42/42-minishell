@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/27 17:42:56 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/27 23:25:58 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ int	handle_outfile_append(t_all *all, int index_name);
 void update_status_int(t_all *all, int status);
 
 /*exec/tokenisation.c*/
-void	tokens_positif(char **tokens);
+void	tokens_positif(char **tokens, int flag);
 char	**kick_empty_tokens(char **tab);
 char	*ft_check_acces(char **env_path, char *cmd_name, int i);
 
