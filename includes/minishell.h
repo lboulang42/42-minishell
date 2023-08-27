@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/26 18:52:55 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/27 14:49:32 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,9 @@ int handle_heredoc(t_all *all, char **tokens_array, int index_name, char **all_l
 int handle_infile(t_all *all, char **tokens_array, int index_name);
 int handle_outfile_append(t_all *all, char **tokens_array, int index_name);
 	
+
+void update_status_int(t_all *all, int status);
+
 /*exec/tokenisation.c*/
 void	tokens_positif(char **tokens);
 char	**kick_empty_tokens(char **tab);
@@ -174,7 +177,6 @@ void	init_shell(t_all *all, char **env);
 int	main(int argc, char **argv, char **env);
 void	run_easyshell(t_all *all, char **env);
 
-void	reactiv(int sig);
 void	ctrlc(int sig);
 void ctrldhere_doc(int sig);
 t_all *init_data(void);

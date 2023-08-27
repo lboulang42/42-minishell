@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/25 18:42:47 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/27 14:25:54 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,15 @@ int do_cd(t_all *all, char *path)
     int res;
     char *old_pwd;
     char *pwd;
+    char *error;
+    
     t_env *tmp;
     
-    old_pwd = getcwd(0,0);
     res = chdir(path);
     if (res == -1)
     {
-        fprintf(stderr, " No such file or directory");
-        //plug les signaux
+        error = strerror(errno);
+        fprintf(stderr, "Minishell : cd :%s: %s\n", path, error);
         return (EXIT_FAILURE);
     }
     pwd = getcwd(0, 0);
@@ -32,6 +33,7 @@ int do_cd(t_all *all, char *path)
         return (EXIT_SUCCESS);
     do_export(all, "PWD", pwd);
     free(pwd);
+    old_pwd = getcwd(0,0);
     if (!old_pwd)
         return (EXIT_SUCCESS);
     do_export(all, "OLDPWD", old_pwd);   

@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 15:04:58 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/24 13:48:01 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/27 14:33:44 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ void ctrldhere_doc(int sig)
 		exit(130);//reverif
 	}
 }
-void	reactiv(int sig)
-{
-	if (sig == SIGQUIT)
-		exit(131);
-}
+// void	reactiv(int sig)
+// {
+// 	if (sig == SIGQUIT)
+// 		exit(131);
+// }

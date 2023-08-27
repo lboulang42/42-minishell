@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_handler.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:33:35 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/26 19:22:28 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/27 14:50:58 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,7 @@ int handle_heredoc(t_all *all, char **tokens_array, int index_name, char **all_l
 	free(all->here_doc_limiter);
 	waitpid(pid, &wstatus, 0);
 	if (WIFEXITED(wstatus))
-	{
-		char *tmp = ft_itoa(WEXITSTATUS(wstatus))	;
-		do_export(all, "?", tmp);
-		free(tmp);
-	}
+		update_status_int(all, WEXITSTATUS(wstatus));
 	close(all->here_doc_fd[1]);
 	signal(SIGINT, SIG_IGN);
 	return (all->here_doc_fd[0]);
@@ -136,35 +132,6 @@ int	get_outfile_infile_builtin(t_all *all, char **tokens, char **all_lines)
 	return (fd);
 }
 
-/*
-if (is_this_meta(tokens[i], "<") || is_this_meta(tokens[i], "<<"))
-			{
-				// fprintf(stderr, "REDIRECT ENTREE\n");
-				dup2(fd, 0);
-				if (index_pipe != ft_tab_len(all_lines) - 1)
-				{
-					dup2(all->link_fd[1], 1);
-				}
-			}
-			else
-			{
-				// fprintf(stderr, "REDIRECT SORTIE\n");
-				dup2(fd, 1);
-				if (index_pipe != 0)
-				{
-					dup2(all->prev, 0);
-					close(all->prev);
-				}
-			}
-			close(fd);
-			close(all->link_fd[0]);
-			close(all->prev);
-			close(all->link_fd[1]);
-			tokens[i][0] = '\0';
-			tokens[i + 1][0] = '\0';
-			
-
-*/
 void	get_outfile_infile(t_all *all, char **tokens, char **all_lines, int index_pipe)
 {
 	int	i;
@@ -201,17 +168,5 @@ void	get_outfile_infile(t_all *all, char **tokens, char **all_lines, int index_p
 			tokens[i + 1][0] = '\0';
 		}
 	}
-	// i++;
-	// if (is_this_meta(tokens[i], "<") || is_this_meta(tokens[i], "<<") || is_this_meta(tokens[i], ">") || is_this_meta(tokens[i], ">>"))
-	// {
-	// 	fprintf(stderr, "ambimerde\n");
-	// 	/*
-	// 	close free 
-	// 	*/
-	// 	free_t_env(&all->env);
-	// 	ft_free_tab((void **)all_lines);
-	// 	ft_free_tab((void **)tokens);
-	// 	exit(1);
-	// }
 }
 	
