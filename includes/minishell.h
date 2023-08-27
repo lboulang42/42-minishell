@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/27 14:49:32 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/27 17:42:56 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,22 @@
 # define MINISHELL_H
 
 # include "libft.h"
+# include <errno.h>
 # include <fcntl.h>
+# include <limits.h>
 # include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdarg.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/stat.h>
+# include <sys/types.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <signal.h>
-# include <errno.h>
-#include <limits.h>
-
 
 
 # define DQUOTE '"'
@@ -158,10 +159,10 @@ void ft_kill_dir(char **PATHvar, char *cmd_path, char *cmd_name);
 
 /*exec/redirection handler*/
 void	get_outfile_infile(t_all *all, char **tokens, char **all_lines, int index_pipe);
-int handle_outfile_trunc(t_all *all, char **tokens_array, int index_name);
-int handle_heredoc(t_all *all, char **tokens_array, int index_name, char **all_lines);
-int handle_infile(t_all *all, char **tokens_array, int index_name);
-int handle_outfile_append(t_all *all, char **tokens_array, int index_name);
+int handle_outfile_trunc(t_all *all, int index_name);
+int	handle_heredoc(t_all *all, int index_name);
+int	handle_infile(t_all *all, int index_name);
+int	handle_outfile_append(t_all *all, int index_name);
 	
 
 void update_status_int(t_all *all, int status);
@@ -192,7 +193,7 @@ int	append_double_char_and_spaces(char *tmp, char c1, char c2, int j);
 void	inverse_string(char *str, int flag);
 /*parsing/parse.c*/
 int		is_same_string(char *str1, char *str2);
-
+void safeclose(int fd);
 /*t_env/t_env_handler.c*/
 void	init_env(t_all *data, char **env);
 char    *get_key(t_env *full_env, char *key);
@@ -208,5 +209,5 @@ char	*delete_quote(char *input);
 int	syntax_error(t_all *all, char *input);
 /*main/erro.c*/
 void    err_msg(char *err_msg, char *function_name);
-
+// void	ft_free_heredoc(t_all *all);
 #endif

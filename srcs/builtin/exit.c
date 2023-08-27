@@ -6,16 +6,19 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/27 14:45:52 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/27 15:31:18 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_isspace(const char c)
+/*
+Return 1 si c est un whitespace; Sinon 0
+*/
+int	ft_iswhitespace(const char c)
 {
-	return (c == ' ' || c == '\t' || c == '\v'
-		|| c == '\n' || c == '\r' || c == '\f');
+	return (c == ' ' || c == '\t' || c == '\v' 
+	|| c == '\n' || c == '\r' || c == '\f');
 }
 
 unsigned long long do_atoi(const char *str, int neg, const char *str_safe)
@@ -55,12 +58,8 @@ unsigned long long	ft_atoilonglong(const char *str, const char *str_safe)
 {
 	int			neg;
 	long long res;
-		
-	// unsigned long long	res;
-
-	// res = 0;
 	neg = 1;
-	while (ft_isspace(*str))
+	while (ft_iswhitespace(*str))
 		str++;
 	if (*str == '+' || *str == '-')
 	{
@@ -71,13 +70,6 @@ unsigned long long	ft_atoilonglong(const char *str, const char *str_safe)
 	res = (long long)do_atoi(str, neg, str_safe);
 	res *= neg;
 	return (res);
-	
-	// while (ft_isdigit(*str))
-	// {
-	// 	res = (res * 10) + (*str - '0');
-	// 	str++;
-	// }
-	// return (res * neg);
 }
 
 void    ft_exit_free(t_all *all)

@@ -6,14 +6,12 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/27 15:03:28 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/27 17:33:09 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-      #include <sys/types.h>
-       #include <sys/stat.h>
-       #include <unistd.h>
+
 char	*ft_join_path(char *try_path, char *cmd_name)
 {
 	char	*tmp_path;
@@ -105,6 +103,8 @@ void	exec_init(t_all *all, char *input)
 	lines_number = ft_tab_len(all->all_lines);
 	all->prev = -1;
 	all->btn_fd = -1;
+	all->link_fd[0] = -1;
+	all->link_fd[1] = -1;
 	while (all->all_lines[++i])
 		handle_line(all, all->all_lines, i);
 	
@@ -261,7 +261,6 @@ void ft_free_child(t_all *all, char **env_array, char *cmd_path)
 		free(cmd_path);
 }
 
-
 void child(t_all *all, int index_pipe, int builtin_code)
 {
 	char	*cmd_path;
@@ -269,8 +268,8 @@ void child(t_all *all, int index_pipe, int builtin_code)
 
 	signal(SIGINT, & ctrlc);
 	tokens_positif(all->tokens);
-	redirection_execve(all, all->all_lines, index_pipe);
 	get_outfile_infile(all, all->tokens, all->all_lines, index_pipe);
+	redirection_execve(all, all->all_lines, index_pipe);
 	all->tokens = kick_empty_tokens(all->tokens);
 	if (builtin_code >= 0)
 	{
@@ -308,35 +307,46 @@ void update_status_int(t_all *all, int status)
 	free(itoa_status);
 }
 
+void safeclose(int fd)
+{
+	if (fd > 0)
+		close(fd);
+}
+void ft_free_only_builtin(t_all *all, int status)
+{
+	ft_free_tab((void **)all->tokens);
+	dup2(all->default_out, 1);
+	close(all->default_out);
+	update_status_int(all, status);
+}
+
+/*
+if btn_fd == -2 : redir se passe mal
+set all->pid[index_pipe] a -1 pour ne pas wait un pid (car pas de fork);
+set all->default_out pour reset la sortie standard pour le prochain input (pas nécessaire d'utiliser un infile car aucun de nos builtin n'utilise d'infile)
+*/
 void only_builtin(t_all *all, int index_pipe, int builtin_code)
 {
 	int btn_fd;
+	int status;
 	
 	all->pid[index_pipe] = -1;
 	all->default_out = dup(1);
 	tokens_positif(all->tokens);
 	btn_fd = get_outfile_infile_builtin(all, all->tokens, all->all_lines);
 	if (btn_fd == -2)
-	{
-		ft_free_tab((void **)all->tokens);
-		do_export(all, "?", "1");
-		dup2(all->default_out, 1);
-		close(all->default_out);
-		return ;
-	}
+		return ((void)ft_free_only_builtin(all, 1));
 	all->tokens = kick_empty_tokens(all->tokens);
-	int status = execute_builtin(all->tokens, all, builtin_code, all->all_lines);
-	ft_free_tab((void **)all->tokens);
-	dup2(all->default_out, 1);
-	close(all->default_out);
-	update_status_int(all, status);
+	status = execute_builtin(all->tokens, all, builtin_code, all->all_lines);
+	ft_free_only_builtin(all, status);
 }
 void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation de con
 {
 	char    **tokens;
-	char *cmd_path;
-	int	builtin_code;
-	
+	char	*cmd_path;
+	int		builtin_code;
+	int		wstatus;
+	all->default_out = -1;
 	signal(SIGINT, SIG_IGN);
 	all->tokens = ft_split(all_lines[index_pipe], ' ');
 	if (!all->tokens)
@@ -350,6 +360,12 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 		child(all, index_pipe, builtin_code);
 	else
 		parent(all);
+	// if (all->pid[index_pipe] >= 0)
+	// {
+	// 	waitpid(all->pid[index_pipe], &wstatus, 0);
+	// 	if (WIFEXITED(wstatus))
+	// 		update_status_int(all, WEXITSTATUS(wstatus));
+	// }
 }
 
 

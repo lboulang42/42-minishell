@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/25 21:32:33 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/27 15:28:43 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int print_export(t_all *all)
 	tmp = all->env;
 	if (!tmp)
 		return (EXIT_SUCCESS);
-//sort env ?
 	while (tmp)
 	{
 		if (tmp->display == 1)
@@ -51,21 +50,6 @@ void	do_export(t_all *all, char *key, char *value)
 	}
 	add_t_env(&all->env, key, value, 1);
 	return ;
-}
-
-
-int parse_name(char *name)
-{
-	int i;
-	i = -1;
-	while (name[++i])
-	{
-		if (i == 0 && (name[i] == '=' || ft_isdigit(name[i])))
-			return (0);
-		if (!ft_isalnum(name[i]) && name[i] != '_')
-			return (0);
-	}
-	return (1);
 }
 
 int parse_export(char *token)

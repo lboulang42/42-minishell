@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 15:04:58 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/27 14:33:44 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/27 17:36:07 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ctrlc(int sig)
 		rl_redisplay();
 	}   
 }
-	
+
 void ctrldhere_doc(int sig)
 {
 	t_all *all;
@@ -32,19 +32,15 @@ void ctrldhere_doc(int sig)
 	{
 		close(all->here_doc_fd[1]);
 		close(all->here_doc_fd[0]);
-		close(all->link_fd[0]);
-		close(all->link_fd[1]);
+		safeclose(all->link_fd[0]);
+		safeclose(all->link_fd[1]);
+		safeclose(all->default_out);
 		if (all->here_doc_limiter)
 			free(all->here_doc_limiter);
 		free_t_env(&all->env);
 		ft_free_tab((void **)all->all_lines);
 		ft_free_tab((void **)all->tokens);
 		ft_putchar('\n');
-		exit(130);//reverif
+		exit(130);
 	}
 }
-// void	reactiv(int sig)
-// {
-// 	if (sig == SIGQUIT)
-// 		exit(131);
-// }
