@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 01:28:33 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/28 01:34:57 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	exec_init(t_all *all, char *input)
 	char *tmp;
 	int j;
 	i = -1;
+	wstatus = 0;
 	all->all_lines = NULL;
 	all->all_lines = ft_split(input, '|');//gerer si cmd vide plus tard
 	if (!all->all_lines)
