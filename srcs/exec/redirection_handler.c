@@ -6,88 +6,13 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:33:35 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/27 17:42:30 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/27 17:46:34 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_infile(t_all *all, int index_name)
-{
-	int	fd;
 
-	fd = open(all->tokens[index_name], O_RDONLY);
-	return (fd);
-}
-
-void ft_free_heredoc(t_all *all)
-{
-	if (all->here_doc_readline)
-			free(all->here_doc_readline);
-	close(all->here_doc_fd[1]);
-	close(all->here_doc_fd[0]);
-	safeclose(all->link_fd[0]);
-	safeclose(all->link_fd[1]);
-	safeclose(all->default_out);
-	free_t_env(&all->env);
-	ft_free_tab((void **)all->tokens);
-	ft_free_tab((void **)all->all_lines);
-	free(all->here_doc_limiter);
-}
-
-int	handle_heredoc(t_all *all, int index_name)
-{
-	int	wstatus;
-	int	pid;
-
-	all->here_doc_limiter = ft_strdup(all->tokens[index_name]);
-	pipe(all->here_doc_fd);
-	pid = fork();
-	if (pid == -1)
-		return (close(all->here_doc_fd[0]), close(all->here_doc_fd[1]), -1);
-	if (pid == 0)
-	{
-		signal(SIGINT, &ctrldhere_doc);
-		while (1)
-		{
-			all->here_doc_readline = readline("minishell here_doc >>");
-			if (!all->here_doc_readline)
-				break ;
-			
-			if (is_same_string(all->here_doc_readline, all->here_doc_limiter))
-				break ;
-			all->here_doc_readline = expand_string(all->here_doc_readline, all->env);
-			ft_putstr_fd(all->here_doc_readline, all->here_doc_fd[1]);
-			ft_putstr_fd("\n", all->here_doc_fd[1]);
-			free(all->here_doc_readline);
-		}
-		ft_free_heredoc(all);
-		exit(1);
-	}
-	free(all->here_doc_limiter);
-	waitpid(pid, &wstatus, 0);
-	if (WIFEXITED(wstatus))
-		update_status_int(all, WEXITSTATUS(wstatus));
-	close(all->here_doc_fd[1]);
-	signal(SIGINT, SIG_IGN);
-	return (all->here_doc_fd[0]);
-}
-
-int	handle_outfile_trunc(t_all *all, int index_name)
-{
-	int	fd;
-
-	fd = open(all->tokens[index_name], O_RDWR | O_CREAT | O_TRUNC, 0666);
-	return (fd);
-}
-
-int	handle_outfile_append(t_all *all, int index_name)
-{
-	int	fd;
-
-	fd = open(all->tokens[index_name], O_RDWR | O_CREAT | O_APPEND, 0666);
-	return (fd);
-}
 
 /*
 redirection builtin

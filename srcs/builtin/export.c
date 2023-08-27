@@ -6,15 +6,16 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/27 15:28:43 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/27 18:25:39 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int print_export(t_all *all)
+int	print_export(t_all *all)
 {
-	t_env *tmp;
+	t_env	*tmp;
+
 	tmp = all->env;
 	if (!tmp)
 		return (EXIT_SUCCESS);
@@ -27,15 +28,14 @@ int print_export(t_all *all)
 	return (EXIT_SUCCESS);
 }
 
-
 void	do_export(t_all *all, char *key, char *value)
 {
-	t_env *tmp;
-	t_env  *tmp_before;
-	char *temp_val;
-	
+	t_env	*tmp;
+	t_env	*tmp_before;
+	char	*temp_val;
+
 	if (!key || !*key)
-		return;
+		return ;
 	tmp = all->env;
 	while (tmp)
 	{
@@ -52,9 +52,10 @@ void	do_export(t_all *all, char *key, char *value)
 	return ;
 }
 
-int parse_export(char *token)
+int	parse_export(char *token)
 {
-	int i;
+	int	i;
+
 	i = -1;
 	while (token[++i])
 	{
@@ -71,12 +72,14 @@ int parse_export(char *token)
 	return (1);
 }
 
-int export(t_all *all, char **tokens)
+int	export(t_all *all, char **tokens)
 {
-	int i;
-	char *name;
-	char *value;
-	int status = 0;
+	char	*name;
+	char	*value;
+	int		status;
+	int		i;
+
+	status = 0;
 	i = 0;
 	if (!tokens[1])
 		return (print_export(all), 0);
@@ -86,22 +89,22 @@ int export(t_all *all, char **tokens)
 		{
 			fprintf(stderr, "minishell: export: '%s': not a valid identifier\n", tokens[i]);
 			status = 1;
-			continue;
+			continue ;
 		}
 		if (!ft_strchr(tokens[i], '='))
-			continue;
+			continue ;
 		name = get_env_name(tokens[i]);
 		if (!name)
 		{
 			status = 1;
-			continue;
+			continue ;
 		}
 		value = get_env_value(tokens[i], name);
 		if (!value)
 		{
 			free(name);
 			status = 1;
-			continue;
+			continue ;
 		}
 		do_export(all, name, value);
 		free(name);

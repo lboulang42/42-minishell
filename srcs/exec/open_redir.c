@@ -1,40 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   open_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/27 18:13:22 by lboulang         ###   ########.fr       */
+/*   Created: 2023/08/27 17:44:56 by lboulang          #+#    #+#             */
+/*   Updated: 2023/08/27 17:45:23 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	echo(char **tokens)
+int	handle_outfile_trunc(t_all *all, int index_name)
 {
-	int	start_echo;
-	int	is_n;
-	int	i;
+	int	fd;
 
-	is_n = 0;
-	i = 1;
-	while (tokens[i] && is_same_string(tokens[i], "-n"))
-	{
-		is_n += 1;
-		i++;
-	}
-	start_echo = i;
-	while (tokens[i])
-	{
-		if (i == start_echo)
-			printf("%s", tokens[i]);
-		else
-			printf(" %s", tokens[i]);
-		i++;
-	}
-	if (is_n == 0)
-		printf("\n");
-	return (0);
+	fd = open(all->tokens[index_name], O_RDWR | O_CREAT | O_TRUNC, 0666);
+	return (fd);
+}
+
+int	handle_outfile_append(t_all *all, int index_name)
+{
+	int	fd;
+
+	fd = open(all->tokens[index_name], O_RDWR | O_CREAT | O_APPEND, 0666);
+	return (fd);
+}
+
+int	handle_infile(t_all *all, int index_name)
+{
+	int	fd;
+
+	fd = open(all->tokens[index_name], O_RDONLY);
+	return (fd);
 }
