@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/27 18:18:03 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/28 11:30:32 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	do_cd(t_all *all, char *path)
 	res = chdir(path);
 	if (res == -1)
 	{
-		fprintf(stderr, "Minishell : cd :%s: %s\n", path, strerror(errno));
+		fprintf(stderr, "%s : cd :%s: %s\n", MINI, path, strerror(errno));
 		return (EXIT_FAILURE);
 	}
 	pwd = getcwd(0, 0);
@@ -44,7 +44,7 @@ int	cd(t_all *all, char **tokens)
 
 	if (ft_tab_len(tokens) > 2)
 	{
-		fprintf(stderr, "minishell: cd: too many arguments\n");
+		fprintf(stderr, "%s: cd: %s\n", MINI, ERR_TOOMARGS);
 		return (EXIT_FAILURE);
 	}
 	if (ft_tab_len(tokens) == 1 || is_same_string(tokens[1], "~") || \

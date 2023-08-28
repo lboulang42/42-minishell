@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:28:12 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 04:58:25 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/28 11:55:01 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,21 @@ int	is_builtin(char *cmd_name)
 /*
 execute le bon builtin
 */
-int	execute_builtin(char **tokens, t_all *all, int i, char **all_lines)
+int	execute_builtin(t_all *all, int builtin_code)
 {
-	if (i == 0)
-		return (cd(all, tokens));
-	else if (i == 1)
-		return (echo(tokens));
-	else if (i == 2)
-		return (ft_exit(all, tokens, all_lines), 1);
-	else if (i == 3)
-		return (export(all, tokens));
-	else if (i == 4)
+	if (builtin_code == 0)
+		return (cd(all, all->tokens));
+	else if (builtin_code == 1)
+		return (echo(all->tokens));
+	else if (builtin_code == 2)
+		return (ft_exit(all), 1);
+	else if (builtin_code == 3)
+		return (export(all));
+	else if (builtin_code == 4)
 		return (pwd());
-	else if (i == 5)
-		return (unset(all, tokens));
-	else if (i == 6)
+	else if (builtin_code == 5)
+		return (unset(all));
+	else if (builtin_code == 6)
 		return (env(all));
 	return (0);
 }

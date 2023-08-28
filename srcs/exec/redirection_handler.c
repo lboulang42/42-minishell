@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_handler.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:33:35 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 05:17:03 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/28 11:02:25 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
 
 /*
 redirection builtin
@@ -40,9 +38,9 @@ int	get_outfile_infile_builtin(t_all *all, char **tokens, char **all_lines)
 			if (fd == -1)
 			{
 				if (errno == 13)
-					fprintf(stderr, "Minishell: %s: %s\n", tokens[i +1], ERR_PERM);
+					fprintf(stderr, "%s: %s: %s\n", MINI, tokens[i +1], ERR_PERM);
 				else
-					fprintf(stderr, "Minishell :%s: %s\n", tokens[i +1], ERR_NOSUCHF);
+					fprintf(stderr, "%s :%s: %s\n", MINI, tokens[i +1], ERR_NOSUCHF);
 				return (-2);
 			}
 			if (is_this_meta(tokens[i], ">") || is_this_meta(tokens[i], ">>"))

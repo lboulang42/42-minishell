@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 05:04:06 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/28 12:27:28 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,6 @@ int is_this_meta(char *s, char *metachar)
 	return (1);
 }
 
-int find(char *str, char c)
-{
-	int i;
-
-	i = -1;
-	while (str[++i])
-		if (str[i] == c)
-			return (1);
-	return (0);
-}
 
 /*ft_access_fail renvoie un message d'erreur similaire a celui de bash dans le cas ou la commande ne peut pas être executée*/
 /*
@@ -71,14 +61,14 @@ void	ft_access_fail(char **PATHvaaaar, char *cmd_path, char *cmd_name)
 	{
 		if (access(cmd_path, F_OK))
 		{
-			if (!find(cmd_name, '/'))
-				fprintf(stderr, "mini :%s : %s\n", cmd_name, "command not found");
+			if (!ft_strchr(cmd_name, '/'))
+				fprintf(stderr, "%s :%s : %s\n", MINI, cmd_name, ERR_CMD);
 			else
-				fprintf(stderr, "mini :%s : %s\n", cmd_name, "No such file or directory");
+				fprintf(stderr, "%s :%s : %s\n", MINI, cmd_name, ERR_NOSUCHF);
 		}
 		else if (access(cmd_path, X_OK))
 		{
-			fprintf(stderr, "minishell : %s: %s\n",cmd_name,  strerror(errno));
+			fprintf(stderr, "%s : %s: %s\n", MINI, cmd_name,  strerror(errno));
 			ft_kill_dir(PATHvaaaar, cmd_path, cmd_name);
 		}
 	}
@@ -210,12 +200,6 @@ char **get_env(t_env *env)
 	return (res);
 }
 
-void	ft_close(int fd)
-{
-	if (fd > 0)
-		close(fd);
-}
-
 void redirection_execve(t_all *all, char **all_lines, int index_pipe)
 {
 	if (index_pipe != 0)
@@ -240,10 +224,10 @@ void plug_builtin(char **tokens, t_all *all, int i, char **all_lines, int index_
 	if (index_pipe != 0)
 	{
 		dup2(all->prev, 0);
-		ft_close(all->prev);
+		safeclose(all->prev);
 	}
-	ft_close(all->link_fd[0]);
-	ft_close(all->link_fd[1]);
+	safeclose(all->link_fd[0]);
+	safeclose(all->link_fd[1]);
 }
 
 /*
@@ -284,7 +268,7 @@ void child(t_all *all, int index_pipe, int builtin_code)
 	if (builtin_code >= 0)
 	{
 		tokens_positif(all->tokens, 0);
-		all->status = execute_builtin(all->tokens, all, builtin_code, all->all_lines);
+		all->status = execute_builtin(all, builtin_code);
 		free_t_env(&all->env);
 		ft_free_tab((void **)all->tokens);
 		ft_free_tab((void **)all->all_lines);
@@ -369,7 +353,7 @@ void only_builtin(t_all *all, int index_pipe, int builtin_code)
 	}
 	all->tokens = kick_empty_tokens(all->tokens);
 	tokens_positif(all->tokens, 0);
-	all->status = execute_builtin(all->tokens, all, builtin_code, all->all_lines);
+	all->status = execute_builtin(all, builtin_code);
 	ft_free_only_builtin(all, all->status);
 }
 void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation de con
@@ -393,12 +377,6 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 		child(all, index_pipe, builtin_code);
 	else
 		parent(all);
-	// if (all->pid[index_pipe] >= 0)
-	// {
-	// 	waitpid(all->pid[index_pipe], &wstatus, 0);
-	// 	if (WIFEXITED(wstatus))
-	// 		update_status_int(all, WEXITSTATUS(wstatus));
-	// }
 }
 
 

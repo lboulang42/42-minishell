@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 04:14:25 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/28 11:37:11 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	parse_export(char *token)
 	return (1);
 }
 
-int	export(t_all *all, char **tokens)
+int	export(t_all *all)
 {
 	char	*name;
 	char	*value;
@@ -81,25 +81,25 @@ int	export(t_all *all, char **tokens)
 
 	status = 0;
 	i = -1;
-	if (!tokens[1])
+	if (!all->tokens[1])
 		return (print_export(all), 0);
-	while (tokens[++i])
+	while (all->tokens[++i])
 	{
-		if (!parse_export(tokens[i]))
+		if (!parse_export(all->tokens[i]))
 		{
-			fprintf(stderr, ">minishell: export: '%s': not a valid identifier\n", tokens[i]);
+			fprintf(stderr, "%s: export: '%s': %s", MINI, all->tokens[i], ERR_NVALID);
 			status = 1;
 			continue ;
 		}
-		if (!ft_strchr(tokens[i], '='))
+		if (!ft_strchr(all->tokens[i], '='))
 			continue ;
-		name = get_env_name(tokens[i]);
+		name = get_env_name(all->tokens[i]);
 		if (!name)
 		{
 			status = 1;
 			continue ;
 		}
-		value = get_env_value(tokens[i], name);
+		value = get_env_value(all->tokens[i], name);
 		if (!value)
 		{
 			free(name);
@@ -109,7 +109,6 @@ int	export(t_all *all, char **tokens)
 		do_export(all, name, value);
 		free(name);
 		free(value);
-		// status = 0;
 	}
 	return (status);
 }

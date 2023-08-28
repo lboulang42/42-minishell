@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenisation.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:39:07 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 01:23:07 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/28 12:34:03 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	tokens_positif(char **tokens, int flag)
 	while (tokens[++i])
 		inverse_all(tokens[i], flag);
 }
-
 
 static int tab_len(char **tab)
 {

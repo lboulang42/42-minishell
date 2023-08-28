@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   t_env_operation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:27:33 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 02:59:29 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/28 12:18:03 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_t_env(t_env *env)//tempo
+void	print_t_env(t_env *env)
 {
 	t_env *tmp;
 
@@ -50,7 +50,7 @@ void	add_t_env(t_env **env, char *name, char *value, int display)
 	temp->next = new;
 }
 
-char    *get_key(t_env *full_env, char *key)
+char	*get_key(t_env *full_env, char *key)
 {
     t_env   *tmp;
 
@@ -63,5 +63,5 @@ char    *get_key(t_env *full_env, char *key)
             return (ft_strdup(tmp->value));
         tmp = tmp->next;
     }
-	return ( NULL);//faudra kick plus tarderr_msg(ERR_KEY_VAL, "get_key()"),
+	return (NULL);
 }

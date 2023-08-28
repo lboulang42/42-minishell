@@ -3,21 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 01:19:34 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/28 12:21:19 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_all *init_data(void)
-{
-	static t_all data = {0};
-	
-	return (&data);
-}
 
 int main(int argc, char **argv, char **env)
 {
@@ -32,10 +26,8 @@ int main(int argc, char **argv, char **env)
 	signal(SIGINT, & ctrlc);
 	all = init_data();
 	init_env(all, env);
-	init_shell(all, env);
-	run_easyshell(all, env);
+	run_easyshell(all);
 	stat = get_key(all->env, "?");
-	// fprintf(stderr, "stat = %s\n", stat);
 	
 	status = ft_atoi(stat);
 	if (stat)
@@ -44,14 +36,12 @@ int main(int argc, char **argv, char **env)
 	return (status); // return last status code
 }
 
-
-void	run_easyshell(t_all *all, char **env)
+void	run_easyshell(t_all *all)
 {
 	char	*input;
 
 	while (1)
 	{
-		// print_t_env(all->env);
 		input = readline("easy-shell> ");
 		// signal(SIGINT, & ctrlc);
 		if (!input)

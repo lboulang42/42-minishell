@@ -6,28 +6,11 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/27 18:27:19 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/28 12:35:07 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	unsigned char	*copy;
-	unsigned char	*copy2;
-
-	copy = (unsigned char *)s1;
-	copy2 = (unsigned char *)s2;
-	while (*copy || *copy2)
-	{
-		if (*copy != *copy2)
-			return (*copy - *copy2);
-		copy++;
-		copy2++;
-	}
-	return (0);
-}
 
 void	do_unset(t_all *all, char *key)
 {
@@ -59,17 +42,17 @@ void	do_unset(t_all *all, char *key)
 	}
 }
 
-int	unset(t_all *all, char **tokens)
+int	unset(t_all *all)
 {
 	int	i;
 
 	i = 0;
-	if (!tokens[1])
+	if (!all->tokens[1])
 		return (0);
-	while (tokens[++i])
+	while (all->tokens[++i])
 	{
-		if (!is_same_string(tokens[i], "?"))
-			do_unset(all, tokens[i]);
+		if (!is_same_string(all->tokens[i], "?"))
+			do_unset(all, all->tokens[i]);
 	}
 	return (0);
 }

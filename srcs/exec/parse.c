@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 02:09:39 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/28 03:02:59 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/28 12:31:10 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//c'est quoi ce fichier de golmon
 int	isredir(char *str)
 {
 	if (!ft_strcmp(str, ">"))

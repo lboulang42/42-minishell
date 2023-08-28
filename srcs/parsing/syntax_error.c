@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 16:56:49 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/26 19:48:03 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/28 11:01:48 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,17 +120,17 @@ int	syntax_error(t_all *all, char *input)
 	}
 	if (check_alone_quote(input))
 	{
-		fprintf(stderr, "Minishell : syntax error : please close quotes\n");
+		fprintf(stderr, "%s : %s : %s\n", MINI, ERR_SYNTX, ERR_CLQUOTES);
 		return (1);
 	}
 	if (check_pipes(input))
 	{
-		fprintf(stderr, "Minishell : syntax error near unexpected token `|'\n");
+		fprintf(stderr, "%s : %s `|'\n", MINI, ERR_SYNTX);
 		return (1);
 	}
 	if (check_rafters(input))
 	{
-		fprintf(stderr, "Minishell : syntax error near unexpected token `newline'\n");
+		fprintf(stderr, "%s : %s `newline'\n", MINI, ERR_SYNTX);
 		return (1);
 	}
 	return (0);

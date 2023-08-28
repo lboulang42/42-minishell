@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 15:04:58 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/27 17:36:07 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/28 10:52:48 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ctrlc(int sig)
 	}   
 }
 
-void ctrldhere_doc(int sig)
+void ctrlchere_doc(int sig)
 {
 	t_all *all;
 

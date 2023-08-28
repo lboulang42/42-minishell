@@ -6,12 +6,11 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 15:02:37 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/27 18:15:04 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/28 11:35:17 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <limits.h>
 
 int	pwd(void)
 {

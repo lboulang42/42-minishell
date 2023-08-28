@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 17:46:20 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 04:06:30 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/28 12:29:30 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void wait_and_update(t_all *all, int pid)
 
 void	child_heredoc(t_all *all)
 {
-	signal(SIGINT, &ctrldhere_doc);
+	signal(SIGINT, &ctrlchere_doc);
 	while (1)
 	{
 		all->here_doc_readline = readline("minishell here_doc >>");
@@ -74,12 +74,4 @@ int	handle_heredoc(t_all *all, int index_name)
 	close(all->here_doc_fd[1]);
 	signal(SIGINT, SIG_IGN);
 	return (all->here_doc_fd[0]);
-}
-
-
-
-
-void do_here_doc(char *str)
-{
-
 }

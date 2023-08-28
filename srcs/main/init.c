@@ -6,15 +6,15 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:24:28 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/13 13:27:31 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/28 11:58:48 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-
-void	init_shell(t_all *all, char **env)//a quoi tu sers toi ?
+t_all *init_data(void)
 {
-	// add sinal later;
+	static t_all data = {0};
+	
+	return (&data);
 }
