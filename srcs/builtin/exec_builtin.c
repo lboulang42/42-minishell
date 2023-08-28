@@ -6,12 +6,15 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:28:12 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 11:55:01 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/28 12:41:11 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+Return -1 si la cmd_name != nom de builtin, sinon return builtin_code;
+*/
 int	is_builtin(char *cmd_name)
 {
 	int			i;

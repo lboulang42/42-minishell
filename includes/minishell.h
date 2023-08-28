@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/28 12:37:37 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/28 12:59:19 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@
 # ifndef ERR_NOTDIR
 #  define ERR_NOTDIR "not a directory"
 # endif
+# ifndef ERR_ISDIR
+#  define ERR_ISDIR "Is a directory"
+# endif
 # ifndef ERR_CMD
 #  define ERR_CMD "command not found"
 # endif
@@ -84,9 +87,9 @@
 /*Structure de liste-chainées pour l'env;*/
 typedef struct s_env
 {
-	char	*name;
-	char	*value;
-	int		display;
+	char			*name;
+	char			*value;
+	int				display;
 	struct s_env	*next;
 }	t_env;
 
@@ -106,12 +109,10 @@ typedef struct s_all
 	char	**all_lines;
 	int		default_out;
 	char	**tokens;
-	
 	char	*cmd; // [ls]
 	char	**arg; // {[ls][-R]}
 	char	**files; // {"out", "out2"}
-	int		*type; // {1, 2};
-	// > out ls >> out2 -R //| cat -e < avion 
+	int		*type; // {1, 2};   // > out ls >> out2 -R //| cat -e < avion 
 	int		status;
 	t_env	*env;
 }			t_all;
@@ -145,25 +146,29 @@ int		unset(t_all *all);
 
 /*exec/*/
 
-/*exec/exec.c*/
+/*exec/exec_acces.c*/
 char	*ft_join_path(char *try_path, char *cmd_name);
-int		is_this_meta(char *s, char *metachar);
 void	ft_access_fail(char **PATHvaaaar, char *cmd_path, char *cmd_name);
-void	exec_init(t_all *all, char *input);
-void	ft_kill_dir(char **PATHvar, char *cmd_path, char *cmd_name);
-char	*ft_check_acces(char **env_path, char *cmd_name, int i);
-char	**get_env(t_env *env);
+char	*ft_check_acces(char **env_path, char *cmd_name, int i);//fonction ATROCE
+/*exec/exec_child.c*/
+char	*get_path_putain(char *cmd, t_env *env);
 void	redirection_execve(t_all *all, char **all_lines, int index_pipe);
-void	plug_builtin(char **tokens, t_all *all, int i, char **all_lines, int index_pipe);
 void	ft_free_child(t_all *all, char **env_array, char *cmd_path);
 void	child(t_all *all, int index_pipe, int builtin_code);
-void	parent(t_all *all);
-void	update_status_int(t_all *all, int status);
+/*exec/exec_utils.c*/
 void	safeclose(int fd);
+void	update_status_int(t_all *all, int status);
+int		is_this_meta(char *s, char *metachar);
+int     file_is_directory(char *cmd_path, char *cmd_name);
+/*exec/exec_main.c*/
+void	exec_init(t_all *all, char *input);
+void    handle_line(t_all *all, int index_pipe);
+char	**get_env(t_env *env);
+void	parent(t_all *all);
+void	ft_kill_dir(char **PATHvar, char *cmd_path, char *cmd_name);
 void	ft_free_only_builtin(t_all *all, int status);
 void	only_builtin(t_all *all, int index_pipe, int builtin_code);
-void    handle_line(t_all *all, char **all_lines, int index_pipe);
-char	*get_path_putain(char *cmd, t_env *env);
+
 /*exec/here_doc.c*/
 void	ft_free_heredoc(t_all *all);
 void	wait_and_update(t_all *all, int pid);

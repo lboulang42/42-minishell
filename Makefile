@@ -3,16 +3,19 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+         #
+#    By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/11 19:43:05 by lboulang          #+#    #+#              #
-#    Updated: 2023/08/28 02:24:37 by gcozigon         ###   ########.fr        #
+#    Updated: 2023/08/28 12:53:25 by lboulang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			= 			minishell
 
-SRCS_NAMES 		=	exec/exec.c\
+SRCS_NAMES 		=	exec/exec_main.c\
+					exec/exec_utils.c\
+					exec/exec_child.c\
+					exec/exec_acces.c\
 					exec/redirection_handler.c\
 					exec/tokenisation.c\
 					exec/parse.c\
