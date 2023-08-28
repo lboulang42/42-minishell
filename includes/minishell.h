@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/28 12:59:19 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:12:47 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,11 +178,12 @@ int		handle_heredoc(t_all *all, int index_name);
 int		handle_outfile_trunc(t_all *all, int index_name);
 int		handle_outfile_append(t_all *all, int index_name);
 int		handle_infile(t_all *all, int index_name);
-/*exec/parse.c*/
+/*exec/exec_parse.c*/
 int		isredir(char *str);
-void	*mallocparse(t_all *all, char **tab);
+
+int		mallocparse(t_all *all, char **tab);
 void	printparse(char *cmd, char **arg, int *type, char **files);
-void	*parse(t_all *all, char **tab);
+void	parse(t_all *all, char **tab);
 /*exec/redirection_handler.c*/
 int		get_outfile_infile_builtin(t_all *all, char **tokens, char **all_lines);
 void	get_outfile_infile(t_all *all, char **tokens, char **all_lines, int index_pipe);

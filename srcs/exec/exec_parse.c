@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 02:09:39 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/28 12:31:10 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:12:13 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,22 @@ int	isredir(char *str)
 	return (0);
 }
 
-void	*mallocparse(t_all *all, char **tab)
+int	mallocparse(t_all *all, char **tab)//pq c'etait un void *
 {
 	int	i;
-
+	int	k;
+	int	t;
+	
 	i = 0;
-	int k = 0, t = 0;
+	k = 0;
+	t = 0;
 	while (tab[i])
 	{
 		if (isredir(tab[i])) // > file
 		{
 			k++;
 			if (!tab[++i])
-				return (NULL);
+				return (0);
 		}
 		else // le reste
 			t++;
@@ -47,7 +50,7 @@ void	*mallocparse(t_all *all, char **tab)
 	all->arg = ft_calloc(sizeof(char *), t + 1);
 	all->files = ft_calloc(sizeof(char *), k + 1);
 	all->type = ft_calloc(sizeof(int), k);
-	return ("coucou");
+	return (1);
 }
 
 void	printparse(char *cmd, char **arg, int *type, char **files)
@@ -66,12 +69,15 @@ void	printparse(char *cmd, char **arg, int *type, char **files)
 		fprintf(stderr,"[%i]|{%s}\n", type[i], files[i]);
 }
 
-void	*parse(t_all *all, char **tab)
+void	parse(t_all *all, char **tab)//pq c'etait un void *
 {
 	int	i;
-
+	int k;//changer le name
+	int	t;//changer le name
+	
 	i = 0;
-	int k = 0, t = 0;
+	k = 0;
+	t = 0;
 	if (!mallocparse(all, tab))
 	{
 		ft_printf("ambigous redirect\n");

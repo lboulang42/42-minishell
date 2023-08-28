@@ -6,7 +6,7 @@
 #    By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/11 19:43:05 by lboulang          #+#    #+#              #
-#    Updated: 2023/08/28 12:53:25 by lboulang         ###   ########.fr        #
+#    Updated: 2023/08/28 15:12:38 by lboulang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRCS_NAMES 		=	exec/exec_main.c\
 					exec/exec_acces.c\
 					exec/redirection_handler.c\
 					exec/tokenisation.c\
-					exec/parse.c\
+					exec/exec_parse.c\
 					exec/signal.c\
 					exec/here_doc.c\
 					exec/open_redir.c\
