@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 12:16:14 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:17:41 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ unsigned long long	do_atoi(const char *str, int neg, const char *str_safe)
 	{
 		if (res -1 > LLONG_MAX)
 		{
-			fprintf(stderr, "minishell : exit: %s: numeric argument required", str_safe);
+			fprintf(stderr, "%s : exit: %s: %s", MINI, str_safe, ERR_NARGS);
 			ft_exit_free(all);
 			exit(2);
 		}
@@ -39,7 +39,7 @@ unsigned long long	do_atoi(const char *str, int neg, const char *str_safe)
 	{
 		if (res > LLONG_MAX)
 		{
-			fprintf(stderr, "minishell : exit: %s: numeric argument required", str_safe);
+			fprintf(stderr, "%s : exit: %s: %s", MINI, str_safe, ERR_NARGS);
 			ft_exit_free(all);
 			exit(2);
 		}
@@ -70,9 +70,9 @@ void	ft_exit_free(t_all *all)
 {
 	if (ft_tab_len(all->all_lines) == 1)
 	{
-		close (all ->default_out);
-		close(all->link_fd[0]);
-		close(all->link_fd[1]);
+		safeclose (all ->default_out);
+		safeclose(all->link_fd[0]);
+		safeclose(all->link_fd[1]);
 	}
 	free_t_env(&all->env);
 	ft_free_tab((void **)all->tokens);

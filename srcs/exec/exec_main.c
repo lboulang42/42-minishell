@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 12:52:36 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/28 21:45:23 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,11 @@ void	exec_init(t_all *all, char *input)
 	all->btn_fd = -1;
 	all->link_fd[0] = -1;
 	all->link_fd[1] = -1;
+	all->index_redir_tamere = 0;
 	while (all->all_lines[++i])
+	{
 		handle_line(all, i);
+	}
 	
 	j = 0;
 	while (j < lines_number)
@@ -48,9 +51,10 @@ void	exec_init(t_all *all, char *input)
 		j++;
 	}
 	if (all->prev > 0)
-		close(all->prev);
+		safeclose(all->prev);
 	signal(SIGINT, & ctrlc);
 	ft_free_tab((void **)all->all_lines);
+	free_redir_list(all);
 }
 
 void ft_kill_dir(char **PATHvar, char *cmd_path, char *cmd_name)
@@ -103,28 +107,24 @@ premier token peut etre une redir
 
 void parent(t_all *all)
 {
-	close(all->link_fd[1]);
+	safeclose(all->link_fd[1]);
 	if (all->prev > 0)
-		close(all->prev);
+		safeclose(all->prev);
 	all->prev = all->link_fd[0];
 	signal(SIGQUIT, SIG_IGN);
 	if (all->link_fd[1] > 0)
-		close(all->link_fd[1]);
+		safeclose(all->link_fd[1]);
 	ft_free_tab((void **)all->tokens);
-	free(all->type);
-	ft_free_tab((void **)all->arg);
-	ft_free_tab((void **)all->files);
+	ft_free_tab_size((void **)all->arg, all->args_size);
 	
 }
 
 void ft_free_only_builtin(t_all *all, int status)
 {
 	ft_free_tab((void **)all->tokens);
-	free(all->type);
 	ft_free_tab((void **)all->arg);
-	ft_free_tab((void **)all->files);
 	dup2(all->default_out, 1);
-	close(all->default_out);
+	safeclose(all->default_out);
 	update_status_int(all, all->status);
 }
 
@@ -152,18 +152,22 @@ void only_builtin(t_all *all, int index_pipe, int builtin_code)
 	all->status = execute_builtin(all, builtin_code);
 	ft_free_only_builtin(all, all->status);
 }
+
+
 void    handle_line(t_all *all, int index_pipe)
 {
 	char    **tokens;
 	char	*cmd_path;
 	int		builtin_code;
 	int		wstatus;
+	all->pid[index_pipe] = -1;
 	all->default_out = -1;
 	signal(SIGINT, SIG_IGN);
 	all->tokens = ft_split(all->all_lines[index_pipe], ' ');
 	if (!all->tokens)
 		return;
-	parse(all, all->tokens);
+	if (!parse(all, all->tokens))
+		return ;
 	builtin_code = is_builtin(all->cmd);
 	if (builtin_code >= 0 && ft_tab_len(all->all_lines) == 1)
 		return ((void)only_builtin(all, index_pipe, builtin_code));

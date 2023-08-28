@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:48:34 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 12:51:54 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/28 22:00:11 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ char *get_path_putain(char *cmd, t_env *env)
 	char *PATH;
 	char **spl_path;
 	char *cmd_path;
-	
 	PATH = get_key(env, "PATH");
 	if (!PATH)
 	{
@@ -47,7 +46,7 @@ void child(t_all *all, int index_pipe, int builtin_code)
 {
 	char	*cmd_path;
 	char	**env;
-
+	fprintf(stderr, "rentre ici\n");
 	signal(SIGINT, & ctrlc);
 	tokens_positif(all->tokens, 1);
 	redirection_execve(all, all->all_lines, index_pipe);
@@ -55,9 +54,7 @@ void child(t_all *all, int index_pipe, int builtin_code)
 	if (!all->cmd)
 	{
 		ft_free_child(all, NULL, NULL);
-		free(all->type);
 		ft_free_tab((void **)all->arg);
-		ft_free_tab((void **)all->files);
 		exit(1);
 	}
 	all->tokens = kick_empty_tokens(all->tokens);
@@ -68,9 +65,7 @@ void child(t_all *all, int index_pipe, int builtin_code)
 		free_t_env(&all->env);
 		ft_free_tab((void **)all->tokens);
 		ft_free_tab((void **)all->all_lines);
-		free(all->type);
 		ft_free_tab((void **)all->arg);
-		ft_free_tab((void **)all->files);
 		exit(all->status);
 	}
 	cmd_path = get_path_putain(all->cmd, all->env);
@@ -80,10 +75,9 @@ void child(t_all *all, int index_pipe, int builtin_code)
 		tokens_positif(all->tokens, 0);
 		execve(cmd_path, all->tokens, env);
 	}
+	fprintf(stderr, "sors ici\n");
 	ft_free_child(all, env, cmd_path);
-	free(all->type);
 	ft_free_tab((void **)all->arg);
-	ft_free_tab((void **)all->files);
 	exit(127);
 }
 
@@ -92,12 +86,12 @@ void redirection_execve(t_all *all, char **all_lines, int index_pipe)
 	if (index_pipe != 0)
 	{
 		dup2(all->prev, 0);
-		close(all->prev);
+		safeclose(all->prev);
 	}
 	if (index_pipe != ft_tab_len(all_lines) - 1)
 	{
 		dup2(all->link_fd[1], 1);
 	}
-	close(all->link_fd[0]);
-	close(all->link_fd[1]);
+	safeclose(all->link_fd[0]);
+	safeclose(all->link_fd[1]);
 }

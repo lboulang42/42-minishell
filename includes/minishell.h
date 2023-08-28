@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/28 15:12:47 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/28 21:38:02 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@
 # ifndef ERR_NVALID
 #  define ERR_NVALID "not a valid identifier"
 # endif
+# ifndef ERR_AMBIGUS
+#  define ERR_AMBIGUS "ambiguous redirect"
+# endif
 
 /*Variable Macro*/
 # ifndef DQUOTE
@@ -93,6 +96,13 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+typedef struct s_redir
+{
+	int		type;//1 > 2 >> 3 < 4 <<
+	char	*file;//pour un here doc = limiter
+	
+}	t_redir;
+
 /*Structure globale minishell*/
 typedef struct s_all
 {
@@ -111,11 +121,23 @@ typedef struct s_all
 	char	**tokens;
 	char	*cmd; // [ls]
 	char	**arg; // {[ls][-R]}
-	char	**files; // {"out", "out2"}
-	int		*type; // {1, 2};   // > out ls >> out2 -R //| cat -e < avion 
+	// char	**files; // {"out", "out2"}
+	// int		*type; // {1, 2};   // > out ls >> out2 -R //| cat -e < avion 
 	int		status;
+	int		args_size;
+	int		nbr_redir;
+	int		index_redir_tamere;
+	t_redir	*redir_list;
 	t_env	*env;
 }			t_all;
+
+
+
+void free_redir_list(t_all *all);
+
+
+
+
 
 /*builtin/*/
 
@@ -179,11 +201,10 @@ int		handle_outfile_trunc(t_all *all, int index_name);
 int		handle_outfile_append(t_all *all, int index_name);
 int		handle_infile(t_all *all, int index_name);
 /*exec/exec_parse.c*/
+int	parse(t_all *all, char **tab);
 int		isredir(char *str);
-
 int		mallocparse(t_all *all, char **tab);
 void	printparse(char *cmd, char **arg, int *type, char **files);
-void	parse(t_all *all, char **tab);
 /*exec/redirection_handler.c*/
 int		get_outfile_infile_builtin(t_all *all, char **tokens, char **all_lines);
 void	get_outfile_infile(t_all *all, char **tokens, char **all_lines, int index_pipe);

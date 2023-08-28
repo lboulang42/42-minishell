@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 17:46:20 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 12:29:30 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/28 21:24:24 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,15 @@ void	ft_free_heredoc(t_all *all)
 {
 	if (all->here_doc_readline)
 		free(all->here_doc_readline);
-	close(all->here_doc_fd[1]);
-	close(all->here_doc_fd[0]);
+	safeclose(all->here_doc_fd[1]);
+	safeclose(all->here_doc_fd[0]);
 	safeclose(all->link_fd[0]);
 	safeclose(all->link_fd[1]);
 	safeclose(all->default_out);
 	free_t_env(&all->env);
 	ft_free_tab((void **)all->tokens);
 	ft_free_tab((void **)all->all_lines);
-	free(all->type);
 	ft_free_tab((void **)all->arg);
-	ft_free_tab((void **)all->files);
 	free(all->here_doc_limiter);
 }
 
@@ -65,13 +63,13 @@ int	handle_heredoc(t_all *all, int index_name)
 	pipe(all->here_doc_fd);
 	pid = fork();
 	if (pid == -1)
-		return (close(all->here_doc_fd[0]), close(all->here_doc_fd[1]), -1);
+		return (safeclose(all->here_doc_fd[0]), safeclose(all->here_doc_fd[1]), -1);
 	if (pid == 0)
 		child_heredoc(all);
 	free(all->here_doc_limiter);
 	// wait_and_update(all, pid);
 	wait(NULL);
-	close(all->here_doc_fd[1]);
+	safeclose(all->here_doc_fd[1]);
 	signal(SIGINT, SIG_IGN);
 	return (all->here_doc_fd[0]);
 }

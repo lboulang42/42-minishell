@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 15:43:51 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 02:27:03 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/28 21:27:15 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }					t_list;
+
+void ft_free_tab_size(void **tab, int size);
 
 ////////*ft_atoi_itoa.c*////////
 int					counter(char *str, char c);

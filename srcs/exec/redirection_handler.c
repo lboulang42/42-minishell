@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:33:35 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 11:02:25 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/28 21:24:28 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ int	get_outfile_infile_builtin(t_all *all, char **tokens, char **all_lines)
 				dup2(fd, 1);
 			}
 			if (all->prev > 0)
-				close(all->prev);
-			close(fd);
+				safeclose(all->prev);
+			safeclose(fd);
 			tokens[i][0] = '\0';
 			tokens[i + 1][0] = '\0';
 		}
@@ -79,19 +79,29 @@ void	get_outfile_infile(t_all *all, char **tokens, char **all_lines, int index_p
 		{
 			if (fd == -1)
 			{
-				fprintf(stderr, "Minishell: %s: %s\n", tokens[i+1], strerror(errno));
+				fprintf(stderr, "%s: %s: %s\n", MINI, tokens[i+1], strerror(errno));
 				free_t_env(&all->env);
 				ft_free_tab((void **)all_lines);
 				ft_free_tab((void **)tokens);
 				exit (1);
 			}
+			if (fd == -2)
+			{
+				fprintf(stderr, "%s : %s\n", MINI, "AMBIGOUS TON GRAND PERE\n");
+				free_t_env(&all->env);
+				ft_free_tab((void **)all->arg);
+				ft_free_tab((void **)all->all_lines);
+				ft_free_tab((void **)all->tokens);
+				exit(1);
+			}
 			if (is_this_meta(tokens[i], "<") || is_this_meta(tokens[i], "<<"))
 				dup2(fd, 0);
 			else
 				dup2(fd, 1);
-			close(fd);
+			safeclose(fd);
 			tokens[i][0] = '\0';
 			tokens[i + 1][0] = '\0';
+			all->index_redir_tamere++;
 		}
 	}
 }

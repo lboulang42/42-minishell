@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 15:04:58 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 10:52:48 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:15:37 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void ctrlchere_doc(int sig)
 	all = init_data();
 	if (sig == SIGINT)
 	{
-		close(all->here_doc_fd[1]);
-		close(all->here_doc_fd[0]);
+		safeclose(all->here_doc_fd[1]);
+		safeclose(all->here_doc_fd[0]);
 		safeclose(all->link_fd[0]);
 		safeclose(all->link_fd[1]);
 		safeclose(all->default_out);

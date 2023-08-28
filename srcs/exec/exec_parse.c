@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   exec_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 02:09:39 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/28 15:12:13 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/28 22:01:02 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,24 +35,27 @@ int	mallocparse(t_all *all, char **tab)//pq c'etait un void *
 	i = 0;
 	k = 0;
 	t = 0;
+	all->args_size = 0;
 	while (tab[i])
 	{
 		if (isredir(tab[i])) // > file
 		{
 			k++;
 			if (!tab[++i])
-				return (0);
+				continue;
 		}
 		else // le reste
-			t++;
+			all->args_size++;
 		i++;
 	}
-	all->arg = ft_calloc(sizeof(char *), t + 1);
-	all->files = ft_calloc(sizeof(char *), k + 1);
-	all->type = ft_calloc(sizeof(int), k);
+	
+	// all->arg = ft_calloc(sizeof(char *), t + 1);
+
+	all->arg =  malloc(sizeof(char *) * all->args_size);
 	return (1);
 }
 
+/*ca vire ca ?*/
 void	printparse(char *cmd, char **arg, int *type, char **files)
 {
 	if (cmd)
@@ -69,7 +72,7 @@ void	printparse(char *cmd, char **arg, int *type, char **files)
 		fprintf(stderr,"[%i]|{%s}\n", type[i], files[i]);
 }
 
-void	parse(t_all *all, char **tab)//pq c'etait un void *
+int	parse(t_all *all, char **tab)//pq c'etait un void *
 {
 	int	i;
 	int k;//changer le name
@@ -78,27 +81,13 @@ void	parse(t_all *all, char **tab)//pq c'etait un void *
 	i = 0;
 	k = 0;
 	t = 0;
-	if (!mallocparse(all, tab))
-	{
-		ft_printf("ambigous redirect\n");
-		ft_free_tab((void **)tab);
-		ft_free_tab((void **)all->all_lines);
-		free_t_env(&all->env);
-		close(all->link_fd[0]);
-		close(all->link_fd[1]);
-		exit(1);
-	}
+	mallocparse(all, tab);
 	while (tab[i])
 	{
-		if (isredir(tab[i])) // > file
-		{
-			all->type[k] = isredir(tab[i]);
-			all->files[k++] = ft_strdup(tab[++i]);
-		}
-		else
+		if (!isredir(tab[i]) && tab[i+1])
 			all->arg[t++] = ft_strdup(tab[i]);
 		i++;
 	}
 	all->cmd = all->arg[0];
-	// printparse(all->cmd, all->arg, all->type, all->files);
+	return (1);
 }

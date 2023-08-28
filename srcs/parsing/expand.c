@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:29:20 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 12:11:08 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/28 19:05:54 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ char	*insert_expansion(char *str, char *key_name, char *key_value, int index_var
 		if (new_str)
 		{
 			while (++i < index_variable)
-				new_str[i] = str[i];
+			new_str[i] = str[i];
+
 			while (str[i + len_variable])
 			{
 				new_str[i] = str[i + len_variable];
@@ -118,7 +119,6 @@ char	*extract_key_name(char *str, int start)//bizarre ca nn
 		name_len++;
 	key_name = ft_substr(str, start, name_len);
 	return (key_name);
-	//return (NULL);
 }
 
 char	*get_value_by_key(t_env *full_env, char *key)
