@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/27 18:25:39 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/28 04:14:25 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +80,14 @@ int	export(t_all *all, char **tokens)
 	int		i;
 
 	status = 0;
-	i = 0;
+	i = -1;
 	if (!tokens[1])
 		return (print_export(all), 0);
 	while (tokens[++i])
 	{
 		if (!parse_export(tokens[i]))
 		{
-			fprintf(stderr, "minishell: export: '%s': not a valid identifier\n", tokens[i]);
+			fprintf(stderr, ">minishell: export: '%s': not a valid identifier\n", tokens[i]);
 			status = 1;
 			continue ;
 		}
@@ -109,7 +109,7 @@ int	export(t_all *all, char **tokens)
 		do_export(all, name, value);
 		free(name);
 		free(value);
-		status = 0;
+		// status = 0;
 	}
 	return (status);
 }

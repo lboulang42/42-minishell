@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/27 23:25:58 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/28 05:03:00 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,18 @@ typedef struct s_all
 	char	*here_doc_line;
 	char	*here_doc_limiter;
 	int		here_doc_fd[2];
-	char *here_doc_readline;
-	char **all_lines;
-	int	default_out;
-	char **tokens;
+	char	*here_doc_readline;
+	char 	**all_lines;
+	int		default_out;
+	char	**tokens;
+	
+		char	*cmd; // [ls]
+		char	**arg; // {[ls][-R]}
+		char	**files; // {"out", "out2"}
+		int		*type; // {1, 2};
+		// > out ls >> out2 -R //| cat -e < avion 
+
+	int		status;
 	t_env	*env;
 }			t_all;
 
@@ -210,4 +218,9 @@ int	syntax_error(t_all *all, char *input);
 /*main/erro.c*/
 void    err_msg(char *err_msg, char *function_name);
 // void	ft_free_heredoc(t_all *all);
+
+void	*parse(t_all *all, char **tab);
+
+
+
 #endif

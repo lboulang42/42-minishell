@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 01:19:46 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/28 04:26:49 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,9 +120,6 @@ void	ft_exit(t_all *all, char **tokens, char **all_lines)
 		exit(2);
 	}
 	exit_code = ft_atoilonglong(tokens[1], tokens[1]);
-	exit_code = exit_code % 256;
-	if (exit_code < 0)
-		exit_code += 256;
 	ft_exit_free(all);
-	exit(exit_code);
+	exit((unsigned char) exit_code);
 }

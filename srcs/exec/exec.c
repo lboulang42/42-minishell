@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 01:34:57 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/28 05:04:06 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,10 @@ void	exec_init(t_all *all, char *input)
 	char	**lines;//lines = inputs splités aux |
 	int     lines_number;
 	int		i;
-	int wstatus;
 	char *tmp;
 	int j;
 	i = -1;
-	wstatus = 0;
-	all->all_lines = NULL;
+	all->status = 0;
 	all->all_lines = ft_split(input, '|');//gerer si cmd vide plus tard
 	if (!all->all_lines)
 		return ((void)free(input));
@@ -112,9 +110,12 @@ void	exec_init(t_all *all, char *input)
 	j = 0;
 	while (j < lines_number)
 	{
-		waitpid(all->pid[j], &wstatus, 0);
-		if (WIFEXITED(wstatus))
-			update_status_int(all, WEXITSTATUS(wstatus));
+		waitpid(all->pid[j], &all->status, 0);
+		if (WIFEXITED(all->status))
+		{
+			all->status = WEXITSTATUS(all->status);
+			update_status_int(all, all->status);
+		}
 		j++;
 	}
 	if (all->prev > 0)
@@ -199,11 +200,11 @@ char **get_env(t_env *env)
 	counter = 0;
 	while (tmp)
 	{
-			temp2 = ft_strjoin(tmp->name, (char *)"=");
-			res[counter] = ft_strjoin(temp2, tmp->value);
-			free(temp2);
-			tmp = tmp->next;
-			counter++;
+		temp2 = ft_strjoin(tmp->name, (char *)"=");
+		res[counter] = ft_strjoin(temp2, tmp->value);
+		free(temp2);
+		tmp = tmp->next;
+		counter++;
 	}
 	res[counter] = NULL;
 	return (res);
@@ -259,6 +260,7 @@ void ft_free_child(t_all *all, char **env_array, char *cmd_path)
 		free(cmd_path);
 }
 
+
 void child(t_all *all, int index_pipe, int builtin_code)
 {
 	char	*cmd_path;
@@ -266,26 +268,42 @@ void child(t_all *all, int index_pipe, int builtin_code)
 
 	signal(SIGINT, & ctrlc);
 	tokens_positif(all->tokens, 1);
-	get_outfile_infile(all, all->tokens, all->all_lines, index_pipe);
 	redirection_execve(all, all->all_lines, index_pipe);
+	get_outfile_infile(all, all->tokens, all->all_lines, index_pipe);
+	if (!all->cmd)
+	{
+		ft_free_child(all, NULL, NULL);
+		free(all->type);
+		ft_free_tab((void **)all->arg);
+		ft_free_tab((void **)all->files);
+		exit(1);
+	}
+	
 	all->tokens = kick_empty_tokens(all->tokens);
+	
 	if (builtin_code >= 0)
 	{
 		tokens_positif(all->tokens, 0);
-		int status = execute_builtin(all->tokens, all, builtin_code, all->all_lines);
+		all->status = execute_builtin(all->tokens, all, builtin_code, all->all_lines);
 		free_t_env(&all->env);
 		ft_free_tab((void **)all->tokens);
 		ft_free_tab((void **)all->all_lines);
-		exit(status);
+		free(all->type);
+		ft_free_tab((void **)all->arg);
+		ft_free_tab((void **)all->files);
+		exit(all->status);
 	}
-	cmd_path = get_path_putain(all->tokens[0], all->env);
+	cmd_path = get_path_putain(all->cmd, all->env);
 	env = get_env(all->env);
-	if (cmd_path && all->tokens)
+	if (cmd_path && all->cmd)
 	{
 		tokens_positif(all->tokens, 0);
 		execve(cmd_path, all->tokens, env);
 	}
 	ft_free_child(all, env, cmd_path);
+	free(all->type);
+	ft_free_tab((void **)all->arg);
+	ft_free_tab((void **)all->files);
 	exit(127);
 }
 
@@ -299,12 +317,17 @@ void parent(t_all *all)
 	if (all->link_fd[1] > 0)
 		close(all->link_fd[1]);
 	ft_free_tab((void **)all->tokens);
+	free(all->type);
+	ft_free_tab((void **)all->arg);
+	ft_free_tab((void **)all->files);
+	
 }
 
 void update_status_int(t_all *all, int status)
 {
 	char *itoa_status;
-	itoa_status = ft_itoa(status);
+	itoa_status = ft_itoa(all->status);
+	// printf("itoa status = %s\n", itoa_status);
 	do_export(all, "?", itoa_status);
 	free(itoa_status);
 }
@@ -317,9 +340,12 @@ void safeclose(int fd)
 void ft_free_only_builtin(t_all *all, int status)
 {
 	ft_free_tab((void **)all->tokens);
+	free(all->type);
+	ft_free_tab((void **)all->arg);
+	ft_free_tab((void **)all->files);
 	dup2(all->default_out, 1);
 	close(all->default_out);
-	update_status_int(all, status);
+	update_status_int(all, all->status);
 }
 
 /*
@@ -337,11 +363,14 @@ void only_builtin(t_all *all, int index_pipe, int builtin_code)
 	tokens_positif(all->tokens, 1);
 	btn_fd = get_outfile_infile_builtin(all, all->tokens, all->all_lines);
 	if (btn_fd == -2)
+	{
+		all->status = 1;
 		return ((void)ft_free_only_builtin(all, 1));
+	}
 	all->tokens = kick_empty_tokens(all->tokens);
 	tokens_positif(all->tokens, 0);
-	status = execute_builtin(all->tokens, all, builtin_code, all->all_lines);
-	ft_free_only_builtin(all, status);
+	all->status = execute_builtin(all->tokens, all, builtin_code, all->all_lines);
+	ft_free_only_builtin(all, all->status);
 }
 void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation de con
 {
@@ -354,7 +383,8 @@ void    handle_line(t_all *all, char **all_lines, int index_pipe)//tokenisation 
 	all->tokens = ft_split(all_lines[index_pipe], ' ');
 	if (!all->tokens)
 		return;
-	builtin_code = is_builtin(all->tokens[0]);
+	parse(all, all->tokens);
+	builtin_code = is_builtin(all->cmd);
 	if (builtin_code >= 0 && ft_tab_len(all_lines) == 1)
 		return ((void)only_builtin(all, index_pipe, builtin_code));
 	pipe(all->link_fd);

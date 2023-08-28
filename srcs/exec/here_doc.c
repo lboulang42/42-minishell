@@ -6,7 +6,7 @@
 /*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 17:46:20 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 01:11:27 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/28 04:06:30 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ void	ft_free_heredoc(t_all *all)
 	free_t_env(&all->env);
 	ft_free_tab((void **)all->tokens);
 	ft_free_tab((void **)all->all_lines);
+	free(all->type);
+	ft_free_tab((void **)all->arg);
+	ft_free_tab((void **)all->files);
 	free(all->here_doc_limiter);
 }
 
@@ -78,5 +81,5 @@ int	handle_heredoc(t_all *all, int index_name)
 
 void do_here_doc(char *str)
 {
-	
+
 }

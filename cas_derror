@@ -2,3 +2,4 @@ cat << stop | ls
 ls | cat << stop
 
 exit 922337203685477580892110
+> out

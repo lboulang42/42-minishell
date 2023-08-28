@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_env_operation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:27:33 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/23 17:59:13 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/28 02:59:29 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ void	add_t_env(t_env **env, char *name, char *value, int display)
 	t_env	*temp;
 	t_env	*new;
 	new = t_env_new(name, value, display);
-	if (!env || !*env)
+	if (!env)
+		return ;
+	if(!*env)
 	{
 		*env = new;
 		return ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_handler.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:33:35 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/27 17:46:34 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/28 05:17:03 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	get_outfile_infile_builtin(t_all *all, char **tokens, char **all_lines)
 
 	i = -1;
 	fd = -1;
-	while (tokens[++i +1])
+	while (tokens[++i])
 	{
 		if (is_this_meta(tokens[i], "<"))
 			fd = handle_infile(all, i +1);
@@ -67,7 +67,7 @@ void	get_outfile_infile(t_all *all, char **tokens, char **all_lines, int index_p
 
 	i = -1;
 	fd = -1;
-	while (tokens[++i +1])
+	while (tokens[++i])
 	{
 		if (is_this_meta(tokens[i], "<"))
 			fd = handle_infile(all, i +1);
