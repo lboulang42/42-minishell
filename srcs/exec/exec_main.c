@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/29 21:06:47 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/29 22:16:16 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ void ft_kill_dir(char **PATHvar, char *cmd_path, char *cmd_name)
 	free_t_env(&all->env);
 	ft_free_tab((void **)PATHvar);
 	ft_free_tab((void **)all->all_lines);
-	// free_redir_list(all);
+	ft_free_tab_size((void **)all->arg, all->args_size+1);
+	free_redir_list(all);
 	exit(126);
 }
 

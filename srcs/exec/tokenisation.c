@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:39:07 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 12:34:03 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 00:46:18 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ void inverse_all(char *str, int flag)
 	i = -1;
     if (flag == 1)
     {
-        while (str[++i])
+        while (str && str[++i])
             if (str[i] < 0 && str[i] != -'>' && str[i] != -'<')
 		        str[i] *= -1;
     }
     else if (flag == 0)
     {
-        while (str[++i])
+        while (str && str[++i])
             if (str[i] < 0 && str[i])
 		        str[i] *= -1;
     }

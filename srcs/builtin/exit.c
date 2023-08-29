@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 15:17:41 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/29 22:30:25 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void	ft_exit_free(t_all *all)
 	free_t_env(&all->env);
 	ft_free_tab((void **)all->tokens);
 	ft_free_tab((void **)all->all_lines);
+	ft_free_tab_size((void **)all->arg, all->args_size+1);
+	free_redir_list(all);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 02:09:39 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/29 22:10:26 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 00:41:50 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,9 @@ int	mallocparse(t_all *all, char **tab)//pq c'etait un void *
 {
 	int	i;
 	int	k;
-	int	t;
 	
 	i = 0;
 	k = 0;
-	t = 0;
 	all->args_size = 0;
 	while (tab[i])
 	{
@@ -75,11 +73,9 @@ void	printparse(char *cmd, char **arg, int *type, char **files)
 int	parse(t_all *all, char **tab)//pq c'etait un void *
 {
 	int	i;
-	int k;//changer le name
 	int	t;//changer le name
 	
 	i = 0;
-	k = 0;
 	t = 0;
 	mallocparse(all, tab);
 	while (tab[i])
@@ -98,6 +94,8 @@ int	parse(t_all *all, char **tab)//pq c'etait un void *
 		}
 	}
 	all->cmd = all->arg[0];
-	// fprintf(stderr, "cmd = %s\n", all->cmd);
+	inverse_all(all->cmd, 0);
+	if (!all->cmd &&  all->nbr_redir == 0)
+		ft_printf("command not found\n");
 	return (1);
 }

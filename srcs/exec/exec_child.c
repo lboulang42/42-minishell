@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:48:34 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/29 22:00:06 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/29 23:55:47 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,13 @@ void child(t_all *all, int index_pipe, int builtin_code)
 	redirection_execve(all, all->all_lines, index_pipe);
 	get_outfile_infile(all, all->tokens, all->all_lines, index_pipe);
 	// fprintf(stderr, "chec4\n");
+	fprintf(stderr, "all->cmd = %s\n", all->cmd);
+	
 	if (!all->cmd)
 	{
 		ft_free_child(all, NULL, NULL);
 		ft_free_tab_size((void **)all->arg, all->args_size+1);
 		free_redir_list(all);
-		
 		exit(1);
 	}
 	all->tokens = kick_empty_tokens(all->tokens);

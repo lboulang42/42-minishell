@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:51:14 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/29 19:45:47 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 00:49:29 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ char	*ft_check_acces(char **env_path, char *cmd_name, int i)
 		cmd_path = ft_strdup(cmd_name);
 		if (access(cmd_path, F_OK | X_OK) != -1)
 		{
-            if (file_is_directory(cmd_path, cmd_name))
-                ft_kill_dir(env_path, cmd_path, cmd_name);
+			if (file_is_directory(cmd_path, cmd_name))
+				ft_kill_dir(env_path, cmd_path, cmd_name);
 			return (cmd_path);
 		}
 		return (ft_access_fail(env_path, cmd_path, cmd_name), NULL);

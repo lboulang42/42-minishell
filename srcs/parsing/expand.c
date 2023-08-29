@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:29:20 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/29 15:20:06 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 00:51:50 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,14 @@ char	*get_value_by_key(t_env *full_env, char *key)
 	return (NULL);
 }
 
+char	*toneg(char *str)
+{
+	int i = 0;
+	while (str && str[i])
+		str[i++] *= -1;
+	return (str);
+}
+
 char	*expand_string(char *str, t_env *env)
 {
 	char	*key_value;
@@ -148,6 +156,9 @@ char	*expand_string(char *str, t_env *env)
 		return (NULL);
 	while (str[++i])
 	{
+		/*
+		add + = ~ : . , % / ^
+		*/
 		if (str[i] == '$' && str[i +1] && str[i +1] != ' ' && str[i +1] != '"')
 		{
 			if (ft_isdigit(str[i +1]))
@@ -160,7 +171,7 @@ char	*expand_string(char *str, t_env *env)
 				key_name = extract_key_name(str, i +1);
 				key_value = get_value_by_key(env, key_name);
 			}
-			str = insert_expansion(str, key_name, key_value, i);
+			str = insert_expansion(str, key_name, toneg(key_value), i);
 			i += ft_strlen(key_value) - 1;
 			if (key_name)
 				free(key_name);
