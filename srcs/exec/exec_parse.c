@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 02:09:39 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/29 19:43:20 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/29 22:10:26 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,20 @@ int	parse(t_all *all, char **tab)//pq c'etait un void *
 	mallocparse(all, tab);
 	while (tab[i])
 	{
-		if (isredir(tab[i]) && tab[i +1])
+		if (isredir(tab[i]))
+		{
+			if (tab[i+1])
+				i++;
 			i++;
+		}
 		else
 		{
 			// fprintf(stderr, "add dans parse : %s\n", tab[i]);
 			all->arg[t++] = ft_strdup(tab[i]);
+			i++;
 		}
-		i++;
 	}
 	all->cmd = all->arg[0];
+	// fprintf(stderr, "cmd = %s\n", all->cmd);
 	return (1);
 }
