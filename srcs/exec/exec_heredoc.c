@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 20:22:09 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/29 21:17:26 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/29 21:54:29 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	child_heredoc2(t_all *all, char *input)
 	signal(SIGINT, &ctrlchere_doc);
 	while (1)
 	{
+		all->here_doc_readline = readline("minishell heredoc >>");
 		if (!all->here_doc_readline)
 			break ;
 		if (is_same_string(all->here_doc_readline, all->here_doc_limiter))
