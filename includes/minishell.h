@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/28 21:38:02 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/29 19:32:04 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,12 +127,14 @@ typedef struct s_all
 	int		args_size;
 	int		nbr_redir;
 	int		index_redir_tamere;
+	int		redir_before;
+	
 	t_redir	*redir_list;
 	t_env	*env;
 }			t_all;
 
 
-
+int	isredir(char *str);
 void free_redir_list(t_all *all);
 
 

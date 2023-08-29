@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:33:35 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 21:24:28 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/29 19:39:50 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	get_outfile_infile_builtin(t_all *all, char **tokens, char **all_lines)
 	fd = -1;
 	while (tokens[++i])
 	{
+		// fprintf(stderr, "for *all->index_redir_tamere = %d\n", all->index_redir_tamere[0] + all->redir_before);
 		if (is_this_meta(tokens[i], "<"))
 			fd = handle_infile(all, i +1);
 		else if (is_this_meta(tokens[i], "<<"))
@@ -41,6 +42,12 @@ int	get_outfile_infile_builtin(t_all *all, char **tokens, char **all_lines)
 					fprintf(stderr, "%s: %s: %s\n", MINI, tokens[i +1], ERR_PERM);
 				else
 					fprintf(stderr, "%s :%s: %s\n", MINI, tokens[i +1], ERR_NOSUCHF);
+				all->index_redir_tamere+=1;
+				return (-3);
+			}
+			if (fd == -2)
+			{
+				all->index_redir_tamere+=1;
 				return (-2);
 			}
 			if (is_this_meta(tokens[i], ">") || is_this_meta(tokens[i], ">>"))
@@ -52,6 +59,7 @@ int	get_outfile_infile_builtin(t_all *all, char **tokens, char **all_lines)
 			safeclose(fd);
 			tokens[i][0] = '\0';
 			tokens[i + 1][0] = '\0';
+			all->index_redir_tamere+=1;
 		}
 	}
 	return (fd);
@@ -67,6 +75,7 @@ void	get_outfile_infile(t_all *all, char **tokens, char **all_lines, int index_p
 	fd = -1;
 	while (tokens[++i])
 	{
+		// fprintf(stderr, "for *all->index_redir_tamere = %d\n", all->index_redir_tamere);
 		if (is_this_meta(tokens[i], "<"))
 			fd = handle_infile(all, i +1);
 		else if (is_this_meta(tokens[i], "<<"))
@@ -83,15 +92,19 @@ void	get_outfile_infile(t_all *all, char **tokens, char **all_lines, int index_p
 				free_t_env(&all->env);
 				ft_free_tab((void **)all_lines);
 				ft_free_tab((void **)tokens);
+				free_redir_list(all);
+				ft_free_tab_size((void **)all->arg, all->args_size+1);
+				all->index_redir_tamere+=1;
 				exit (1);
 			}
 			if (fd == -2)
 			{
-				fprintf(stderr, "%s : %s\n", MINI, "AMBIGOUS TON GRAND PERE\n");
 				free_t_env(&all->env);
-				ft_free_tab((void **)all->arg);
 				ft_free_tab((void **)all->all_lines);
 				ft_free_tab((void **)all->tokens);
+				ft_free_tab_size((void **)all->arg, all->args_size+1);
+				free_redir_list(all);
+				all->index_redir_tamere+=1;
 				exit(1);
 			}
 			if (is_this_meta(tokens[i], "<") || is_this_meta(tokens[i], "<<"))
@@ -101,7 +114,7 @@ void	get_outfile_infile(t_all *all, char **tokens, char **all_lines, int index_p
 			safeclose(fd);
 			tokens[i][0] = '\0';
 			tokens[i + 1][0] = '\0';
-			all->index_redir_tamere++;
+			all->index_redir_tamere+=1;
 		}
 	}
 }

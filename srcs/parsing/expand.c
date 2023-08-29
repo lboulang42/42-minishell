@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:29:20 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 19:05:54 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/29 15:20:06 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ char	*extract_key_name(char *str, int start)//bizarre ca nn
 	char	*key_name;
 
 	name_len = 0;
-	if (str[start+name_len] == '?')
+	if (str[start+name_len] && str[start+name_len] == '?')
 	{
 		key_name = ft_substr(str, start, 1);
 		return (key_name);

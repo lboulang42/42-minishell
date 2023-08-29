@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 21:45:23 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/29 19:52:56 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	exec_init(t_all *all, char *input)
 	all->btn_fd = -1;
 	all->link_fd[0] = -1;
 	all->link_fd[1] = -1;
-	all->index_redir_tamere = 0;
+	all->redir_before = 0;
 	while (all->all_lines[++i])
 	{
 		handle_line(all, i);
@@ -70,6 +70,7 @@ void ft_kill_dir(char **PATHvar, char *cmd_path, char *cmd_name)
 	free_t_env(&all->env);
 	ft_free_tab((void **)PATHvar);
 	ft_free_tab((void **)all->all_lines);
+	// free_redir_list(all);
 	exit(126);
 }
 
@@ -115,14 +116,13 @@ void parent(t_all *all)
 	if (all->link_fd[1] > 0)
 		safeclose(all->link_fd[1]);
 	ft_free_tab((void **)all->tokens);
-	ft_free_tab_size((void **)all->arg, all->args_size);
-	
+	ft_free_tab_size((void **)all->arg, all->args_size+1);
 }
 
 void ft_free_only_builtin(t_all *all, int status)
 {
 	ft_free_tab((void **)all->tokens);
-	ft_free_tab((void **)all->arg);
+	ft_free_tab_size((void **)all->arg, all->args_size+1);
 	dup2(all->default_out, 1);
 	safeclose(all->default_out);
 	update_status_int(all, all->status);
@@ -133,6 +133,7 @@ if btn_fd == -2 : redir se passe mal
 set all->pid[index_pipe] a -1 pour ne pas wait un pid (car pas de fork);
 set all->default_out pour reset la sortie standard pour le prochain input (pas nécessaire d'utiliser un infile car aucun de nos builtin n'utilise d'infile)
 */
+/*only one builtin no pipe*/
 void only_builtin(t_all *all, int index_pipe, int builtin_code)
 {
 	int btn_fd;
@@ -142,8 +143,15 @@ void only_builtin(t_all *all, int index_pipe, int builtin_code)
 	all->default_out = dup(1);
 	tokens_positif(all->tokens, 1);
 	btn_fd = get_outfile_infile_builtin(all, all->tokens, all->all_lines);
+	if (btn_fd == -3)
+	{
+		// free_redir_list(all);
+		all->status = 1;
+		return ((void)ft_free_only_builtin(all, 1));
+	}
 	if (btn_fd == -2)
 	{
+		free_redir_list(all);
 		all->status = 1;
 		return ((void)ft_free_only_builtin(all, 1));
 	}
@@ -151,6 +159,20 @@ void only_builtin(t_all *all, int index_pipe, int builtin_code)
 	tokens_positif(all->tokens, 0);
 	all->status = execute_builtin(all, builtin_code);
 	ft_free_only_builtin(all, all->status);
+	// free_redir_list(all);
+}
+
+int count_redir(char **tokens)
+{
+	int i = -1;
+	int res = 0;
+	
+	while (tokens[++i])
+	{
+		if (isredir(tokens[i]))
+			res++;	
+	}
+	return (res);
 }
 
 
@@ -168,14 +190,21 @@ void    handle_line(t_all *all, int index_pipe)
 		return;
 	if (!parse(all, all->tokens))
 		return ;
+	// fprintf(stderr, "chec1\n");
 	builtin_code = is_builtin(all->cmd);
 	if (builtin_code >= 0 && ft_tab_len(all->all_lines) == 1)
 		return ((void)only_builtin(all, index_pipe, builtin_code));
+	// fprintf(stderr, "chec2\n");
+
+
 	pipe(all->link_fd);
 	all->pid[index_pipe] = fork();
 	if (all->pid[index_pipe] == 0)
 		child(all, index_pipe, builtin_code);
 	else
+	{
+		all->redir_before += count_redir(all->tokens);
 		parent(all);
+	}
 }
 

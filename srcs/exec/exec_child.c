@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:48:34 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 22:12:09 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/29 19:49:50 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void ft_free_child(t_all *all, char **env_array, char *cmd_path)
 	ft_free_tab((void **)all->all_lines);
 	if (cmd_path)
 		free(cmd_path);
+	// free_redir_list(all);
 }
 
 
@@ -56,7 +57,9 @@ void child(t_all *all, int index_pipe, int builtin_code)
 	if (!all->cmd)
 	{
 		ft_free_child(all, NULL, NULL);
-		ft_free_tab((void **)all->arg);
+		ft_free_tab_size((void **)all->arg, all->args_size+1);
+		free_redir_list(all);
+		
 		exit(1);
 	}
 	all->tokens = kick_empty_tokens(all->tokens);
@@ -68,7 +71,8 @@ void child(t_all *all, int index_pipe, int builtin_code)
 		free_t_env(&all->env);
 		ft_free_tab((void **)all->tokens);
 		ft_free_tab((void **)all->all_lines);
-		ft_free_tab((void **)all->arg);
+		ft_free_tab_size((void **)all->arg, all->args_size+1);
+		free_redir_list(all);
 		exit(all->status);
 	}
 	cmd_path = get_path_putain(all->cmd, all->env);
@@ -79,9 +83,11 @@ void child(t_all *all, int index_pipe, int builtin_code)
 		tokens_positif(all->tokens, 0);
 		execve(cmd_path, all->tokens, env);
 	}
-	fprintf(stderr, "sors ici\n");
+	// fprintf(stderr, "sors ici\n");
+	// ft_free_tab((void **)all->tokens);
 	ft_free_child(all, env, cmd_path);
-	ft_free_tab((void **)all->arg);
+	ft_free_tab_size((void **)all->arg, all->args_size+1);
+	free_redir_list(all);
 	exit(127);
 }
 

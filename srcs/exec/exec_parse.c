@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 02:09:39 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/28 22:01:02 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/29 19:43:20 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ int	mallocparse(t_all *all, char **tab)//pq c'etait un void *
 	}
 	
 	// all->arg = ft_calloc(sizeof(char *), t + 1);
-
-	all->arg =  malloc(sizeof(char *) * all->args_size);
+	all->arg = ft_calloc(sizeof(char *), all->args_size +1);
 	return (1);
 }
 
@@ -72,6 +71,7 @@ void	printparse(char *cmd, char **arg, int *type, char **files)
 		fprintf(stderr,"[%i]|{%s}\n", type[i], files[i]);
 }
 
+//grep hi <./test_files/infile_big <./test_files/infile
 int	parse(t_all *all, char **tab)//pq c'etait un void *
 {
 	int	i;
@@ -84,8 +84,13 @@ int	parse(t_all *all, char **tab)//pq c'etait un void *
 	mallocparse(all, tab);
 	while (tab[i])
 	{
-		if (!isredir(tab[i]) && tab[i+1])
+		if (isredir(tab[i]) && tab[i +1])
+			i++;
+		else
+		{
+			// fprintf(stderr, "add dans parse : %s\n", tab[i]);
 			all->arg[t++] = ft_strdup(tab[i]);
+		}
 		i++;
 	}
 	all->cmd = all->arg[0];

@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 17:00:03 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/28 12:35:20 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/29 16:03:22 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ int	count_quote(char *input)
 
 	i = -1;
 	res = 0;
+	if (!input[0])
+		return (res);
 	while (input[++i])
 	{
 		if (input[i] == SQUOTE || input[i] == DQUOTE )

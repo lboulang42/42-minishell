@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 17:46:20 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 21:24:24 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/29 19:48:32 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_free_heredoc(t_all *all)
 	free_t_env(&all->env);
 	ft_free_tab((void **)all->tokens);
 	ft_free_tab((void **)all->all_lines);
-	ft_free_tab((void **)all->arg);
+	ft_free_tab_size((void **)all->arg, all->args_size+1);
 	free(all->here_doc_limiter);
 }
 

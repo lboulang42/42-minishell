@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:51:14 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 13:00:30 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/29 19:45:47 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ void	ft_access_fail(char **PATHvaaaar, char *cmd_path, char *cmd_name)
 		if (access(cmd_path, F_OK))
 		{
 			if (!ft_strchr(cmd_name, '/'))
-				fprintf(stderr, "%s :%s : %s\n", MINI, cmd_name, ERR_CMD);
+				fprintf(stderr, "1%s :%s : %s\n", MINI, cmd_name, ERR_CMD);
 			else
-				fprintf(stderr, "%s :%s : %s\n", MINI, cmd_name, ERR_NOSUCHF);
+				fprintf(stderr, "2%s :%s : %s\n", MINI, cmd_name, ERR_NOSUCHF);
 		}
 		else if (access(cmd_path, X_OK))
 		{
-			fprintf(stderr, "%s : %s: %s\n", MINI, cmd_name,  strerror(errno));
+			fprintf(stderr, "3%s : %s: %s\n", MINI, cmd_name,  strerror(errno));
 			ft_kill_dir(PATHvaaaar, cmd_path, cmd_name);
 		}
 	}
