@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/29 19:32:04 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/29 21:02:45 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ typedef struct s_redir
 {
 	int		type;//1 > 2 >> 3 < 4 <<
 	char	*file;//pour un here doc = limiter
-	
+	int here_doc_fd;
 }	t_redir;
 
 /*Structure globale minishell*/
@@ -128,17 +128,19 @@ typedef struct s_all
 	int		nbr_redir;
 	int		index_redir_tamere;
 	int		redir_before;
+	char	*input;
 	
 	t_redir	*redir_list;
 	t_env	*env;
 }			t_all;
 
-
+void open_heredoc(t_all *all, char *input);
 int	isredir(char *str);
 void free_redir_list(t_all *all);
-
-
-
+int	handle_heredocbooste(t_all *all);
+int	handle_heredoc2(t_all *all, char *limiter, char *input);
+void	ft_free_heredoc2(t_all *all);
+void	child_heredoc2(t_all *all, char *input);
 
 
 /*builtin/*/
@@ -185,7 +187,7 @@ void	update_status_int(t_all *all, int status);
 int		is_this_meta(char *s, char *metachar);
 int     file_is_directory(char *cmd_path, char *cmd_name);
 /*exec/exec_main.c*/
-void	exec_init(t_all *all, char *input);
+void	exec_init(t_all *all);
 void    handle_line(t_all *all, int index_pipe);
 char	**get_env(t_env *env);
 void	parent(t_all *all);

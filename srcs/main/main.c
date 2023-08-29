@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/29 19:32:18 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/29 21:05:01 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ void free_redir_list(t_all *all)
 	while (++i < all->nbr_redir)
 	{
 		free(all->redir_list[i].file);
+		if (all->redir_list[i].type == 4)
+			safeclose(all->redir_list[i].here_doc_fd);
 	}
 	free(all->redir_list);
 }
@@ -123,36 +125,37 @@ void	run_easyshell(t_all *all)
 
 	while (1)
 	{
-		input = readline("easy-shell> ");
+		all->input = readline("easy-shell> ");
 		// signal(SIGINT, & ctrlc);
-		if (!input)
+		if (!all->input)
 			break ;
-		if (!*input)
+		if (!*all->input)
 		{
-			free(input);
+			free(all->input);
 			continue ;
 		}
-		add_history(input);
-		inverse_string(input, SQUOTE);
-		inverse_string(input, DQUOTE);
-		input = add_spaces_input(input);
-		if (syntax_error(all, input) == 1)
+		add_history(all->input);
+		inverse_string(all->input, SQUOTE);
+		inverse_string(all->input, DQUOTE);
+		all->input = add_spaces_input(all->input);
+		if (syntax_error(all, all->input) == 1)
 		{
-			free(input);
+			free(all->input);
 			do_export(all, "?", "1");
 			continue ;
 		}
-		index_redir(all, input);
-		inverse_string(input, DQUOTE);
+		index_redir(all, all->input);
+		open_heredoc(all, all->input);
+		inverse_string(all->input, DQUOTE);
 		
-		// parse(all, input);
+		// parse(all, all->input);
 		//open les here_doc;
-		input = expand_string(input, all->env);
-		inverse_string(input, DQUOTE);
-		input = delete_quote(input);
-		inverse_string(input, DQUOTE);
+		all->input = expand_string(all->input, all->env);
+		inverse_string(all->input, DQUOTE);
+		all->input = delete_quote(all->input);
+		inverse_string(all->input, DQUOTE);
 		all->index_redir_tamere = 0;
-		exec_init(all, input);
+		exec_init(all);
 		
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 15:04:58 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 15:15:37 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/29 20:55:13 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,7 @@ void ctrlchere_doc(int sig)
 	all = init_data();
 	if (sig == SIGINT)
 	{
-		safeclose(all->here_doc_fd[1]);
-		safeclose(all->here_doc_fd[0]);
-		safeclose(all->link_fd[0]);
-		safeclose(all->link_fd[1]);
-		safeclose(all->default_out);
-		if (all->here_doc_limiter)
-			free(all->here_doc_limiter);
-		free_t_env(&all->env);
-		ft_free_tab((void **)all->all_lines);
-		ft_free_tab((void **)all->tokens);
+		ft_free_heredoc2(all);
 		ft_putchar('\n');
 		exit(130);
 	}

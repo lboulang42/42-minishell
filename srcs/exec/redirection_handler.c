@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:33:35 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/29 19:39:50 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/29 21:19:28 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	get_outfile_infile_builtin(t_all *all, char **tokens, char **all_lines)
 		if (is_this_meta(tokens[i], "<"))
 			fd = handle_infile(all, i +1);
 		else if (is_this_meta(tokens[i], "<<"))
-			fd = handle_heredoc(all, i +1);
+			fd = handle_heredocbooste(all);
 		else if (is_this_meta(tokens[i], ">"))
 			fd = handle_outfile_trunc(all, i +1);
 		else if (is_this_meta(tokens[i], ">>"))
@@ -79,7 +79,7 @@ void	get_outfile_infile(t_all *all, char **tokens, char **all_lines, int index_p
 		if (is_this_meta(tokens[i], "<"))
 			fd = handle_infile(all, i +1);
 		else if (is_this_meta(tokens[i], "<<"))
-			fd = handle_heredoc(all, i +1);
+			fd = handle_heredocbooste(all);
 		else if (is_this_meta(tokens[i], ">"))
 			fd = handle_outfile_trunc(all, i +1);
 		else if (is_this_meta(tokens[i], ">>"))
@@ -113,7 +113,8 @@ void	get_outfile_infile(t_all *all, char **tokens, char **all_lines, int index_p
 				dup2(fd, 1);
 			safeclose(fd);
 			tokens[i][0] = '\0';
-			tokens[i + 1][0] = '\0';
+			if (tokens[i + 1])
+				tokens[i + 1][0] = '\0';
 			all->index_redir_tamere+=1;
 		}
 	}

@@ -6,16 +6,13 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/29 19:52:56 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/29 21:06:47 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-
-
-void	exec_init(t_all *all, char *input)
+void	exec_init(t_all *all)
 {
 	char	**lines;//lines = inputs splités aux |
 	int     lines_number;
@@ -24,10 +21,10 @@ void	exec_init(t_all *all, char *input)
 	int j;
 	i = -1;
 	all->status = 0;
-	all->all_lines = ft_split(input, '|');//gerer si cmd vide plus tard
+	all->all_lines = ft_split(all->input, '|');//gerer si cmd vide plus tard
 	if (!all->all_lines)
-		return ((void)free(input));
-	free(input);
+		return ((void)free(all->input));
+	free(all->input);
 	lines_number = ft_tab_len(all->all_lines);
 	all->prev = -1;
 	all->btn_fd = -1;
