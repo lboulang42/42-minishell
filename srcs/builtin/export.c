@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/29 21:12:36 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:40:47 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,12 @@ int	export(t_all *all)
 	status = 0;
 	i = -1;
 	if (!all->tokens[1])
-		return (fprintf(stderr, "%s: %s: %s\n", MINI, "export", ERR_NVALID));
+		return (ft_printf("%s: %s: %s\n", MINI, "export", ERR_NVALID));
 	while (all->tokens[++i])
 	{
 		if (!parse_export(all->tokens[i]))
 		{
-			fprintf(stderr, "%s: export: '%s': %s", MINI, all->tokens[i], ERR_NVALID);
+			ft_printf("%s: export: '%s': %s", MINI, all->tokens[i], ERR_NVALID);
 			status = 1;
 			continue ;
 		}

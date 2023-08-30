@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 15:43:51 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 21:27:15 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:39:00 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,18 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }					t_list;
+
+# define BASE_XX "0123456789abcdef"
+# define BASE_X "0123456789ABCDEF"
+
+int	prntf_putchar(char c);
+int	prntf_putstr(char *str);
+int	prntf_putnbr(int nbr, int *count);
+int	prntf_sort(char c, va_list *args);
+int	prntf_printf(const char *format, ...);
+int	prntf_putnbr_u(unsigned int nbr);
+int	prntf_putnbr_base(unsigned int nbr, char *base);
+int	prntf_putnbr_base_p(unsigned long int nbr, char *base);
 
 void ft_free_tab_size(void **tab, int size);
 

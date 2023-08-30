@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/30 03:17:21 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:42:20 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int main(int argc, char **argv, char **env)
 	t_all	*all;
 	char *stat;
 	int status;
-
 	(void)argv;
 	if (argc != 1)
 		return (1);//EXIT)FAILURE
@@ -56,11 +55,8 @@ void index_redir(t_all *all, char *input)
 			continue;
 		while (tokens[++index_tokens +1])
 		{
-			// fprintf(stderr, "before delete  1 %s\n", tokens[index_tokens]);
 			tokens[index_tokens]= delete_quote(tokens[index_tokens]);
-			// fprintf(stderr, "after delete 1 %s\n", tokens[index_tokens]);
 			inverse_all(tokens[index_tokens], 0);
-			// fprintf(stderr, "after inverseall 1 %s\n", tokens[index_tokens]);
 			redir_type = isredir(tokens[index_tokens]);
 			if (redir_type)
 				count_redir++;
@@ -79,11 +75,11 @@ void index_redir(t_all *all, char *input)
 		int idn = -1;
 		while (tokens[++idn])
 		{
-			// fprintf(stderr, "before delete %s\n", tokens[idn]);
+			// ft_printf("before delete %s\n", tokens[idn]);
 			tokens[idn] = delete_quote(tokens[idn]);
-			// fprintf(stderr, "after delete %s\n", tokens[idn]);
+			// ft_printf("after delete %s\n", tokens[idn]);
 			inverse_all(tokens[idn], 0);
-			// fprintf(stderr, "after inverseall %s\n", tokens[idn]);
+			// ft_printf("after inverseall %s\n", tokens[idn]);
 		}
 		while (tokens[index_tokens +1])
 		{
@@ -92,7 +88,7 @@ void index_redir(t_all *all, char *input)
 			{
 				all->redir_list[all->nbr_redir].type = redir_type;
 				all->redir_list[all->nbr_redir].file = ft_strdup(tokens[index_tokens + 1]);
-				// fprintf(stderr, "added in redir list : %s at index %d\n", all->redir_list[all->nbr_redir].file, all->nbr_redir);
+				// ft_printf("added in redir list : %s at index %d\n", all->redir_list[all->nbr_redir].file, all->nbr_redir);
 				all->nbr_redir++;
 			}
 			index_tokens++;
@@ -107,7 +103,7 @@ void free_redir_list(t_all *all)
 	int i;
 
 	i = -1;
-	// fprintf(stderr, "all->nbr_redir = %d\n", all->nbr_redir);
+	// ft_printf("all->nbr_redir = %d\n", all->nbr_redir);
 	while (++i < all->nbr_redir)
 	{
 		free(all->redir_list[i].file);

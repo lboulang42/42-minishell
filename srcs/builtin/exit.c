@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/30 17:30:46 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:40:27 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,12 @@
 unsigned long long	do_atoi(const char *str, int neg, const char *str_safe)
 {
 	unsigned long long	res;
-	t_all				*all;
 	int					count;
+	t_all				*all;
 
 	res = 0;
 	all = init_data();
-	count =0;
-
+	count = 0;
 	while (ft_isdigit(*str))
 	{
 		res = (res * 10) + (*str - '0');
@@ -30,26 +29,24 @@ unsigned long long	do_atoi(const char *str, int neg, const char *str_safe)
 	}
 	if (count > 19)
 	{
-		fprintf(stderr, "%s : exit: %s: %s", MINI, str_safe, ERR_NARGS);
-		ft_exit_free(all);
+		ft_printf("%s : exit: %s: %s", MINI, str_safe, ERR_NARGS);
+		ft_exit_free(all, 2);
 		exit(2);
 	}
 	if (neg == -1)
 	{
 		if (res -1 > LLONG_MAX)
 		{
-			fprintf(stderr, "%s : exit: %s: %s", MINI, str_safe, ERR_NARGS);
-			ft_exit_free(all);
-			exit(2);
+			ft_printf("%s : exit: %s: %s", MINI, str_safe, ERR_NARGS);
+			ft_exit_free(all, 2);
 		}
 	}
 	else
 	{
 		if (res > LLONG_MAX)
 		{
-			fprintf(stderr, "%s : exit: %s: %s", MINI, str_safe, ERR_NARGS);
-			ft_exit_free(all);
-			exit(2);
+			ft_printf("%s : exit: %s: %s", MINI, str_safe, ERR_NARGS);
+			ft_exit_free(all, 2);
 		}
 	}
 	return (res);
@@ -74,7 +71,15 @@ unsigned long long	ft_atoilonglong(const char *str, const char *str_safe)
 	return (res);
 }
 
-void	ft_exit_free(t_all *all)
+
+
+/*
+sans argument exit renvoie l'exit code de la derniere commande;
+too many argument n'exit pas le process
+ //ajouter l'exit code par défaut comme fait exit();
+*/
+
+void	ft_exit_free(t_all *all, int exit_code)
 {
 	if (ft_tab_len(all->all_lines) == 1)
 	{
@@ -87,13 +92,10 @@ void	ft_exit_free(t_all *all)
 	ft_free_tab((void **)all->all_lines);
 	ft_free_tab_size((void **)all->arg, all->args_size +1);
 	free_redir_list(all);
+	exit(exit_code);
 }
 
-/*
-sans argument exit renvoie l'exit code de la derniere commande;
-too many argument n'exit pas le process
- //ajouter l'exit code par défaut comme fait exit();
-*/
+
 void	ft_exit(t_all *all)
 {
 	long long int	exit_code;
@@ -107,15 +109,13 @@ void	ft_exit(t_all *all)
 		tmp = get_key(all->env, "?");
 		exit_code = ft_atoi(tmp);
 		free(tmp);
-		ft_exit_free(all);
-		exit(exit_code);
+		ft_exit_free(all, exit_code);
 	}
 	if (ft_tab_len(all->tokens) > 2)
 	{
 		printf("exit\n");
-		fprintf(stderr, "%s: exit: %s\n", MINI, ERR_TOOMARGS);
-		ft_exit_free(all);
-		exit(1);
+		ft_printf("%s: exit: %s\n", MINI, ERR_TOOMARGS);
+		ft_exit_free(all, 1);
 	}
 	if (all->tokens[1][i] == '-' || all->tokens[1][i] == '+')
 		i++;
@@ -123,11 +123,9 @@ void	ft_exit(t_all *all)
 		i++;
 	if (all->tokens[1][i] != '\0')
 	{
-		fprintf(stderr, "%s: exit: %s: %s", MINI, all->tokens[1], ERR_NARGS);
-		ft_exit_free(all);
-		exit(2);
+		ft_printf("%s: exit: %s: %s", MINI, all->tokens[1], ERR_NARGS);
+		ft_exit_free(all, 2);
 	}
 	exit_code = ft_atoilonglong(all->tokens[1], all->tokens[1]);
-	ft_exit_free(all);
-	exit((unsigned char) exit_code);
+	ft_exit_free(all, (unsigned char)exit_code);
 }

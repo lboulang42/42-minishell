@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:42:31 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/29 19:46:03 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:42:28 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int     file_is_directory(char *cmd_path, char *cmd_name)
     stat(cmd_path, &tmp);
 	if (!S_ISREG(tmp.st_mode))
 	{
-		fprintf(stderr, "5%s : %s : %s", MINI, cmd_name, ERR_ISDIR);
+		ft_printf("5%s : %s : %s", MINI, cmd_name, ERR_ISDIR);
         return (1);
 	}
     return (0);

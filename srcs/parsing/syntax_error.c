@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 16:56:49 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/28 11:01:48 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:42:24 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,17 +120,17 @@ int	syntax_error(t_all *all, char *input)
 	}
 	if (check_alone_quote(input))
 	{
-		fprintf(stderr, "%s : %s : %s\n", MINI, ERR_SYNTX, ERR_CLQUOTES);
+		ft_printf("%s : %s : %s\n", MINI, ERR_SYNTX, ERR_CLQUOTES);
 		return (1);
 	}
 	if (check_pipes(input))
 	{
-		fprintf(stderr, "%s : %s `|'\n", MINI, ERR_SYNTX);
+		ft_printf("%s : %s `|'\n", MINI, ERR_SYNTX);
 		return (1);
 	}
 	if (check_rafters(input))
 	{
-		fprintf(stderr, "%s : %s `newline'\n", MINI, ERR_SYNTX);
+		ft_printf("%s : %s `newline'\n", MINI, ERR_SYNTX);
 		return (1);
 	}
 	return (0);

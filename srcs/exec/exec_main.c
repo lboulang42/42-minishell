@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/29 22:16:16 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:41:14 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,13 +188,9 @@ void    handle_line(t_all *all, int index_pipe)
 		return;
 	if (!parse(all, all->tokens))
 		return ;
-	// fprintf(stderr, "chec1\n");
 	builtin_code = is_builtin(all->cmd);
 	if (builtin_code >= 0 && ft_tab_len(all->all_lines) == 1)
 		return ((void)only_builtin(all, index_pipe, builtin_code));
-	// fprintf(stderr, "chec2\n");
-
-
 	pipe(all->link_fd);
 	all->pid[index_pipe] = fork();
 	if (all->pid[index_pipe] == 0)

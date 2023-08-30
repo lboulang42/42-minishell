@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:33:35 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/29 21:19:28 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:42:12 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	get_outfile_infile_builtin(t_all *all, char **tokens, char **all_lines)
 	fd = -1;
 	while (tokens[++i])
 	{
-		// fprintf(stderr, "for *all->index_redir_tamere = %d\n", all->index_redir_tamere[0] + all->redir_before);
 		if (is_this_meta(tokens[i], "<"))
 			fd = handle_infile(all, i +1);
 		else if (is_this_meta(tokens[i], "<<"))
@@ -39,9 +38,9 @@ int	get_outfile_infile_builtin(t_all *all, char **tokens, char **all_lines)
 			if (fd == -1)
 			{
 				if (errno == 13)
-					fprintf(stderr, "%s: %s: %s\n", MINI, tokens[i +1], ERR_PERM);
+					ft_printf("%s: %s: %s\n", MINI, tokens[i +1], ERR_PERM);
 				else
-					fprintf(stderr, "%s :%s: %s\n", MINI, tokens[i +1], ERR_NOSUCHF);
+					ft_printf("%s :%s: %s\n", MINI, tokens[i +1], ERR_NOSUCHF);
 				all->index_redir_tamere+=1;
 				return (-3);
 			}
@@ -75,7 +74,6 @@ void	get_outfile_infile(t_all *all, char **tokens, char **all_lines, int index_p
 	fd = -1;
 	while (tokens[++i])
 	{
-		// fprintf(stderr, "for *all->index_redir_tamere = %d\n", all->index_redir_tamere);
 		if (is_this_meta(tokens[i], "<"))
 			fd = handle_infile(all, i +1);
 		else if (is_this_meta(tokens[i], "<<"))
@@ -88,7 +86,7 @@ void	get_outfile_infile(t_all *all, char **tokens, char **all_lines, int index_p
 		{
 			if (fd == -1)
 			{
-				fprintf(stderr, "%s: %s: %s\n", MINI, tokens[i+1], strerror(errno));
+				ft_printf("%s: %s: %s\n", MINI, tokens[i+1], strerror(errno));
 				free_t_env(&all->env);
 				ft_free_tab((void **)all_lines);
 				ft_free_tab((void **)tokens);

@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 02:09:39 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/30 00:41:50 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:41:21 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	printparse(char *cmd, char **arg, int *type, char **files)
 		fprintf(stderr,"[%i]|{%s}\n", type[i], files[i]);
 }
 
-//grep hi <./test_files/infile_big <./test_files/infile
 int	parse(t_all *all, char **tab)//pq c'etait un void *
 {
 	int	i;
@@ -88,7 +87,6 @@ int	parse(t_all *all, char **tab)//pq c'etait un void *
 		}
 		else
 		{
-			// fprintf(stderr, "add dans parse : %s\n", tab[i]);
 			all->arg[t++] = ft_strdup(tab[i]);
 			i++;
 		}

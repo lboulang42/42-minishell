@@ -1,17 +1,9 @@
 cat << stop | ls
 ls | cat << stop
 
-exit 922337203685477580892110
-> out
-
-le baul des exit LLMIN
 echo -nnnnnnnnnnnn
-
-exit sans rien ajouter dernier exit_code
 
 echo $:$= | cat -e
 
-
 add + = ~ : . , % / ^ dans le check pour lexpand
-
 echo $""HOME

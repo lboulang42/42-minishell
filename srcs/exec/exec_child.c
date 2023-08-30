@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:48:34 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/30 03:04:34 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:41:05 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,10 @@ void child(t_all *all, int index_pipe, int builtin_code)
 	char	*cmd_path;
 	char	**env;
 
-	// fprintf(stderr, "chec3\n");
 	signal(SIGINT, & ctrlc);
 	tokens_positif(all->tokens, 1);
 	redirection_execve(all, all->all_lines, index_pipe);
 	get_outfile_infile(all, all->tokens, all->all_lines, index_pipe);
-	// fprintf(stderr, "chec4\n");
-	fprintf(stderr, "all->cmd = %s\n", all->cmd);
-	
 	if (!all->cmd)
 	{
 		ft_free_child(all, NULL, NULL);
@@ -64,7 +60,6 @@ void child(t_all *all, int index_pipe, int builtin_code)
 		exit(1);
 	}
 	all->tokens = kick_empty_tokens(all->tokens);
-		// fprintf(stderr, "chec5\n");
 	if (builtin_code >= 0)
 	{
 		tokens_positif(all->tokens, 0);
@@ -78,14 +73,11 @@ void child(t_all *all, int index_pipe, int builtin_code)
 	}
 	cmd_path = get_path_putain(all->cmd, all->env);
 	env = get_env(all->env);
-	// fprintf(stderr, "chec6\n");
 	if (cmd_path && all->cmd)
 	{
 		tokens_positif(all->tokens, 0);
 		execve(cmd_path, all->tokens, env);
 	}
-	// fprintf(stderr, "sors ici\n");
-	// ft_free_tab((void **)all->tokens);
 	ft_free_child(all, env, cmd_path);
 	ft_free_tab_size((void **)all->arg, all->args_size+1);
 	free_redir_list(all);

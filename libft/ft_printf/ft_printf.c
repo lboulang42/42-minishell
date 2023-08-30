@@ -1,69 +1,78 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ftntf_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/15 19:17:41 by lboulang          #+#    #+#             */
-/*   Updated: 2023/06/26 18:25:17 by lboulang         ###   ########.fr       */
+/*   Created: 2022/11/18 17:43:50 by gcozigon          #+#    #+#             */
+/*   Updated: 2023/08/30 17:38:06 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "ft_printf.h"
 
-int	prntf_parse(va_list va_ptr, const char flag, int tmp, int counter)
+int	prntf_putchar(char c)
 {
-	if (flag == 's')
-		counter += prnft_ft_putstr(va_arg(va_ptr, char *));
-	if (flag == 'c')
-		counter += ft_putchar(va_arg(va_ptr, int));
-	if (flag == 'p')
-	{
-		tmp = prntf_ptr(va_arg(va_ptr, unsigned long long));
-		if (tmp == 0)
-			counter += prnft_ft_putstr("(nil)");
-		else
-			counter += tmp;
-	}
-	if (flag == 'd' || flag == 'i')
-		counter += prntf_nbr(va_arg(va_ptr, int), "0123456789", 0);
-	if (flag == 'u')
-		counter += prntf_nbr(va_arg(va_ptr, unsigned int), "0123456789", 0);
-	if (flag == 'x')
-		counter += prntf_nbr(va_arg(va_ptr, unsigned int), "0123456789abcdef",
-				0);
-	if (flag == 'X')
-		counter += prntf_nbr(va_arg(va_ptr, unsigned int), "0123456789ABCDEF",
-				0);
-	if (flag == '%')
-		counter += ft_putchar('%');
-	return (counter);
+	write(2, &c, 1);
+	return (1);
 }
 
-int	ft_printf(const char *arg0, ...)
+int	for_p(va_list *args)
 {
-	va_list	va_ptr;
-	size_t	i;
-	int		counter;
-	int		tmp;
+	unsigned long	fff;
 
-	tmp = 0;
-	counter = 0;
-	va_start(va_ptr, arg0);
+	fff = va_arg(*args, unsigned long);
+	if (!fff)
+		return (write(2, "(nil)", 5));
+	else
+		return (prntf_putstr("0x") + prntf_putnbr_base_p(fff, BASE_XX));
+}
+
+int	prntf_sort(char c, va_list *args)
+{
+	int				count;
+
+	count = 0;
+	if (c == 'c')
+		return (prntf_putchar(va_arg(*args, int)));
+	else if (c == 's')
+		return (prntf_putstr(va_arg(*args, char *)));
+	else if (c == 'd' || c == 'i')
+		return (prntf_putnbr(va_arg(*args, int), &count));
+	else if (c == 'u')
+		return (prntf_putnbr_u(va_arg(*args, unsigned int)));
+	else if (c == 'x')
+		return (prntf_putnbr_base(va_arg(*args, unsigned int), BASE_XX));
+	else if (c == 'X')
+		return (prntf_putnbr_base(va_arg(*args, unsigned int), BASE_X));
+	else if (c == 'p')
+		return (for_p(&*args));
+	else
+		return (prntf_putchar('%'));
+}
+
+int	ft_printf(const char *format, ...)
+{
+	int		i;
+	int		index;
+	va_list	args;
+
+	if (!format)
+		return (-1);
+	va_start(args, format);
 	i = 0;
-	if (!arg0)
-		return (0);
-	while (arg0[i] != '\0')
+	index = 0;
+	while (format[i])
 	{
-		if (arg0[i] == '%' && arg0[i + 1])
+		if (format[i] == '%')
 		{
-			counter += prntf_parse(va_ptr, arg0[i + 1], tmp, 0);
-			i++;
+			index += prntf_sort(format[++i], &args);
 		}
 		else
-			counter += ft_putchar(arg0[i]);
+			index += prntf_putchar(format[i]);
 		i++;
 	}
-	return (counter);
+	va_end(args);
+	return (index);
 }

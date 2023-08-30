@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:51:14 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/30 03:08:19 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:40:53 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,18 @@ void	ft_access_fail(char **PATHvaaaar, char *cmd_path, char *cmd_name)
 		if (access(cmd_path, F_OK))
 		{
 			if (!ft_strchr(cmd_name, '/'))
-				fprintf(stderr, "1%s :%s : %s\n", MINI, cmd_name, ERR_CMD);
+				ft_printf("1%s :%s : %s\n", MINI, cmd_name, ERR_CMD);
 			else
-				fprintf(stderr, "2%s :%s : %s\n", MINI, cmd_name, ERR_NOSUCHF);
+				ft_printf("2%s :%s : %s\n", MINI, cmd_name, ERR_NOSUCHF);
 		}
 		else if (access(cmd_path, X_OK))
 		{
-			fprintf(stderr, "3%s : %s: %s\n", MINI, cmd_name,  strerror(errno));
+			ft_printf("3%s : %s: %s\n", MINI, cmd_name,  strerror(errno));
 			ft_kill_dir(PATHvaaaar, cmd_path, cmd_name);
 		}
 	}
 	else
-		fprintf(stderr, "%s :%s : %s\n", MINI, cmd_name, ERR_CMD);
+		ft_printf("%s :%s : %s\n", MINI, cmd_name, ERR_CMD);
 	if (cmd_path)
 		free(cmd_path);
 }

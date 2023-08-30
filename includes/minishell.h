@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/29 21:02:45 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:36:51 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,9 +155,9 @@ int		env(t_all *all);
 /*builtin/exec_builtin.c*/
 int		execute_builtin(t_all *all, int builtin_code);
 int		is_builtin(char *cmd_name);
-/*builtin/exit.c*/ //clean et add last exit_code in ft_exit()
+/*builtin/exit.c*/ 
 void	ft_exit(t_all *all);
-void	ft_exit_free(t_all *all);
+void	ft_exit_free(t_all *all, int exit_code);
 unsigned long long	ft_atoilonglong(const char *str, const char *str_safe);
 unsigned long long	do_atoi(const char *str, int neg, const char *str_safe);
 /*builtin/export.c*/
