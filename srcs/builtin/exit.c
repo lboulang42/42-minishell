@@ -6,25 +6,33 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/29 22:30:25 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:25:58 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-
 unsigned long long	do_atoi(const char *str, int neg, const char *str_safe)
 {
 	unsigned long long	res;
 	t_all				*all;
+	int					count;
 
 	res = 0;
 	all = init_data();
+	count =0;
+
 	while (ft_isdigit(*str))
 	{
 		res = (res * 10) + (*str - '0');
 		str++;
+		count++;
+	}
+	if (count > 19)
+	{
+		fprintf(stderr, "%s : exit: %s: %s", MINI, str_safe, ERR_NARGS);
+		ft_exit_free(all);
+		exit(2);
 	}
 	if (neg == -1)
 	{
@@ -77,13 +85,14 @@ void	ft_exit_free(t_all *all)
 	free_t_env(&all->env);
 	ft_free_tab((void **)all->tokens);
 	ft_free_tab((void **)all->all_lines);
-	ft_free_tab_size((void **)all->arg, all->args_size+1);
+	ft_free_tab_size((void **)all->arg, all->args_size +1);
 	free_redir_list(all);
 }
 
 /*
 sans argument exit renvoie l'exit code de la derniere commande;
 too many argument n'exit pas le process
+ //ajouter l'exit code par défaut comme fait exit();
 */
 void	ft_exit(t_all *all)
 {
@@ -91,7 +100,7 @@ void	ft_exit(t_all *all)
 	int				i;
 
 	i = 0;
-	if (ft_tab_len(all->tokens) == 1) //ajouter l'exit code par défaut comme fait exit();
+	if (ft_tab_len(all->tokens) == 1)
 	{
 		printf("exit\n");
 		ft_exit_free(all);
