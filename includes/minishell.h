@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/30 17:36:51 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:54:29 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,7 +272,6 @@ void	free_t_env(t_env **env);
 t_env	*t_env_new(char	*name, char *value, int display);
 /*t_env/t_env_operation.c*/
 t_env	*get_last_t_env(t_env *env);
-void	print_t_env(t_env *env);//kick ?
 void	add_t_env(t_env **env, char *name, char *value, int display);
 char	*get_key(t_env *full_env, char *key);
 

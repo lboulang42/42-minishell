@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 17:21:15 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/30 03:14:45 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:54:04 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,32 @@
 
 char	*get_env_name(char *env_line)
 {
-	char *env_name;
-	char **env_split;
-	
+	char	*env_name;
+	char	**env_split;
+
 	if (!env_line)
 		return (NULL);
 	env_split = ft_split(env_line, '=');
 	if (!env_split)
-		return(err_msg(ERR_MALL, "get_env_name() ftsplit()"), NULL);//split error
+		return (err_msg(ERR_MALL, "get_env_name() ftsplit()"), NULL);
 	env_name = ft_strdup(env_split[0]);
 	ft_free_tab((void **)env_split);
 	if (!env_name)
-		return(err_msg(ERR_MALL, "get_env_name() ftstrdup()"), NULL);//ft_strdup malloc error
+		return (err_msg(ERR_MALL, "get_env_name() ftstrdup()"), NULL);
 	return (env_name);
-	
 }
 
-char *get_env_value(char *env_line, char *name)
+char	*get_env_value(char *env_line, char *name)
 {
 	char	*value;
-	value = ft_substr(env_line, ft_strlen(name)+1, ft_strlen(env_line));
+
+	value = ft_substr(env_line, ft_strlen(name) + 1, ft_strlen(env_line));
 	if (!value)
 		return (err_msg(ERR_MALL, "get_env_value() ft_substr()"), NULL);
 	return (value);
 }
 
-void	init_env(t_all *data, char **env)//y'a des merdes a gerer la dedans
+void	init_env(t_all *data, char **env)
 {
 	int		i;
 	char	*value;
@@ -59,11 +59,7 @@ void	init_env(t_all *data, char **env)//y'a des merdes a gerer la dedans
 			value = get_env_value(env[i], name);
 			if (value)
 			{
-				if (i == 0)
-					add_t_env(&data->env, name, value, 1);
-					// data->env = t_env_new(name, value, 1);
-				else
-					add_t_env(&data->env, name, value, 1);
+				add_t_env(&data->env, name, value, 1);
 				free(value);
 			}
 			free(name);
@@ -88,7 +84,7 @@ void	free_t_env(t_env **env)
 	}
 }
 
-t_env	*t_env_new(char	*name, char *value, int display)
+t_env	*t_env_new(char *name, char *value, int display)
 {
 	t_env	*new;
 

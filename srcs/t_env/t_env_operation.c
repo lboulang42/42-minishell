@@ -6,24 +6,11 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:27:33 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 12:18:03 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:54:42 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	print_t_env(t_env *env)
-{
-	t_env *tmp;
-
-	tmp = env;
-	while (tmp)
-	{
-		printf("entry in env :\nName : %s\nValue : %s\n", tmp->name, tmp->value);
-		tmp = tmp->next;
-	}
-}
-
 
 t_env	*get_last_t_env(t_env *env)
 {
@@ -38,10 +25,11 @@ void	add_t_env(t_env **env, char *name, char *value, int display)
 {
 	t_env	*temp;
 	t_env	*new;
+
 	new = t_env_new(name, value, display);
 	if (!env)
 		return ;
-	if(!*env)
+	if (!*env)
 	{
 		*env = new;
 		return ;
@@ -52,16 +40,16 @@ void	add_t_env(t_env **env, char *name, char *value, int display)
 
 char	*get_key(t_env *full_env, char *key)
 {
-    t_env   *tmp;
+	t_env	*tmp;
 
-    tmp = full_env;
-    if (!key)
+	tmp = full_env;
+	if (!key)
 		return (NULL);
-    while (tmp)
-    {
-        if (is_same_string(tmp->name, key))
-            return (ft_strdup(tmp->value));
-        tmp = tmp->next;
-    }
+	while (tmp)
+	{
+		if (is_same_string(tmp->name, key))
+			return (ft_strdup(tmp->value));
+		tmp = tmp->next;
+	}
 	return (NULL);
 }
