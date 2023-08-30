@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:51:14 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/30 00:49:29 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 03:08:19 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ Si X_OK fail :
 void	ft_access_fail(char **PATHvaaaar, char *cmd_path, char *cmd_name)
 {
 	char *tmp;
-
 	if (cmd_path)
 	{
 		if (access(cmd_path, F_OK))
@@ -58,6 +57,8 @@ void	ft_access_fail(char **PATHvaaaar, char *cmd_path, char *cmd_name)
 			ft_kill_dir(PATHvaaaar, cmd_path, cmd_name);
 		}
 	}
+	else
+		fprintf(stderr, "%s :%s : %s\n", MINI, cmd_name, ERR_CMD);
 	if (cmd_path)
 		free(cmd_path);
 }

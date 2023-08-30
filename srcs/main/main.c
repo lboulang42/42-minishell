@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/29 21:05:01 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 03:17:21 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int main(int argc, char **argv, char **env)
 	t_all	*all;
 	char *stat;
 	int status;
-	
+
 	(void)argv;
 	if (argc != 1)
 		return (1);//EXIT)FAILURE
@@ -28,10 +28,8 @@ int main(int argc, char **argv, char **env)
 	init_env(all, env);
 	run_easyshell(all);
 	stat = get_key(all->env, "?");
-	
 	status = ft_atoi(stat);
-	if (stat)
-		free(stat);
+	free(stat);
 	free_t_env(&all->env);
 	return (status); // return last status code
 }
