@@ -6,27 +6,11 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/30 17:40:47 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:48:03 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	print_export(t_all *all)
-{
-	t_env	*tmp;
-
-	tmp = all->env;
-	if (!tmp)
-		return (EXIT_SUCCESS);
-	while (tmp)
-	{
-		if (tmp->display == 1)
-			printf("export %s=\"%s\"\n", tmp->name, tmp->value);
-		tmp = tmp->next;
-	}
-	return (EXIT_SUCCESS);
-}
 
 void	do_export(t_all *all, char *key, char *value)
 {

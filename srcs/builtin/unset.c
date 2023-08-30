@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 12:35:07 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:47:30 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ void	do_unset(t_all *all, char *key)
 				prev->next = tmp->next;
 			else
 				all->env = tmp->next;
-			if (tmp->name)
-				free(tmp->name);
+			free(tmp->name);
 			if (tmp->value)
 				free(tmp->value);
 			tmp->name = NULL;

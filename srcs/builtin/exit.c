@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/30 17:40:27 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:50:47 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,10 @@ unsigned long long	ft_atoilonglong(const char *str, const char *str_safe)
 	return (res);
 }
 
-
-
 /*
 sans argument exit renvoie l'exit code de la derniere commande;
 too many argument n'exit pas le process
- //ajouter l'exit code par défaut comme fait exit();
 */
-
 void	ft_exit_free(t_all *all, int exit_code)
 {
 	if (ft_tab_len(all->all_lines) == 1)
@@ -94,7 +90,6 @@ void	ft_exit_free(t_all *all, int exit_code)
 	free_redir_list(all);
 	exit(exit_code);
 }
-
 
 void	ft_exit(t_all *all)
 {
