@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 16:56:49 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/30 17:42:24 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 18:37:44 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -65,16 +64,6 @@ int	check_pipes(char *str)
 	return (0);
 }
 
-int valid_rafters(char *str, int len)
-{
-
-	while (str[len] && str[len] == ' ')
-		len++;
- 	if (str[len] == '<' || str[len] == '>' || str[len] == '\0')
-		return (1);
-	return (0);
-}
-	
 int	check_rafters(char *str)
 {
 	int	i;
@@ -83,7 +72,7 @@ int	check_rafters(char *str)
 	while (str[++i])
 	{
 		if ((str[i] == '<' && str[i + 1] == '<') || (str[i] == '>' && str[i
-				+ 1] == '>'))
+					+ 1] == '>'))
 		{
 			if (valid_rafters(str, i + 2))
 				return (1);
@@ -97,17 +86,6 @@ int	check_rafters(char *str)
 	i = strlen(str);
 	while (str[--i] == ' ' && str[i])
 		if (str[i - 1] == '|')
-			return (1);
-	return (0);
-}
-
-int check_empty(char *str)
-{
-	int i = -1;
-	int res = 0;//is empty
-
-	while (str[++i])
-		if (str[i] != ' ' && str[i] != '\t' && str[i] != '\v')
 			return (1);
 	return (0);
 }
@@ -135,4 +113,3 @@ int	syntax_error(t_all *all, char *input)
 	}
 	return (0);
 }
-
