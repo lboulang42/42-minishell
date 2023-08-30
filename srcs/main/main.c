@@ -6,23 +6,23 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/30 17:42:20 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 18:51:27 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-int main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
 	t_all	*all;
-	char *stat;
-	int status;
+	char	*stat;
+	int		status;
+
 	(void)argv;
 	if (argc != 1)
-		return (1);//EXIT)FAILURE
+		return (1);
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, & ctrlc);
+	signal(SIGINT, &ctrlc);
 	all = init_data();
 	init_env(all, env);
 	run_easyshell(all);
@@ -30,32 +30,33 @@ int main(int argc, char **argv, char **env)
 	status = ft_atoi(stat);
 	free(stat);
 	free_t_env(&all->env);
-	return (status); // return last status code
+	return (status);
 }
 
-void index_redir(t_all *all, char *input)
+void	index_redir(t_all *all, char *input)
 {
-	
+	char	**lines_split;
+	char	**tokens;
+	int		count_redir;
+	int		i;
+	int		index_tokens;
+	int		redir_type;
+	int		idn;
 
-	char **lines_split;
-	char **tokens;
-	int count_redir = 0;
-	lines_split = ft_split(input , '|');
+	count_redir = 0;
+	lines_split = ft_split(input, '|');
 	if (!lines_split)
 		return ;
-
-	int i = -1;
-	int index_tokens;
-	int redir_type;
+	i = -1;
 	while (lines_split[++i])
 	{
 		index_tokens = -1;
 		tokens = ft_split(lines_split[i], ' ');
 		if (!tokens)
-			continue;
-		while (tokens[++index_tokens +1])
+			continue ;
+		while (tokens[++index_tokens + 1])
 		{
-			tokens[index_tokens]= delete_quote(tokens[index_tokens]);
+			tokens[index_tokens] = delete_quote(tokens[index_tokens]);
 			inverse_all(tokens[index_tokens], 0);
 			redir_type = isredir(tokens[index_tokens]);
 			if (redir_type)
@@ -71,24 +72,21 @@ void index_redir(t_all *all, char *input)
 		index_tokens = 0;
 		tokens = ft_split(lines_split[i], ' ');
 		if (!tokens)
-			continue;
-		int idn = -1;
+			continue ;
+		idn = -1;
 		while (tokens[++idn])
 		{
-			// ft_printf("before delete %s\n", tokens[idn]);
 			tokens[idn] = delete_quote(tokens[idn]);
-			// ft_printf("after delete %s\n", tokens[idn]);
 			inverse_all(tokens[idn], 0);
-			// ft_printf("after inverseall %s\n", tokens[idn]);
 		}
-		while (tokens[index_tokens +1])
+		while (tokens[index_tokens + 1])
 		{
 			redir_type = isredir(tokens[index_tokens]);
-			if (redir_type && tokens[index_tokens+1])
+			if (redir_type && tokens[index_tokens + 1])
 			{
 				all->redir_list[all->nbr_redir].type = redir_type;
-				all->redir_list[all->nbr_redir].file = ft_strdup(tokens[index_tokens + 1]);
-				// ft_printf("added in redir list : %s at index %d\n", all->redir_list[all->nbr_redir].file, all->nbr_redir);
+				all->redir_list[all->nbr_redir].file = ft_strdup(tokens[index_tokens
+						+ 1]);
 				all->nbr_redir++;
 			}
 			index_tokens++;
@@ -98,12 +96,11 @@ void index_redir(t_all *all, char *input)
 	ft_free_tab((void **)lines_split);
 }
 
-void free_redir_list(t_all *all)
+void	free_redir_list(t_all *all)
 {
-	int i;
+	int	i;
 
 	i = -1;
-	// ft_printf("all->nbr_redir = %d\n", all->nbr_redir);
 	while (++i < all->nbr_redir)
 	{
 		free(all->redir_list[i].file);
@@ -120,7 +117,6 @@ void	run_easyshell(t_all *all)
 	while (1)
 	{
 		all->input = readline("easy-shell> ");
-		// signal(SIGINT, & ctrlc);
 		if (!all->input)
 			break ;
 		if (!*all->input)
@@ -141,15 +137,11 @@ void	run_easyshell(t_all *all)
 		index_redir(all, all->input);
 		open_heredoc(all, all->input);
 		inverse_string(all->input, DQUOTE);
-		
-		// parse(all, all->input);
-		//open les here_doc;
 		all->input = expand_string(all->input, all->env);
 		inverse_string(all->input, DQUOTE);
 		all->input = delete_quote(all->input);
 		inverse_string(all->input, DQUOTE);
 		all->index_redir_tamere = 0;
 		exec_init(all);
-		
 	}
 }
