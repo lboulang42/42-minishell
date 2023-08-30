@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_tab.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:29:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/28 21:45:47 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 19:05:05 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void ft_free_tab_size(void **tab, int size)
+void	ft_free_tab_size(void **tab, int size)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	if (tab)
@@ -24,7 +24,6 @@ void ft_free_tab_size(void **tab, int size)
 	if (tab)
 		free(tab);
 }
-
 
 void	ft_free_tab(void **tab)
 {

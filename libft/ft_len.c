@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_len.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 17:13:05 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/13 13:53:21 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 19:04:17 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ size_t	ft_strlen(const char *s)
 
 int	ft_tab_len(char **tab)
 {
-	int count = 0;
+	int	count;
+
+	count = 0;
 	if (!tab)
 		return (0);
 	while (tab[count])

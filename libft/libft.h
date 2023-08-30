@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 15:43:51 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/30 17:39:00 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 19:02:06 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,16 @@ typedef struct s_list
 # define BASE_XX "0123456789abcdef"
 # define BASE_X "0123456789ABCDEF"
 
-int	prntf_putchar(char c);
-int	prntf_putstr(char *str);
-int	prntf_putnbr(int nbr, int *count);
-int	prntf_sort(char c, va_list *args);
-int	prntf_printf(const char *format, ...);
-int	prntf_putnbr_u(unsigned int nbr);
-int	prntf_putnbr_base(unsigned int nbr, char *base);
-int	prntf_putnbr_base_p(unsigned long int nbr, char *base);
+int					prntf_putchar(char c);
+int					prntf_putstr(char *str);
+int					prntf_putnbr(int nbr, int *count);
+int					prntf_sort(char c, va_list *args);
+int					prntf_printf(const char *format, ...);
+int					prntf_putnbr_u(unsigned int nbr);
+int					prntf_putnbr_base(unsigned int nbr, char *base);
+int					prntf_putnbr_base_p(unsigned long int nbr, char *base);
 
-void ft_free_tab_size(void **tab, int size);
+void				ft_free_tab_size(void **tab, int size);
 
 ////////*ft_atoi_itoa.c*////////
 int					counter(char *str, char c);

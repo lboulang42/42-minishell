@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ftntf_printf.c                                        :+:      :+:    :+:   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:43:50 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/30 17:38:06 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 19:05:49 by gcozigon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	for_p(va_list *args)
 
 int	prntf_sort(char c, va_list *args)
 {
-	int				count;
+	int	count;
 
 	count = 0;
 	if (c == 'c')
