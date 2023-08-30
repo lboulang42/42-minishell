@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/30 17:25:58 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:30:46 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,13 +98,17 @@ void	ft_exit(t_all *all)
 {
 	long long int	exit_code;
 	int				i;
+	char			*tmp;
 
 	i = 0;
 	if (ft_tab_len(all->tokens) == 1)
 	{
 		printf("exit\n");
+		tmp = get_key(all->env, "?");
+		exit_code = ft_atoi(tmp);
+		free(tmp);
 		ft_exit_free(all);
-		exit(0);
+		exit(exit_code);
 	}
 	if (ft_tab_len(all->tokens) > 2)
 	{
