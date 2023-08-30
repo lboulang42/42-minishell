@@ -6,22 +6,22 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 17:44:56 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/30 17:42:02 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 18:46:53 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
 int	handle_outfile_trunc(t_all *all, int index_name)
 {
-	int	fd;
-	char *value;
-	char *name;
-	char *tmp;
-	name = NULL;
+	int		fd;
+	char	*value;
+	char	*name;
+	char	*tmp;
 
-	tmp = ft_strdup(all->redir_list[all->index_redir_tamere + all->redir_before].file);
+	name = NULL;
+	tmp = ft_strdup(all->redir_list[all->index_redir_tamere
+			+ all->redir_before].file);
 	if (tmp[0] == '$')
 	{
 		name = extract_key_name(tmp, 1);
@@ -30,7 +30,8 @@ int	handle_outfile_trunc(t_all *all, int index_name)
 	else
 		value = ft_strdup(tmp);
 	if (!value)
-		return (ft_printf("%s : %s : %s\n", MINI, tmp, ERR_AMBIGUS), free(tmp), free(name), -2);
+		return (ft_printf("%s : %s : %s\n", MINI, tmp, ERR_AMBIGUS), free(tmp),
+			free(name), -2);
 	fd = open(value, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	free(tmp);
 	free(name);
@@ -40,13 +41,14 @@ int	handle_outfile_trunc(t_all *all, int index_name)
 
 int	handle_outfile_append(t_all *all, int index_name)
 {
-	int	fd;
-	char *value;
-	char *name;
-	char *tmp;
-	name = NULL;
+	int		fd;
+	char	*value;
+	char	*name;
+	char	*tmp;
 
-	tmp = ft_strdup(all->redir_list[all->index_redir_tamere + all->redir_before].file);
+	name = NULL;
+	tmp = ft_strdup(all->redir_list[all->index_redir_tamere
+			+ all->redir_before].file);
 	if (tmp[0] == '$')
 	{
 		name = extract_key_name(tmp, 1);
@@ -57,8 +59,9 @@ int	handle_outfile_append(t_all *all, int index_name)
 		value = ft_strdup(tmp);
 	}
 	if (!value)
-		return (ft_printf("%s : %s : %s\n", MINI, tmp, ERR_AMBIGUS), free(tmp), free(name), -2);
-	fd = open(value,  O_RDWR | O_CREAT | O_APPEND, 0666);
+		return (ft_printf("%s : %s : %s\n", MINI, tmp, ERR_AMBIGUS), free(tmp),
+			free(name), -2);
+	fd = open(value, O_RDWR | O_CREAT | O_APPEND, 0666);
 	free(tmp);
 	free(name);
 	free(value);
@@ -67,13 +70,14 @@ int	handle_outfile_append(t_all *all, int index_name)
 
 int	handle_infile(t_all *all, int index_name)
 {
-	int	fd;
-	char *value;
-	char *name;
-	char *tmp;
-	name = NULL;
+	int		fd;
+	char	*value;
+	char	*name;
+	char	*tmp;
 
-	tmp = ft_strdup(all->redir_list[all->index_redir_tamere + all->redir_before].file);
+	name = NULL;
+	tmp = ft_strdup(all->redir_list[all->index_redir_tamere
+			+ all->redir_before].file);
 	if (tmp[0] == '$')
 	{
 		name = extract_key_name(tmp, 1);
@@ -82,7 +86,8 @@ int	handle_infile(t_all *all, int index_name)
 	else
 		value = ft_strdup(tmp);
 	if (!value)
-		return (ft_printf("%s : %s : %s\n", MINI, tmp, ERR_AMBIGUS), free(tmp), free(name), -2);
+		return (ft_printf("%s : %s : %s\n", MINI, tmp, ERR_AMBIGUS), free(tmp),
+			free(name), -2);
 	fd = open(value, O_RDONLY);
 	free(tmp);
 	if (name)

@@ -6,13 +6,12 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 02:09:39 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/30 17:41:21 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 18:45:23 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//c'est quoi ce fichier de golmon
 int	isredir(char *str)
 {
 	if (!ft_strcmp(str, ">"))
@@ -26,54 +25,35 @@ int	isredir(char *str)
 	return (0);
 }
 
-int	mallocparse(t_all *all, char **tab)//pq c'etait un void *
+int	mallocparse(t_all *all, char **tab)
 {
 	int	i;
 	int	k;
-	
+
 	i = 0;
 	k = 0;
 	all->args_size = 0;
 	while (tab[i])
 	{
-		if (isredir(tab[i])) // > file
+		if (isredir(tab[i]))
 		{
 			k++;
 			if (!tab[++i])
-				continue;
+				continue ;
 		}
-		else // le reste
+		else
 			all->args_size++;
 		i++;
 	}
-	
-	// all->arg = ft_calloc(sizeof(char *), t + 1);
-	all->arg = ft_calloc(sizeof(char *), all->args_size +1);
+	all->arg = ft_calloc(sizeof(char *), all->args_size + 1);
 	return (1);
 }
 
-/*ca vire ca ?*/
-void	printparse(char *cmd, char **arg, int *type, char **files)
-{
-	if (cmd)
-		fprintf(stderr,"COMMAND = [%s]\n", cmd);
-	if (arg && arg[0] && arg[1])
-		fprintf(stderr,"ARGS = ");
-	for (int i = 1; arg[i]; i++)
-		fprintf(stderr,"[%s]", arg[i]);
-	if (arg && arg[0] && arg[1])
-		fprintf(stderr,"\n");
-	if (files && files[0])
-		fprintf(stderr,"TYPE|FILE\n");
-	for (int i = 0; files[i]; i++)
-		fprintf(stderr,"[%i]|{%s}\n", type[i], files[i]);
-}
-
-int	parse(t_all *all, char **tab)//pq c'etait un void *
+int	parse(t_all *all, char **tab)
 {
 	int	i;
-	int	t;//changer le name
-	
+	int	t;
+
 	i = 0;
 	t = 0;
 	mallocparse(all, tab);
@@ -81,7 +61,7 @@ int	parse(t_all *all, char **tab)//pq c'etait un void *
 	{
 		if (isredir(tab[i]))
 		{
-			if (tab[i+1])
+			if (tab[i + 1])
 				i++;
 			i++;
 		}
@@ -93,7 +73,7 @@ int	parse(t_all *all, char **tab)//pq c'etait un void *
 	}
 	all->cmd = all->arg[0];
 	inverse_all(all->cmd, 0);
-	if (!all->cmd &&  all->nbr_redir == 0)
+	if (!all->cmd && all->nbr_redir == 0)
 		ft_printf("command not found\n");
 	return (1);
 }

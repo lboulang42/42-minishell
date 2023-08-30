@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 15:04:58 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/29 20:55:13 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 18:47:44 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ void	ctrlc(int sig)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-	}   
+	}
 }
 
-void ctrlchere_doc(int sig)
+void	ctrlchere_doc(int sig)
 {
-	t_all *all;
+	t_all	*all;
 
 	all = init_data();
 	if (sig == SIGINT)
