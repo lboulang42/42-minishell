@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:29:20 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/30 18:52:03 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/31 13:26:55 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,13 @@ char	*insert_expansion(char *str, char *key_name, char *key_value,
 	return (new_str);
 }
 
+int	valid_name(char c)
+{
+	if (ft_isalpha(c) || ft_isdigit(c) || c == '_' || c == '?')
+		return (1);
+	return (0);
+}
+
 char	*extract_key_name(char *str, int start)
 {
 	int		name_len;
@@ -70,9 +77,7 @@ char	*extract_key_name(char *str, int start)
 		key_name = ft_substr(str, start, 1);
 		return (key_name);
 	}
-	while (str[start + name_len] && (ft_isalpha(str[start + name_len])
-			|| ft_isdigit(str[start + name_len]) || str[start + name_len] == '_'
-			|| str[start + name_len] == '?'))
+	while (str[start + name_len] && valid_name(str[start + name_len]))
 		name_len++;
 	key_name = ft_substr(str, start, name_len);
 	return (key_name);
@@ -104,11 +109,15 @@ char	*toneg(char *str)
 	return (str);
 }
 
+void	do_expand(char *str, int i, t_env *env)
+{
+}
+
 char	*expand_string(char *str, t_env *env)
 {
+	int		i;
 	char	*key_value;
 	char	*key_name;
-	int		i;
 
 	i = -1;
 	if (!str)
@@ -116,7 +125,7 @@ char	*expand_string(char *str, t_env *env)
 	while (str[++i])
 	{
 		if (str[i] == '$' && str[i + 1] && str[i + 1] != ' ' && str[i
-				+ 1] != '"')
+			+ 1] != '"')
 		{
 			if (ft_isdigit(str[i + 1]))
 			{

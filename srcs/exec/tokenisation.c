@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:39:07 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/30 18:49:08 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/31 12:35:35 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ static int	tab_len(char **tab)
 char	**kick_empty_tokens(char **tab)
 {
 	char	**result;
-	int		num_elements;
 	int		i;
 	int		j;
 
@@ -64,8 +63,7 @@ char	**kick_empty_tokens(char **tab)
 	j = 0;
 	if (!tab)
 		return (NULL);
-	num_elements = tab_len(tab);
-	result = malloc(sizeof(char *) * (num_elements + 1));
+	result = malloc(sizeof(char *) * (tab_len(tab) + 1));
 	if (!result)
 		return (err_msg(ERR_MALL, "kick_empty_tokens() 1"), NULL);
 	while (tab[++i])

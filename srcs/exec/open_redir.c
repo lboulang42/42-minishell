@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 17:44:56 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/30 18:46:53 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 22:21:56 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ int	handle_outfile_trunc(t_all *all, int index_name)
 	char	*tmp;
 
 	name = NULL;
-	tmp = ft_strdup(all->redir_list[all->index_redir_tamere
-			+ all->redir_before].file);
+	tmp = ft_strdup(all->redir_list[all->index_redir + all->redir_before].file);
 	if (tmp[0] == '$')
 	{
 		name = extract_key_name(tmp, 1);
@@ -47,8 +46,7 @@ int	handle_outfile_append(t_all *all, int index_name)
 	char	*tmp;
 
 	name = NULL;
-	tmp = ft_strdup(all->redir_list[all->index_redir_tamere
-			+ all->redir_before].file);
+	tmp = ft_strdup(all->redir_list[all->index_redir + all->redir_before].file);
 	if (tmp[0] == '$')
 	{
 		name = extract_key_name(tmp, 1);
@@ -76,8 +74,7 @@ int	handle_infile(t_all *all, int index_name)
 	char	*tmp;
 
 	name = NULL;
-	tmp = ft_strdup(all->redir_list[all->index_redir_tamere
-			+ all->redir_before].file);
+	tmp = ft_strdup(all->redir_list[all->index_redir + all->redir_before].file);
 	if (tmp[0] == '$')
 	{
 		name = extract_key_name(tmp, 1);

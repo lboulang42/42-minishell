@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/30 18:59:49 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/31 13:17:57 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,40 +97,41 @@ typedef struct s_env
 
 typedef struct s_redir
 {
-	int		type;
-	char	*file;
-	int		here_doc_fd;
-}			t_redir;
+	int				type;
+	char			*file;
+	int				here_doc_fd;
+}					t_redir;
 
 /*Structure globale minishell*/
 typedef struct s_all
 {
-	int			prev;
-	int			link_fd[2];
-	int			pid[1024];
-	int			btn_fd;
-	int			exit_code;
-	char		*here_doc_buffer;
-	char		*here_doc_line;
-	char		*here_doc_limiter;
-	int			here_doc_fd[2];
-	char		*here_doc_readline;
-	char		**all_lines;
-	int			default_out;
-	char		**tokens;
-	char		*cmd;
-	char		**arg;
-	int			status;
-	int			args_size;
-	int			nbr_redir;
-	int			index_redir_tamere;
-	int			redir_before;
-	char		*input;
-
-	t_redir		*redir_list;
-	t_env		*env;
+	int				prev_fd;
+	int				link_fd[2];
+	int				default_out_fd;
+	int				pid[1024];
+	int				exit_code;
+	char			*here_doc_buffer;
+	char			*here_doc_line;
+	char			*here_doc_limiter;
+	int				here_doc_fd[2];
+	char			*here_doc_readline;
+	char			**all_lines;
+	char			**tokens;
+	char			*cmd;
+	char			**arg;
+	int				status;
+	int				args_size;
+	int				nbr_redir;
+	int				index_redir;
+	int				redir_before;
+	char			*input;
+	t_redir			*redir_list;
+	t_env			*env;
 }					t_all;
 
+// int	openit(t_all *all, char **tokens, int i);
+int					open_fd(t_all *all, char **tokens, int i);
+int					get_status(t_all *all);
 void				open_heredoc(t_all *all, char *input);
 int					isredir(char *str);
 void				free_redir_list(t_all *all);
@@ -138,22 +139,27 @@ int					handle_heredocbooste(t_all *all);
 int					handle_heredoc2(t_all *all, char *limiter, char *input);
 void				ft_free_heredoc2(t_all *all);
 void				child_heredoc2(t_all *all, char *input);
-
+void				init_redirlist(t_all *all, char *input);
 /*builtin/*/
 
 /*builtin/cd.c*/
 int					cd(t_all *all, char **tokens);
 int					do_cd(t_all *all, char *path);
+
 /*builtin/echo.c*/
 int					echo(char **tokens);
+
 /*builtin/env.c*/
 int					env(t_all *all);
+
 /*builtin/exec_builtin.c*/
 int					execute_builtin(t_all *all, int builtin_code);
 int					is_builtin(char *cmd_name);
+
 /*builtin/exit.c*/
 void				ft_exit(t_all *all);
 void				ft_exit_free(t_all *all, int exit_code);
+void				exit_free_msg(t_all *all, int code, char *str1, char *str2);
 unsigned long long	ft_atoilonglong(const char *str, const char *str_safe);
 unsigned long long	do_atoi(const char *str, int neg, const char *str_safe);
 /*builtin/export.c*/
@@ -167,26 +173,30 @@ int					pwd(void);
 int					unset(t_all *all);
 
 /*exec/*/
-
+int	check_alone_pipes_start(char *str);
+int	check_alone_pipes_end(char *str);
+int	check_pipes(char *str);
 /*exec/exec_acces.c*/
 char				*ft_join_path(char *try_path, char *cmd_name);
 void				ft_access_fail(char **PATHvaaaar, char *cmd_path,
 						char *cmd_name);
 char				*ft_check_acces(char **env_path, char *cmd_name, int i);
-			//fonction ATROCE
+//fonction ATROCE
 /*exec/exec_child.c*/
 char				*get_path_putain(char *cmd, t_env *env);
 void				redirection_execve(t_all *all, char **all_lines,
 						int index_pipe);
-void				ft_free_child(t_all *all, char **env_array, char *cmd_path);
+void				ft_free_child(t_all *all, char **env_array, char *cmd_path,
+						int status);
+int					count_redir(char **tokens);
 void				child(t_all *all, int index_pipe, int builtin_code);
 /*exec/exec_utils.c*/
 void				safeclose(int fd);
 void				update_status_int(t_all *all, int status);
 int					is_this_meta(char *s, char *metachar);
-int					file_is_directory(char *cmd_path, char *cmd_name);
+int					isdir(char *cmd_path, char *cmd_name);
 /*exec/exec_main.c*/
-void				exec_init(t_all *all);
+void				start_exec(t_all *all);
 void				handle_line(t_all *all, int index_pipe);
 char				**get_env(t_env *env);
 void				parent(t_all *all);
@@ -209,10 +219,8 @@ int					isredir(char *str);
 int					mallocparse(t_all *all, char **tab);
 void				printparse(char *cmd, char **arg, int *type, char **files);
 /*exec/redirection_handler.c*/
-int					get_outfile_infile_builtin(t_all *all, char **tokens,
-						char **all_lines);
-void				get_outfile_infile(t_all *all, char **tokens,
-						char **all_lines, int index_pipe);
+int					get_outfile_infile_builtin2(t_all *all, char **tokens);
+void				get_outfile_infile(t_all *all, char **tokens);
 /*exec/signal.c*/
 void				ctrlc(int sig);
 void				ctrlchere_doc(int sig);
@@ -224,7 +232,7 @@ char				**kick_empty_tokens(char **tab);
 /*main/*/
 
 /*main/error.c*/
-void				err_msg(char *err_msg, char *function_name); //unsed
+void	err_msg(char *err_msg, char *function_name); //unsed
 /*main/init.c*/
 t_all				*init_data(void);
 /*main/main.c*/
@@ -251,7 +259,6 @@ void				inverse_string(char *str, int flag);
 int					is_same_string(char *str1, char *str2);
 /*parsing/syntax_error.c*/
 int					check_alone_quote(char *str);
-int					check_pipes(char *str);
 int					valid_rafters(char *str, int len);
 int					check_rafters(char *str);
 int					check_empty(char *str);
@@ -271,7 +278,7 @@ int					ft_strcmp(const char *s1, const char *s2);
 char				*get_env_name(char *env_line);
 char				*get_env_value(char *env_line, char *name);
 void				init_env(t_all *data, char **env);
-			//surveiller si ca ca fait pas de dingz
+//surveiller si ca ca fait pas de dingz
 void				free_t_env(t_env **env);
 t_env				*t_env_new(char *name, char *value, int display);
 /*t_env/t_env_operation.c*/

@@ -6,14 +6,14 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:42:31 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/30 18:45:34 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/31 12:36:44 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //Return 1 si le fichier est un dossier; Return 0;
-int	file_is_directory(char *cmd_path, char *cmd_name)
+int	isdir(char *cmd_path, char *cmd_name)
 {
 	struct stat	tmp;
 

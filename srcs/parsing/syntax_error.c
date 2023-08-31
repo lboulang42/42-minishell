@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 16:56:49 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/30 18:37:44 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/31 13:17:15 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,37 +30,6 @@ int	check_alone_quote(char *str)
 				return (1);
 		}
 	}
-	return (0);
-}
-
-int	check_pipes(char *str)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	while (str[++i] && str[i] == ' ')
-		if (str[i + 1] == '|')
-			return (1);
-	while (str[i++])
-	{
-		if (str[i] == '|')
-		{
-			if (str[i + 1] == '|' || str[i + 1] == '\0')
-				return (1);
-			j = i;
-			while (str[--j] && str[j] == ' ')
-				if (str[j - 1] == '<' || str[j - 1] == '>')
-					return (1);
-			while (str[++i] && str[i] == ' ')
-				if (str[i + 1] == '|')
-					return (1);
-		}
-	}
-	i = strlen(str);
-	while (str[--i] == ' ' && str[i])
-		if (str[i - 1] == '|')
-			return (1);
 	return (0);
 }
 

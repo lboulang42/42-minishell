@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:48:34 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/30 18:38:39 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/31 12:56:14 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*get_path_putain(char *cmd, t_env *env)
 	return (ft_free_tab((void **)spl_path), cmd_path);
 }
 
-void	ft_free_child(t_all *all, char **env_array, char *cmd_path)
+void	ft_free_child(t_all *all, char **env_array, char *cmd_path, int status)
 {
 	free_t_env(&all->env);
 	ft_free_tab((void **)env_array);
@@ -40,6 +40,7 @@ void	ft_free_child(t_all *all, char **env_array, char *cmd_path)
 		free(cmd_path);
 	ft_free_tab_size((void **)all->arg, all->args_size + 1);
 	free_redir_list(all);
+	exit(status);
 }
 
 void	child(t_all *all, int index_pipe, int builtin_code)
@@ -50,19 +51,15 @@ void	child(t_all *all, int index_pipe, int builtin_code)
 	signal(SIGINT, &ctrlc);
 	tokens_positif(all->tokens, 1);
 	redirection_execve(all, all->all_lines, index_pipe);
-	get_outfile_infile(all, all->tokens, all->all_lines, index_pipe);
+	get_outfile_infile(all, all->tokens);
 	if (!all->cmd)
-	{
-		ft_free_child(all, NULL, NULL);
-		exit(1);
-	}
+		ft_free_child(all, NULL, NULL, 1);
 	all->tokens = kick_empty_tokens(all->tokens);
 	if (builtin_code >= 0)
 	{
 		tokens_positif(all->tokens, 0);
 		all->status = execute_builtin(all, builtin_code);
-		ft_free_child(all, NULL, NULL);
-		exit(all->status);
+		ft_free_child(all, NULL, NULL, all->status);
 	}
 	cmd_path = get_path_putain(all->cmd, all->env);
 	env = get_env(all->env);
@@ -71,16 +68,15 @@ void	child(t_all *all, int index_pipe, int builtin_code)
 		tokens_positif(all->tokens, 0);
 		execve(cmd_path, all->tokens, env);
 	}
-	ft_free_child(all, env, cmd_path);
-	exit(127);
+	ft_free_child(all, env, cmd_path, 127);
 }
 
 void	redirection_execve(t_all *all, char **all_lines, int index_pipe)
 {
 	if (index_pipe != 0)
 	{
-		dup2(all->prev, 0);
-		safeclose(all->prev);
+		dup2(all->prev_fd, 0);
+		safeclose(all->prev_fd);
 	}
 	if (index_pipe != ft_tab_len(all_lines) - 1)
 	{

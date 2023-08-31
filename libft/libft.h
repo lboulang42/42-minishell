@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 15:43:51 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/30 19:02:06 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/31 11:02:25 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,4 @@ int					prntf_parse(va_list va_ptr, const char flag, int tmp,
 						int counter);
 int					ft_printf(const char *arg0, ...);
 int					prnft_ft_putstr(char *s);
-//print_tabs using printf
-void				ft_print_tab_leo(char **tab, char *iterate_name);
 #endif

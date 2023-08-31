@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+         #
+#    By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/11 19:43:05 by lboulang          #+#    #+#              #
-#    Updated: 2023/08/30 18:49:25 by gcozigon         ###   ########.fr        #
+#    Updated: 2023/08/31 13:18:15 by lboulang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,11 @@ SRCS_NAMES 		=	exec/exec_main.c\
 					exec/exec_child.c\
 					exec/exec_acces.c\
 					exec/exec_heredoc.c\
-					exec/redirection_handler.c\
 					exec/tokenisation.c\
+					exec/rebuild_env.c\
 					exec/exec_parse.c\
+					exec/redirections_builtin.c\
+					exec/redirection_exec.c\
 					exec/signal.c\
 					exec/here_doc.c\
 					exec/open_redir.c\
@@ -28,6 +30,8 @@ SRCS_NAMES 		=	exec/exec_main.c\
 					main/error.c\
 					parsing/expand.c\
 					parsing/syntax_error.c\
+					parsing/syntax_pipes.c\
+					parsing/redir_list.c\
 					parsing/utils_syntax.c\
 					parsing/handle_quotes.c\
 					parsing/utils_parsing.c\

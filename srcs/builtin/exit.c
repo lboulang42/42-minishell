@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/30 17:50:47 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/31 11:43:45 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,27 +28,11 @@ unsigned long long	do_atoi(const char *str, int neg, const char *str_safe)
 		count++;
 	}
 	if (count > 19)
-	{
-		ft_printf("%s : exit: %s: %s", MINI, str_safe, ERR_NARGS);
-		ft_exit_free(all, 2);
-		exit(2);
-	}
-	if (neg == -1)
-	{
-		if (res -1 > LLONG_MAX)
-		{
-			ft_printf("%s : exit: %s: %s", MINI, str_safe, ERR_NARGS);
-			ft_exit_free(all, 2);
-		}
-	}
-	else
-	{
-		if (res > LLONG_MAX)
-		{
-			ft_printf("%s : exit: %s: %s", MINI, str_safe, ERR_NARGS);
-			ft_exit_free(all, 2);
-		}
-	}
+		exit_free_msg(all, 2, (char *)str_safe, ERR_NARGS);
+	if (neg == -1 && res -1 > LLONG_MAX)
+		exit_free_msg(all, 2, (char *)str_safe, ERR_NARGS);
+	else if (res > LLONG_MAX)
+		exit_free_msg(all, 2, (char *)str_safe, ERR_NARGS);
 	return (res);
 }
 
@@ -79,7 +63,7 @@ void	ft_exit_free(t_all *all, int exit_code)
 {
 	if (ft_tab_len(all->all_lines) == 1)
 	{
-		safeclose (all ->default_out);
+		safeclose (all ->default_out_fd);
 		safeclose(all->link_fd[0]);
 		safeclose(all->link_fd[1]);
 	}
@@ -91,19 +75,22 @@ void	ft_exit_free(t_all *all, int exit_code)
 	exit(exit_code);
 }
 
+void	exit_free_msg(t_all *all, int code, char *str1, char *str2)
+{
+	ft_printf("%s : exit: %s: %s\n", MINI, str1, str2);
+	ft_exit_free(all, code);
+}
+
 void	ft_exit(t_all *all)
 {
 	long long int	exit_code;
 	int				i;
-	char			*tmp;
 
 	i = 0;
 	if (ft_tab_len(all->tokens) == 1)
 	{
 		printf("exit\n");
-		tmp = get_key(all->env, "?");
-		exit_code = ft_atoi(tmp);
-		free(tmp);
+		exit_code = get_status(all);
 		ft_exit_free(all, exit_code);
 	}
 	if (ft_tab_len(all->tokens) > 2)
@@ -117,10 +104,7 @@ void	ft_exit(t_all *all)
 	while (ft_isdigit(all->tokens[1][i]))
 		i++;
 	if (all->tokens[1][i] != '\0')
-	{
-		ft_printf("%s: exit: %s: %s", MINI, all->tokens[1], ERR_NARGS);
-		ft_exit_free(all, 2);
-	}
+		exit_free_msg(all, 2, all->tokens[1], ERR_NARGS);
 	exit_code = ft_atoilonglong(all->tokens[1], all->tokens[1]);
 	ft_exit_free(all, (unsigned char)exit_code);
 }

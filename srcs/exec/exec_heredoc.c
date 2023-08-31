@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 20:22:09 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/30 18:41:36 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/30 22:21:47 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	handle_heredocbooste(t_all *all)
 {
 	int	index;
 
-	index = all->index_redir_tamere + all->redir_before;
+	index = all->index_redir + all->redir_before;
 	return (all->redir_list[index].here_doc_fd);
 }
 

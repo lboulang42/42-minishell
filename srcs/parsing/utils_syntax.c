@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   utils_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcozigon <gcozigon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 18:46:02 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/30 18:50:28 by gcozigon         ###   ########.fr       */
+/*   Updated: 2023/08/31 11:00:52 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	get_status(t_all *all)
+{
+	char	*tmp;
+	int		status;
+
+	tmp = get_key(all->env, "?");
+	status = ft_atoi(tmp);
+	return (free(tmp), status);
+}
 
 int	append_char_and_spaces(char *tmp, char c, int j)
 {
