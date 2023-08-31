@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/31 11:43:45 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/31 18:23:06 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ unsigned long long	do_atoi(const char *str, int neg, const char *str_safe)
 		exit_free_msg(all, 2, (char *)str_safe, ERR_NARGS);
 	if (neg == -1 && res -1 > LLONG_MAX)
 		exit_free_msg(all, 2, (char *)str_safe, ERR_NARGS);
-	else if (res > LLONG_MAX)
+	else if (neg == 1 && res > LLONG_MAX)
 		exit_free_msg(all, 2, (char *)str_safe, ERR_NARGS);
 	return (res);
 }
@@ -99,6 +99,7 @@ void	ft_exit(t_all *all)
 		ft_printf("%s: exit: %s\n", MINI, ERR_TOOMARGS);
 		ft_exit_free(all, 1);
 	}
+	printf("exit\n");
 	if (all->tokens[1][i] == '-' || all->tokens[1][i] == '+')
 		i++;
 	while (ft_isdigit(all->tokens[1][i]))
