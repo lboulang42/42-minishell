@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:31:02 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/31 12:59:46 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/31 15:59:23 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,7 @@ void	parent(t_all *all)
 
 void	handle_line(t_all *all, int index_pipe)
 {
-	char	**tokens;
-	char	*cmd_path;
 	int		builtin_code;
-	int		wstatus;
 
 	all->pid[index_pipe] = -1;
 	all->default_out_fd = -1;

@@ -7,3 +7,5 @@ echo $:$= | cat -e
 
 add + = ~ : . , % / ^ dans le check pour lexpand
 echo $""HOME
+
+

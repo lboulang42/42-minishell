@@ -6,64 +6,65 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:29:20 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/31 13:26:55 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:11:33 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*insert_expansion(char *str, char *key_name, char *key_value,
-		int index_variable)
+char	*expansion_no_val(char *str, int index_var, char *name)
 {
 	char	*new_str;
-	int		i;
 	int		len_variable;
-	int		index_value;
+	int		i;
 
 	i = -1;
-	len_variable = ft_strlen(key_name) + 1;
-	if (!key_value)
-	{
-		new_str = malloc(sizeof(char) * (ft_strlen(str) - len_variable + 1));
-		if (new_str)
-		{
-			while (++i < index_variable)
-				new_str[i] = str[i];
-			while (str[i + len_variable])
-			{
-				new_str[i] = str[i + len_variable];
-				i++;
-			}
-			new_str[i] = '\0';
-		}
-		free(str);
-		return (new_str);
-	}
-	new_str = malloc(sizeof(char) * (ft_strlen(str) - len_variable
-				+ ft_strlen(key_value) + 1));
+	len_variable = ft_strlen(name) + 1;
+	new_str = malloc(sizeof(char) * (ft_strlen(str) - len_variable + 1));
 	if (new_str)
 	{
-		while (++i < index_variable)
+		while (++i < index_var)
 			new_str[i] = str[i];
-		index_value = -1;
-		while (key_value[++index_value])
-			new_str[i + index_value] = key_value[index_value];
 		while (str[i + len_variable])
 		{
-			new_str[i + index_value] = str[i + len_variable];
+			new_str[i] = str[i + len_variable];
 			i++;
 		}
-		new_str[i + index_value] = '\0';
+		new_str[i] = '\0';
 	}
 	free(str);
 	return (new_str);
 }
 
-int	valid_name(char c)
+/*
+malloc all len +2 (name_len  = ft_strlen(name)  + 1)
+*/
+char	*insert_expansion(char *str, char *name, char *value, int index_var)
 {
-	if (ft_isalpha(c) || ft_isdigit(c) || c == '_' || c == '?')
-		return (1);
-	return (0);
+	char	*new_str;
+	int		i;
+	int		index_value;
+
+	i = -1;
+	if (!value)
+		return (expansion_no_val(str, index_var, name));
+	new_str = malloc(sizeof(char) * (ft_strlen(str) - ft_strlen(name)
+				+ ft_strlen(value) + 2));
+	if (new_str)
+	{
+		while (++i < index_var)
+			new_str[i] = str[i];
+		index_value = -1;
+		while (value[++index_value])
+			new_str[i + index_value] = value[index_value];
+		while (str[i + ft_strlen(name) + 1])
+		{
+			new_str[i + index_value] = str[i + ft_strlen(name) + 1];
+			i++;
+		}
+		new_str[i + index_value] = '\0';
+	}
+	return (free(str), new_str);
 }
 
 char	*extract_key_name(char *str, int start)
@@ -83,67 +84,39 @@ char	*extract_key_name(char *str, int start)
 	return (key_name);
 }
 
-char	*get_value_by_key(t_env *full_env, char *key)
+void	free_name_val(char *name, char *value)
 {
-	t_env	*tmp;
-
-	tmp = full_env;
-	if (!key)
-		return (NULL);
-	while (tmp)
-	{
-		if (is_same_string(tmp->name, key))
-			return (ft_strdup(tmp->value));
-		tmp = tmp->next;
-	}
-	return (NULL);
+	if (name)
+		free(name);
+	if (value)
+		free(value);
 }
 
-char	*toneg(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str && str[i])
-		str[i++] *= -1;
-	return (str);
-}
-
-void	do_expand(char *str, int i, t_env *env)
-{
-}
-
-char	*expand_string(char *str, t_env *env)
+char	*expand_string(char *s, t_env *env)
 {
 	int		i;
 	char	*key_value;
 	char	*key_name;
 
 	i = -1;
-	if (!str)
-		return (NULL);
-	while (str[++i])
+	while (s && s[++i])
 	{
-		if (str[i] == '$' && str[i + 1] && str[i + 1] != ' ' && str[i
-			+ 1] != '"')
+		if (s[i] == '$' && s[i + 1] && s[i + 1] != ' ' && s[i + 1] != '"')
 		{
-			if (ft_isdigit(str[i + 1]))
+			if (ft_isdigit(s[i + 1]))
 			{
 				key_name = ft_strdup(" ");
 				key_value = ft_strdup("");
 			}
 			else
 			{
-				key_name = extract_key_name(str, i + 1);
+				key_name = extract_key_name(s, i + 1);
 				key_value = get_value_by_key(env, key_name);
 			}
-			str = insert_expansion(str, key_name, toneg(key_value), i);
+			s = insert_expansion(s, key_name, toneg(key_value), i);
 			i += ft_strlen(key_value) - 1;
-			if (key_name)
-				free(key_name);
-			if (key_value)
-				free(key_value);
+			free_name_val(key_name, key_value);
 		}
 	}
-	return (str);
+	return (s);
 }

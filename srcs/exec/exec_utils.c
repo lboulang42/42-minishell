@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:42:31 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/31 12:36:44 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/31 15:59:12 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	update_status_int(t_all *all, int status)
 {
 	char	*itoa_status;
 
-	itoa_status = ft_itoa(all->status);
+	itoa_status = ft_itoa(status);
 	do_export(all, "?", itoa_status);
 	free(itoa_status);
 }

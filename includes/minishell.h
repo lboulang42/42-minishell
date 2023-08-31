@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 16:44:08 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/31 13:17:57 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/31 17:19:01 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,13 +132,13 @@ typedef struct s_all
 // int	openit(t_all *all, char **tokens, int i);
 int					open_fd(t_all *all, char **tokens, int i);
 int					get_status(t_all *all);
-void				open_heredoc(t_all *all, char *input);
+void				open_heredoc(t_all *all);
 int					isredir(char *str);
 void				free_redir_list(t_all *all);
 int					handle_heredocbooste(t_all *all);
-int					handle_heredoc2(t_all *all, char *limiter, char *input);
+int					handle_heredoc2(t_all *all, char *limiter);
 void				ft_free_heredoc2(t_all *all);
-void				child_heredoc2(t_all *all, char *input);
+void				child_heredoc2(t_all *all);
 void				init_redirlist(t_all *all, char *input);
 /*builtin/*/
 
@@ -173,9 +173,9 @@ int					pwd(void);
 int					unset(t_all *all);
 
 /*exec/*/
-int	check_alone_pipes_start(char *str);
-int	check_alone_pipes_end(char *str);
-int	check_pipes(char *str);
+int					check_alone_pipes_start(char *str);
+int					check_alone_pipes_end(char *str);
+int					check_pipes(char *str);
 /*exec/exec_acces.c*/
 char				*ft_join_path(char *try_path, char *cmd_name);
 void				ft_access_fail(char **PATHvaaaar, char *cmd_path,
@@ -200,7 +200,7 @@ void				start_exec(t_all *all);
 void				handle_line(t_all *all, int index_pipe);
 char				**get_env(t_env *env);
 void				parent(t_all *all);
-void				ft_kill_dir(char **PATHvar, char *cmd_path, char *cmd_name);
+void				ft_kill_dir(char **PATHvar, char *cmd_path);
 void				ft_free_only_builtin(t_all *all, int status);
 void				only_builtin(t_all *all, int index_pipe, int builtin_code);
 
@@ -210,9 +210,9 @@ void				wait_and_update(t_all *all, int pid);
 void				child_heredoc(t_all *all);
 int					handle_heredoc(t_all *all, int index_name);
 /*exec/open_redir.c*/
-int					handle_outfile_trunc(t_all *all, int index_name);
-int					handle_outfile_append(t_all *all, int index_name);
-int					handle_infile(t_all *all, int index_name);
+int					handle_outfile_trunc(t_all *all);
+int					handle_outfile_append(t_all *all);
+int					handle_infile(t_all *all);
 /*exec/exec_parse.c*/
 int					parse(t_all *all, char **tab);
 int					isredir(char *str);
@@ -232,7 +232,7 @@ char				**kick_empty_tokens(char **tab);
 /*main/*/
 
 /*main/error.c*/
-void	err_msg(char *err_msg, char *function_name); //unsed
+void				err_msg(char *err_msg, char *function_name); //unsed
 /*main/init.c*/
 t_all				*init_data(void);
 /*main/main.c*/
@@ -240,7 +240,7 @@ int					main(int argc, char **argv, char **env);
 void				run_easyshell(t_all *all);
 
 /*parsing/*/
-
+char				*toneg(char *str);
 /*parsing/expand.c*/
 int					append_char_and_spaces(char *tmp, char c, int j);
 int					append_double_char_and_spaces(char *tmp, char c1, char c2,
@@ -262,7 +262,7 @@ int					check_alone_quote(char *str);
 int					valid_rafters(char *str, int len);
 int					check_rafters(char *str);
 int					check_empty(char *str);
-int					syntax_error(t_all *all, char *input);
+int					syntax_error(char *input);
 /*parsing/utils_parsing.c*/
 int					iswhitespace(const char c);
 int					is_space(char c);
@@ -271,6 +271,7 @@ int					is_quote(char c);
 int					count_meta(char *input);
 int					count_quote(char *input);
 int					ft_strcmp(const char *s1, const char *s2);
+int					valid_name(char c);
 
 /*t_env/*/
 

@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:28:12 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/31 13:02:40 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:06:40 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,13 @@ void	ft_free_only_builtin(t_all *all, int status)
 	ft_free_tab_size((void **)all->arg, all->args_size + 1);
 	dup2(all->default_out_fd, 1);
 	safeclose(all->default_out_fd);
-	update_status_int(all, all->status);
+	update_status_int(all, status);
 }
 
 /*only one builtin no pipe*/
 void	only_builtin(t_all *all, int index_pipe, int builtin_code)
 {
 	int	builtin_fd;
-	int	status;
 
 	all->pid[index_pipe] = -1;
 	all->default_out_fd = dup(1);

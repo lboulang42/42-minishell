@@ -6,13 +6,13 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 17:44:56 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/30 22:21:56 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:04:54 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_outfile_trunc(t_all *all, int index_name)
+int	handle_outfile_trunc(t_all *all)
 {
 	int		fd;
 	char	*value;
@@ -38,7 +38,7 @@ int	handle_outfile_trunc(t_all *all, int index_name)
 	return (fd);
 }
 
-int	handle_outfile_append(t_all *all, int index_name)
+int	handle_outfile_append(t_all *all)
 {
 	int		fd;
 	char	*value;
@@ -66,7 +66,7 @@ int	handle_outfile_append(t_all *all, int index_name)
 	return (fd);
 }
 
-int	handle_infile(t_all *all, int index_name)
+int	handle_infile(t_all *all)
 {
 	int		fd;
 	char	*value;

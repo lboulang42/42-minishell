@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 17:00:03 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/31 11:07:55 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:11:22 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,13 @@ int	ft_strcmp(const char *s1, const char *s2)
 	return (0);
 }
 
+int	valid_name(char c)
+{
+	if (ft_isalpha(c) || ft_isdigit(c) || c == '_' || c == '?')
+		return (1);
+	return (0);
+}
+
 int	iswhitespace(const char c)
 {
 	return (c == ' ' || c == '\t' || c == '\v' || c == '\n' || c == '\r'
@@ -50,13 +57,6 @@ int	is_space(char c)
 int	is_meta(char c)
 {
 	if (c == '<' || c == '>' || c == '|')
-		return (1);
-	return (0);
-}
-
-int	is_quote(char c)
-{
-	if (c == DQUOTE || c == SQUOTE)
 		return (1);
 	return (0);
 }

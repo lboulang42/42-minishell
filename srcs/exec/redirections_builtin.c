@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 12:17:06 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/31 12:34:19 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:05:38 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ int	open_fd(t_all *all, char **tokens, int i)
 	int	fd;
 
 	if (is_this_meta(tokens[i], "<"))
-		fd = handle_infile(all, i + 1);
-	else if (is_this_meta(tokens[i], "<<"))
+		fd = handle_infile(all);
+	if (is_this_meta(tokens[i], "<<"))
 		fd = handle_heredocbooste(all);
-	else if (is_this_meta(tokens[i], ">"))
-		fd = handle_outfile_trunc(all, i + 1);
-	else if (is_this_meta(tokens[i], ">>"))
-		fd = handle_outfile_append(all, i + 1);
+	if (is_this_meta(tokens[i], ">"))
+		fd = handle_outfile_trunc(all);
+	if (is_this_meta(tokens[i], ">>"))
+		fd = handle_outfile_append(all);
 	return (fd);
 }
 

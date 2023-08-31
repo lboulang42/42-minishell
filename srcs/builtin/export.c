@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 16:25:53 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/31 10:47:00 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:06:58 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 void	do_export(t_all *all, char *key, char *value)
 {
 	t_env	*tmp;
-	t_env	*tmp_before;
-	char	*temp_val;
 
 	if (!key || !*key)
 		return ;

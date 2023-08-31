@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 18:46:02 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/31 11:00:52 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:16:59 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,7 @@ char	*add_spaces_input(char *str)
 			i += 2;
 		}
 		else if (is_meta(str[i]) == 1)
-		{
-			j = append_char_and_spaces(new_str, str[i], j);
-			i++;
-		}
+			j = append_char_and_spaces(new_str, str[i++], j);
 		else
 			new_str[j++] = str[i++];
 	}

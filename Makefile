@@ -6,7 +6,7 @@
 #    By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/11 19:43:05 by lboulang          #+#    #+#              #
-#    Updated: 2023/08/31 13:18:15 by lboulang         ###   ########.fr        #
+#    Updated: 2023/08/31 15:57:07 by lboulang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,11 +81,11 @@ all:	${NAME}
 
 $(NAME): $(DIR_OBJS) $(OBJS)
 	make -C libft
-	$(CC) -g3 ${INC} $(OBJS) $(LIB) -o $(NAME)
+	$(CC) $(CFLAGS) ${INC} $(OBJS) $(LIB) -o $(NAME)
 	@echo "\033[31;5mminishell\033[0m"
 
 $(OBJS) : $(DIR_OBJS)/%.o : $(DIR_SRCS)/%.c
-	$(CC) -g3 $(CDFLAGS) $(INC) -c $< -o $@ 
+	$(CC) $(CFLAGS) $(CDFLAGS) $(INC) -c $< -o $@ 
 
 $(DIR_OBJS):
 	mkdir -p $(DIR_OBJS)

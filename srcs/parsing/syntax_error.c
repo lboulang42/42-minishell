@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/17 16:56:49 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/31 13:17:15 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:05:58 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,14 @@ int	check_rafters(char *str)
 				return (1);
 		}
 	}
-	i = strlen(str);
+	i = ft_strlen(str);
 	while (str[--i] == ' ' && str[i])
 		if (str[i - 1] == '|')
 			return (1);
 	return (0);
 }
 
-int	syntax_error(t_all *all, char *input)
+int	syntax_error(char *input)
 {
 	if (!check_empty(input))
 	{

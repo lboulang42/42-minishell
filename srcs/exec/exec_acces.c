@@ -6,13 +6,13 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 12:51:14 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/31 12:53:28 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:01:49 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_kill_dir(char **PATHvar, char *cmd_path, char *cmd_name)
+void	ft_kill_dir(char **PATHvar, char *cmd_path)
 {
 	t_all	*all;
 
@@ -57,8 +57,6 @@ Si X_OK fail :
 */
 void	ft_access_fail(char **PATHvaaaar, char *cmd_path, char *cmd_name)
 {
-	char	*tmp;
-
 	if (cmd_path)
 	{
 		if (access(cmd_path, F_OK))
@@ -71,7 +69,7 @@ void	ft_access_fail(char **PATHvaaaar, char *cmd_path, char *cmd_name)
 		else if (access(cmd_path, X_OK))
 		{
 			ft_printf("%s : %s: %s\n", MINI, cmd_name, strerror(errno));
-			ft_kill_dir(PATHvaaaar, cmd_path, cmd_name);
+			ft_kill_dir(PATHvaaaar, cmd_path);
 		}
 	}
 	else
@@ -92,7 +90,7 @@ char	*ft_check_acces(char **env_path, char *cmd_name, int i)
 	{
 		cmd_path = ft_strdup(cmd_name);
 		if (access(cmd_path, F_OK | X_OK) != -1 && isdir(cmd_path, cmd_name))
-			ft_kill_dir(env_path, cmd_path, cmd_name);
+			ft_kill_dir(env_path, cmd_path);
 		if (access(cmd_path, F_OK | X_OK) != -1)
 			return (cmd_path);
 		return (ft_access_fail(env_path, cmd_path, cmd_name), NULL);
@@ -103,7 +101,7 @@ char	*ft_check_acces(char **env_path, char *cmd_name, int i)
 		if (access(cmd_path, F_OK | X_OK) != -1)
 		{
 			if (isdir(cmd_path, cmd_name))
-				ft_kill_dir(env_path, cmd_path, cmd_name);
+				ft_kill_dir(env_path, cmd_path);
 			return (cmd_path);
 		}
 		if (env_path[i + 1])

@@ -6,13 +6,13 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 20:22:09 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/30 22:21:47 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:18:09 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	open_heredoc(t_all *all, char *input)
+void	open_heredoc(t_all *all)
 {
 	int	i;
 
@@ -22,7 +22,7 @@ void	open_heredoc(t_all *all, char *input)
 		if (all->redir_list[i].type == 4)
 		{
 			all->redir_list[i].here_doc_fd = handle_heredoc2(all,
-					all->redir_list[i].file, input);
+					all->redir_list[i].file);
 		}
 	}
 }
@@ -35,7 +35,7 @@ int	handle_heredocbooste(t_all *all)
 	return (all->redir_list[index].here_doc_fd);
 }
 
-int	handle_heredoc2(t_all *all, char *limiter, char *input)
+int	handle_heredoc2(t_all *all, char *limiter)
 {
 	int	pid;
 	int	wstatus;
@@ -47,7 +47,7 @@ int	handle_heredoc2(t_all *all, char *limiter, char *input)
 		return (safeclose(all->here_doc_fd[0]), safeclose(all->here_doc_fd[1]),
 			-1);
 	if (pid == 0)
-		child_heredoc2(all, input);
+		child_heredoc2(all);
 	free(all->here_doc_limiter);
 	waitpid(pid, &wstatus, 0);
 	safeclose(all->here_doc_fd[1]);
@@ -55,7 +55,7 @@ int	handle_heredoc2(t_all *all, char *limiter, char *input)
 	return (all->here_doc_fd[0]);
 }
 
-void	child_heredoc2(t_all *all, char *input)
+void	child_heredoc2(t_all *all)
 {
 	signal(SIGINT, &ctrlchere_doc);
 	while (1)

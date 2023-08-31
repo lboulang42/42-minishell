@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 02:09:39 by gcozigon          #+#    #+#             */
-/*   Updated: 2023/08/30 18:45:23 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:08:03 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,6 @@ int	parse(t_all *all, char **tab)
 	all->cmd = all->arg[0];
 	inverse_all(all->cmd, 0);
 	if (!all->cmd && all->nbr_redir == 0)
-		ft_printf("command not found\n");
+		ft_printf("%s: :%s\n", MINI, ERR_CMD);
 	return (1);
 }

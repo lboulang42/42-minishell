@@ -6,7 +6,7 @@
 /*   By: lboulang <lboulang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 19:48:27 by lboulang          #+#    #+#             */
-/*   Updated: 2023/08/31 13:01:31 by lboulang         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:06:03 by lboulang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int argc, char **argv, char **env)
 void	get_input_ready(t_all *all)
 {
 	init_redirlist(all, all->input);
-	open_heredoc(all, all->input);
+	open_heredoc(all);
 	inverse_string(all->input, DQUOTE);
 	all->input = expand_string(all->input, all->env);
 	inverse_string(all->input, DQUOTE);
@@ -59,7 +59,7 @@ void	run_easyshell(t_all *all)
 		add_history(all->input);
 		inverse_string(all->input, SQUOTE + DQUOTE);
 		all->input = add_spaces_input(all->input);
-		if (syntax_error(all, all->input) == 1)
+		if (syntax_error(all->input) == 1)
 		{
 			free(all->input);
 			do_export(all, "?", "1");
